@@ -1,0 +1,75 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border: 3px dotted grey;
+}
+
+.topBorder {
+  position: absolute;
+  top: -18px; // Move the border up by its height
+  left: 0;
+  right: 0;
+  height: 20px; // Adjust this value based on your dome image height
+  background-image: url('../../assets/images/dome.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.testModeIndicator {
+  font-size: 0.8em;
+  color: #ff0000;
+  margin-left: 10px;
+}
+
+.horizontalContainer {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid green;
+}
+
+.prayerBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  border: 1px solid red;
+}
+
+.prayerBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.prayerName {
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.prayerTime {
+  font-size: 1em;
+}
+
+.borderImageWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px dotted pink;
+  height: 150px;
+}
+
+.borderImage {
+  height: 100%;
+  width: auto;
+}

@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  padding: 0.5rem;
+  color: #0984e3;
+  font-size: 3.5rem;
+  font-weight: 400;
+}
+
+.container.active {
+  border-radius: 10px;
+  background-color: #0984e3;
+  font-weight: 500;
+  color: #fff;
+}
+
+.nextPrayerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  padding: 0.5rem;
+  color: #273c75;
+  font-size: 3.5rem;
+  font-weight: 400;
+}
+
+.time {
+  font-size: 5.5rem;
+  font-weight: 500;
+}

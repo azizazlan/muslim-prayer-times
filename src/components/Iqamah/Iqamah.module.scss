@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 1rem;
+  color: white;
+}
+
+.iqamahContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.beginPrayerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  font-size: 3.0rem;
+}
+
+.safTitle {
+  font-size: 5.7rem;
+  font-weight: bold;
+}
+
+.iqamahMessage {
+  padding-top: 9rem;
+  display: flex;
+  align-items: center;
+  font-size: 3.0rem;
+}
+
+.countdown {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -5rem;
+}

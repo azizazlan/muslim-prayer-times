@@ -1,0 +1,29 @@
+.clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  color:#0984e3;
+  justify-content: center;
+  min-width: 255px;
+  // font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif;
+}
+
+.testClock {
+  min-width: 255px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  color: red;
+}
+
+.date {
+  font-size: 2.0rem;
+  font-weight: 400;
+}
+
+.time {
+  font-size: 5.0rem;
+  font-weight: 500;
+}
