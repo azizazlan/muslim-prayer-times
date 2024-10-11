@@ -4,8 +4,7 @@ import { DisplayMode } from '../../types/displaymode';
 import styles from './DevMode.module.scss';
 
 interface DevModeProps {
-  toggleTestScreenIqamah: () => void;
-  toggleTestScreenPrayers: () => void;
+  toggleDisplayMode: (mode: DisplayMode) => void;
   toggleTestSubuh: () => void;
   toggleTestSyuruk: () => void;
   toggleRefetch: () => void;
@@ -32,8 +31,6 @@ const DevMode = (props: DevModeProps) => {
         <div>Formatted: {format(lastApiTimestamp() * 1000, 'dd/MM/yyyy')}</div>
       </div>
       <div class={styles.testButtonsContainer}>
-        <button class={styles.testButton} onClick={() => props.toggleTestScreenIqamah()}>Iqamah Screen</button>
-        <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.PRAYER_TIMES)}>Prayers Screen</button>
         <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.SETTINGS)}>Settings</button>
         <button class={styles.testButton} onClick={() => props.toggleTestSubuh()}>Test Subuh</button>
         <button class={styles.testButton} onClick={() => props.toggleTestSyuruk()}>Test Syuruk</button>

@@ -12,6 +12,7 @@ import Iqamah from './components/Iqamah';
 import BottomStrip from './components/BottomStrip';
 import DefaultMainArea from './components/DefaultMainArea';
 import DevMode from './components/DevMode';
+import TuneTimings from './components/UsrSettings/TuneTimings';
 import { DisplayMode } from "./types/displaymode";
 import { Prayer } from "./types/prayer";
 import { PrayerMode } from "./types/prayermode";
@@ -281,12 +282,11 @@ const App: Component = () => {
         return <Iqamah leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} />
       // case DisplayMode.PRAYER_TIMES:
       //   return <PrayerTimes prayers={prayers()} />
-      // case DisplayMode.SETTINGS:
-      //   return <Settings />
+      case DisplayMode.SETTINGS:
+        return <TuneTimings />
       default:
         if (import.meta.env.VITE_DEV_MODE === 'true') {
           return <DevMode
-            toggleTestScreenIqamah={toggleTestScreenIqamah}
             toggleTestSubuh={toggleTestSubuh}
             toggleTestSyuruk={toggleTestSyuruk}
             toggleRefetch={toggleRefetch}
