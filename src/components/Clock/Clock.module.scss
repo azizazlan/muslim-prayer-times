@@ -27,3 +27,18 @@
   font-size: 5.0rem;
   font-weight: 500;
 }
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .container {
+    min-width: 155px;
+  }
+  .date {
+    font-size: 1.4rem;
+  }
+
+  .time {
+    font-size: 3.7rem !important;
+  }
+}

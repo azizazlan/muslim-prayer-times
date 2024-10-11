@@ -31,3 +31,19 @@
   align-items: left;
   justify-content: center;
 } 
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+
+  .paramsContainer {
+    font-size: 16px;
+  }
+
+
+  .testButton {
+    font-size: 15px;
+    height: 27px;
+    width: 150px;
+  }
+}
