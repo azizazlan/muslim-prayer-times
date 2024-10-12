@@ -3,6 +3,7 @@ import { differenceInMinutes, differenceInSeconds, format, addDays, addSeconds, 
 import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 // Utils
+import { getByDay } from 'prayertiming';
 import { getPrayerName } from './utils/prayername';
 import getWindowDimensions from './utils/getWindowDimensions';
 
@@ -21,12 +22,8 @@ import logo from './logo.svg';
 import styles from './App.module.scss';
 
 const LANGUAGE = import.meta.env.VITE_LANGUAGE;
-const LOCATION = import.meta.env.VITE_LOCATION;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
-const TIMEZONE = import.meta.env.VITE_TIMEZONE;
-const TUNE = import.meta.env.VITE_TUNE;
-const API_URL = `https://api.aladhan.com/v1/timings/today?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=17&timezonestring=${TIMEZONE}&tune=${TUNE}`;
 const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '30', 10);
 const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
 
@@ -53,7 +50,6 @@ const App: Component = () => {
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
   const [isDemo, setIsDemo] = createSignal(false);
-  const [location] = createSignal(LOCATION);
   const [currentTime, setCurrentTime] = createSignal(new Date());
   const memoizedCurrentTime = createMemo(() => currentTime());
   const [displayMode, setDisplayMode] = createSignal<DisplayMode>(DisplayMode.DEFAULT);
@@ -157,24 +153,42 @@ const App: Component = () => {
   };
 
   const fetchPrayers = async () => {
-    try {
-      const response = await fetch(API_URL);
-      const data = await response.json();
-      const timings = data.data.timings;
-      setPrayers([
-        { name: getPrayerName(LANGUAGE, 'Fajr'), time: timings.Fajr, mode: PrayerMode.INACTIVE },
-        { name: getPrayerName(LANGUAGE, 'Sunrise'), time: timings.Sunrise, mode: PrayerMode.INACTIVE },
-        { name: getPrayerName(LANGUAGE, 'Dhuhr'), time: timings.Dhuhr, mode: PrayerMode.INACTIVE },
-        { name: getPrayerName(LANGUAGE, 'Asr'), time: timings.Asr, mode: PrayerMode.INACTIVE },
-        { name: getPrayerName(LANGUAGE, 'Maghrib'), time: timings.Maghrib, mode: PrayerMode.INACTIVE },
-        { name: getPrayerName(LANGUAGE, 'Isha'), time: timings.Isha, mode: PrayerMode.INACTIVE },
-      ]);
-      setLastFetchDate(new Date());
-      const timestamp = parseInt(data.data.date.timestamp, 10);
-      setLastApiTimestamp(timestamp);
-    } catch (error) {
-      console.error('Error fetching prayer times:', error);
-    }
+
+    const date = new Date();
+
+    const data = getByDay({
+      date,
+      long: LONGITUDE,
+      lat: LATITUDE,
+      method: 'JAKIM',
+      timeFormat: '24h',
+    });
+
+    setPrayers([
+      { name: getPrayerName(LANGUAGE, 'Fajr'), time: data.fajr, mode: PrayerMode.INACTIVE },
+      { name: getPrayerName(LANGUAGE, 'Sunrise'), time: data.sunrise, mode: PrayerMode.INACTIVE },
+      { name: getPrayerName(LANGUAGE, 'Dhuhr'), time: data.dhuhr, mode: PrayerMode.INACTIVE },
+      { name: getPrayerName(LANGUAGE, 'Asr'), time: data.asr, mode: PrayerMode.INACTIVE },
+      { name: getPrayerName(LANGUAGE, 'Maghrib'), time: data.maghrib, mode: PrayerMode.INACTIVE },
+      { name: getPrayerName(LANGUAGE, 'Isha'), time: data.isha, mode: PrayerMode.INACTIVE },
+    ]);
+
+    setLastFetchDate(date);
+    setLastApiTimestamp(date.getTime());
+
+    // const timings = data.data.timings;
+    // setPrayers([
+    //   { name: getPrayerName(LANGUAGE, 'Fajr'), time: timings.Fajr, mode: PrayerMode.INACTIVE },
+    //   { name: getPrayerName(LANGUAGE, 'Sunrise'), time: timings.Sunrise, mode: PrayerMode.INACTIVE },
+    //   { name: getPrayerName(LANGUAGE, 'Dhuhr'), time: timings.Dhuhr, mode: PrayerMode.INACTIVE },
+    //   { name: getPrayerName(LANGUAGE, 'Asr'), time: timings.Asr, mode: PrayerMode.INACTIVE },
+    //   { name: getPrayerName(LANGUAGE, 'Maghrib'), time: timings.Maghrib, mode: PrayerMode.INACTIVE },
+    //   { name: getPrayerName(LANGUAGE, 'Isha'), time: timings.Isha, mode: PrayerMode.INACTIVE },
+    // ]);
+    // setLastFetchDate(new Date());
+    // const timestamp = parseInt(data.data.date.timestamp, 10);
+    // setLastApiTimestamp(timestamp);
+
   };
 
   const checkAndFetchPrayers = () => {

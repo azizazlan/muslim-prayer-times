@@ -36,9 +36,17 @@
 }
 
 .label {
+  width: 245px;
+  height: 35px;
+  margin-top: -1.5rem;
   font-size: 1.7rem;
-  opacity: 0.5;
+  opacity: 0.7;
   text-transform: uppercase;
+  border-radius: 7px;
+  background-color: white;
+  color: #0984e3;
+  text-align: center;
+  border: 1px solid white;
 }
 
 .separator {
