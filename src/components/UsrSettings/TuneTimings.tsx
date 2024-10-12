@@ -1,45 +1,60 @@
-import { createSignal, For } from 'solid-js';
+import { Component, createSignal, For } from 'solid-js';
 import styles from './TuneTimings.module.scss';
 
-const prayerNames = ['Imsak', 'Subuh', 'Syuruk', 'Zuhur', 'Asar', 'Maghrib', 'Sunset', 'Isyak', 'Midnight'];
+interface TuneTimingsProps {
+  timingConfig: { fajr: number; dhuhr: number; maghrib: number; isha: number };
+  setTimingConfig: (config: { fajr: number; dhuhr: number; maghrib: number; isha: number }) => void;
+  handleRefetch: () => void;
+}
 
-const TuneTimings = () => {
-  const [tuneValues, setTuneValues] = createSignal(
-    import.meta.env.VITE_TUNE.split(',').map(Number)
-  );
+const TuneTimings: Component<TuneTimingsProps> = (props) => {
 
-  const handleInputChange = (index: number, value: string) => {
-    const newValues = [...tuneValues()];
-    newValues[index] = parseInt(value, 10);
-    setTuneValues(newValues);
-  };
-
-  const applySettings = () => {
-    const newTuneString = tuneValues().join(',');
-    // Here you would typically call an API to save the settings
-    // For this example, we'll just log it to the console
-    console.log('New VITE_TUNE value:', newTuneString);
-    alert('Settings applied successfully!');
+  const handleChange = (event: Event) => {
+    const { name, value } = event.target as HTMLInputElement;
+    props.setTimingConfig((prevConfig) => ({
+      ...prevConfig,
+      [name]: parseFloat(value),
+    }));
   };
 
   return (
     <div class={styles.tuneTimings}>
-      <h2>Prayer Time Adjustments</h2>
-      <For each={tuneValues()}>
-        {(value, index) => (
-          <div class={styles.tuneInput}>
-            <label class={styles.tuneLabel}>{prayerNames[index()]}: </label>
-            <input
-              class={styles.tuneInput}
-              type="number"
-              value={value}
-              onInput={(e) => handleInputChange(index(), (e.target as HTMLInputElement).value)}
-            />
-          </div>
-        )}
-      </For>
-      <div class={styles.tuneButtons}>
-        <button onClick={applySettings}>Apply Settings</button>
+      <div>
+        <h2>Tune Prayer Timings</h2>
+        <div class={styles.tuneInput}>
+          <label class={styles.tuneLabel}>
+            Fajr:
+          </label>
+          <input type="number" name="fajr" value={props.timingConfig.fajr} onInput={handleChange} step="0.1" />
+        </div>
+        <div class={styles.tuneInput}>
+          <label class={styles.tuneLabel}>
+            Dhuhr:
+          </label>
+          <input type="number" name="dhuhr" value={props.timingConfig.dhuhr} onInput={handleChange} step="0.1" />
+        </div>
+        <div class={styles.tuneInput}>
+          <label class={styles.tuneLabel}>
+            Maghrib:
+          </label>
+          <input type="number" name="maghrib" value={props.timingConfig.maghrib} onInput={handleChange} step="0.1" />
+        </div>
+        <div class={styles.tuneInput}>
+          <label class={styles.tuneLabel}>
+            Isha:
+          </label>
+          <input type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
+        </div>
+        <div class={styles.tuneButtons}>
+          <button onClick={props.handleRefetch}>REFETCH</button>
+          <button onClick={props.handleSave}>SAVE</button>
+        </div>
+      </div>
+      <div>
+        <div class={styles.currentConfigs}>
+          <h3>Current Configuration:</h3>
+          <pre>{JSON.stringify(props.timingConfig, null, 2)}</pre>
+        </div>
       </div>
     </div>
   );

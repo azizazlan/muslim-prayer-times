@@ -63,13 +63,18 @@ const App: Component = () => {
   const [isTestMode, setIsTestMode] = createSignal(false);
   const memoizedIsTestMode = createMemo(() => isTestMode());
   const [testStartTime, setTestStartTime] = createSignal<Date | null>(null);
+  const [timingConfig, setTimingConfig] = createSignal({
+    fajr: 17.7,
+    dhuhr: 1.2,
+    maghrib: 1.1,
+    isha: 18.3,
+  });
 
   const toggleDisplayMode = (mode: DisplayMode) => {
     if (mode === DisplayMode.DEFAULT) {
       window.location.reload();
     }
     setDisplayMode(mode);
-
   };
 
   const toggleTestScreenIqamah = () => {
@@ -153,26 +158,15 @@ const App: Component = () => {
   };
 
   const fetchPrayers = async () => {
-
     const date = new Date();
-    console.log(date);
-
     const data = getByDay({
       date,
       long: LONGITUDE,
       lat: LATITUDE,
       method: 'JAKIM',
       timeFormat: '24h',
-      config: {
-        "fajr": 17.7,
-        "dhuhr": 1.2,
-        "maghrib": 1.1,
-        "isha": 18.3
-      }
+      config: timingConfig()
     });
-
-    console.log(data.fajr);
-
     setPrayers([
       { name: getPrayerName(LANGUAGE, 'Fajr'), time: data.fajr, mode: PrayerMode.INACTIVE },
       { name: getPrayerName(LANGUAGE, 'Sunrise'), time: data.sunrise, mode: PrayerMode.INACTIVE },
@@ -181,23 +175,8 @@ const App: Component = () => {
       { name: getPrayerName(LANGUAGE, 'Maghrib'), time: data.maghrib, mode: PrayerMode.INACTIVE },
       { name: getPrayerName(LANGUAGE, 'Isha'), time: data.isha, mode: PrayerMode.INACTIVE },
     ]);
-
     setLastFetchDate(date);
     setLastApiTimestamp(date.getTime());
-
-    // const timings = data.data.timings;
-    // setPrayers([
-    //   { name: getPrayerName(LANGUAGE, 'Fajr'), time: timings.Fajr, mode: PrayerMode.INACTIVE },
-    //   { name: getPrayerName(LANGUAGE, 'Sunrise'), time: timings.Sunrise, mode: PrayerMode.INACTIVE },
-    //   { name: getPrayerName(LANGUAGE, 'Dhuhr'), time: timings.Dhuhr, mode: PrayerMode.INACTIVE },
-    //   { name: getPrayerName(LANGUAGE, 'Asr'), time: timings.Asr, mode: PrayerMode.INACTIVE },
-    //   { name: getPrayerName(LANGUAGE, 'Maghrib'), time: timings.Maghrib, mode: PrayerMode.INACTIVE },
-    //   { name: getPrayerName(LANGUAGE, 'Isha'), time: timings.Isha, mode: PrayerMode.INACTIVE },
-    // ]);
-    // setLastFetchDate(new Date());
-    // const timestamp = parseInt(data.data.date.timestamp, 10);
-    // setLastApiTimestamp(timestamp);
-
   };
 
   const checkAndFetchPrayers = () => {
@@ -231,7 +210,6 @@ const App: Component = () => {
   const updatedPrayers = createMemo(() => {
     const now = currentTime();
     let activeIndex = -1;
-
     // Find the active prayer
     for (let i = 0; i < prayers().length; i++) {
       const prayer = prayers()[i];
@@ -302,16 +280,13 @@ const App: Component = () => {
     switch (displayMode()) {
       case DisplayMode.ADHAN:
         return <Adhan leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} />
-      // case DisplayMode.PRAYER_TIME:
-      //   return (
-      //     <div class={styles.prayerTimeMessage}>It's prayer time!</div>
-      //   );
       case DisplayMode.IQAMAH:
         return <Iqamah leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} />
       case DisplayMode.PRAYER_TIMES:
         return <PrayerTimes prayers={updatedPrayers()} />
       case DisplayMode.SETTINGS:
-        return <TuneTimings />
+        return <TuneTimings timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
+          handleRefetch={toggleRefetch} />
       default:
         if (import.meta.env.VITE_DEV_MODE === 'true') {
           return <DevMode
