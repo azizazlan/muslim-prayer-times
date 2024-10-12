@@ -46,8 +46,8 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
           <input type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneButtons}>
-          <button onClick={props.handleRefetch}>REFETCH</button>
-          <button onClick={props.handleSave}>SAVE</button>
+          <button class={styles.testButton} onClick={props.handleRefetch}>REFETCH</button>
+          <button class={styles.testButton} onClick={props.handleSave}>SAVE</button>
         </div>
       </div>
       <div>
