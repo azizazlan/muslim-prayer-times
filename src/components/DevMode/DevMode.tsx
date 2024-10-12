@@ -32,6 +32,7 @@ const DevMode = (props: DevModeProps) => {
       </div>
       <div class={styles.testButtonsContainer}>
         <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.SETTINGS)}>Settings</button>
+        <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => props.toggleTestSubuh()}>Test Subuh</button>
         <button class={styles.testButton} onClick={() => props.toggleTestSyuruk()}>Test Syuruk</button>
         <button class={styles.testButton} onClick={() => props.toggleRefetch()}>Refetch</button>

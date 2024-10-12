@@ -10,15 +10,14 @@
 }
 
 .testButton {
-  min-width: 175px;
+  min-width: 235px;
   font-size: 10px;
   margin: 3px;
 }
 
 .paramsContainer {
-  width: 50%;
-  margin: 2rem;
-  margin-top: 20px;
+  padding-left: 9rem;
+  width: 70%;
   font-size: 12px;
   display: flex;
   flex-direction: column;
@@ -27,7 +26,7 @@
 }
 
 .testButtonsContainer {
-  width: 50%;
+  width: 30%;
   margin: 2rem;
   display: flex;
   flex-direction: column;

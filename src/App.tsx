@@ -13,6 +13,7 @@ import BottomStrip from './components/BottomStrip';
 import DefaultMainArea from './components/DefaultMainArea';
 import DevMode from './components/DevMode';
 import TuneTimings from './components/UsrSettings/TuneTimings';
+import PrayerTimes from './components/PrayerTimes';
 import { DisplayMode } from "./types/displaymode";
 import { Prayer } from "./types/prayer";
 import { PrayerMode } from "./types/prayermode";
@@ -280,8 +281,8 @@ const App: Component = () => {
       //   );
       case DisplayMode.IQAMAH:
         return <Iqamah leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} />
-      // case DisplayMode.PRAYER_TIMES:
-      //   return <PrayerTimes prayers={prayers()} />
+      case DisplayMode.PRAYER_TIMES:
+        return <PrayerTimes prayers={updatedPrayers()} />
       case DisplayMode.SETTINGS:
         return <TuneTimings />
       default:
@@ -300,9 +301,9 @@ const App: Component = () => {
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
-      <div class={styles.mosqueName}>
+      <button class={styles.btnMosqueName} onClick={() => toggleDisplayMode(DisplayMode.DEFAULT)}>
         {import.meta.env.VITE_MOSQUE_NAME}
-      </div>
+      </button>
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>
