@@ -155,6 +155,7 @@ const App: Component = () => {
   const fetchPrayers = async () => {
 
     const date = new Date();
+    console.log(date);
 
     const data = getByDay({
       date,
@@ -162,7 +163,15 @@ const App: Component = () => {
       lat: LATITUDE,
       method: 'JAKIM',
       timeFormat: '24h',
+      config: {
+        "fajr": 17.7,
+        "dhuhr": 1.2,
+        "maghrib": 1.1,
+        "isha": 18.3
+      }
     });
+
+    console.log(data.fajr);
 
     setPrayers([
       { name: getPrayerName(LANGUAGE, 'Fajr'), time: data.fajr, mode: PrayerMode.INACTIVE },
