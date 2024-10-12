@@ -69,7 +69,11 @@ const App: Component = () => {
   const [testStartTime, setTestStartTime] = createSignal<Date | null>(null);
 
   const toggleDisplayMode = (mode: DisplayMode) => {
+    if (mode === DisplayMode.DEFAULT) {
+      window.location.reload();
+    }
     setDisplayMode(mode);
+
   };
 
   const toggleTestScreenIqamah = () => {
