@@ -8,6 +8,7 @@ import { getPrayerName } from './utils/prayername';
 import getWindowDimensions from './utils/getWindowDimensions';
 
 // Components
+import Sleep from './components/Sleep';
 import Adhan from './components/Adhan';
 import Iqamah from './components/Iqamah';
 import BottomStrip from './components/BottomStrip';
@@ -206,6 +207,13 @@ const App: Component = () => {
         setDisplayMode(DisplayMode.IQAMAH);
       }
     }
+    const isyakPrayer = prayers().find(prayer => prayer.name === 'Isyak');
+    const isyakPrayerTime = parse(isyakPrayer.time, 'HH:mm', currentTime());
+    const secsPassed = differenceInSeconds(currentTime(), isyakPrayerTime); // Calculate the difference
+    const minsPassed = secsPassed / 60;
+    if (minsPassed > 31 && displayMode() !== DisplayMode.SLEEP && displayMode() !== DisplayMode.DEV) {
+      toggleDisplayMode(DisplayMode.SLEEP);
+    }
   };
 
   const updatedPrayers = createMemo(() => {
@@ -290,8 +298,8 @@ const App: Component = () => {
           timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
           handleRefetch={toggleRefetch}
         />
-      // return <TuneTimings timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
-      //   handleRefetch={toggleRefetch} />
+      case DisplayMode.SLEEP:
+        return <Sleep />
       case DisplayMode.DEV:
         return <DevMode
           toggleTestSubuh={toggleTestSubuh}
@@ -302,7 +310,6 @@ const App: Component = () => {
         />
       default:
         return <Show fallback="Loading..." when={leadPrayer()}><Adhan leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} /></ Show>
-      //return <DefaultMainArea />
     }
   };
 

@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+}
+
+.message {
+  font-size: 3rem;
+  margin-left: 1.7rem;
+  width: 557px;
+}
+
