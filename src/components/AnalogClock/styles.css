@@ -1,0 +1,20 @@
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 575px;
+}
+
+.subsecond {
+  color: silver;
+}
+
+.hour,
+.minute {
+  color: #273c75;
+}
+
+.second {
+  color: orange;
+}
