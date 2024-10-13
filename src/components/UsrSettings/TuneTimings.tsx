@@ -22,25 +22,25 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
       <div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Fajr:
+            Subuh
           </label>
           <input class={styles.tuneInput} type="number" name="fajr" value={props.timingConfig.fajr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Dhuhr:
+            Zohor
           </label>
           <input class={styles.tuneInput} type="number" name="dhuhr" value={props.timingConfig.dhuhr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Maghrib:
+            Maghrib
           </label>
           <input class={styles.tuneInput} type="number" name="maghrib" value={props.timingConfig.maghrib} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Isha:
+            Isyak
           </label>
           <input class={styles.tuneInput} type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
         </div>

@@ -301,7 +301,8 @@ const App: Component = () => {
           toggleDisplayMode={toggleDisplayMode}
         />
       default:
-        return <DefaultMainArea />
+        return <Show fallback="Loading..." when={leadPrayer()}><Adhan leadPrayer={memoizedLeadPrayer()} currentTime={currentTime()} /></ Show>
+      //return <DefaultMainArea />
     }
   };
 

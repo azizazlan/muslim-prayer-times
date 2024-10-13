@@ -26,7 +26,7 @@ const Adhan: Component<AdhanProps> = (props) => {
   return (
     <div class={styles.container}>
       <div class={styles.message}>
-        ADHAN {leadPrayer().name.toUpperCase()} SEBENTAR LAGI
+        ADHAN {leadPrayer().name.toUpperCase()} {secondsLeft() < 3601 ? 'SEBENTAR LAGI' : ''}
       </div>
       <div class={styles.countdown}>
         <Countdown secondsLeft={secondsLeft()} />
