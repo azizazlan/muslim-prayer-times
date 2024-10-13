@@ -318,7 +318,7 @@ const App: Component = () => {
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>
-      <BottomStrip prayers={updatedPrayers()} currentTime={currentTime()} isTestMode={isTestMode()} />
+      <BottomStrip prayers={prayers()} currentTime={currentTime()} isTestMode={isTestMode()} />
     </div>
   );
 };

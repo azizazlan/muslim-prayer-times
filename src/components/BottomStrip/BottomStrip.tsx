@@ -13,6 +13,7 @@ interface BottomStripProps {
 
 const BottomStrip: Component<BottomStripProps> = (props) => {
   const currentTime = createMemo(() => props.currentTime);
+  const prayers = createMemo(() => props.prayers);
 
   return (
     <div class={styles.container}>
@@ -20,7 +21,7 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
       <div class={styles.content}>
         <Clock isTestMode={props.isTestMode} time={currentTime()} />
         <div class={styles.horizontalContainer}>
-          <For each={props.prayers}>
+          <For each={prayers()}>
             {(prayer, index) => (
               <>
                 <div class={styles.prayerBoxWrapper}>
