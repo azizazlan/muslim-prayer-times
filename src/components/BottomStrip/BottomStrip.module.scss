@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 3px dotted grey;
 }
 
 .topBorder {
@@ -36,7 +35,6 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  border: 1px solid green;
 }
 
 .prayerBoxWrapper {
@@ -44,7 +42,6 @@
   flex-direction: column;
   align-items: center;
   margin: 0 10px;
-  border: 1px solid red;
 }
 
 .prayerBox {
@@ -65,7 +62,6 @@
 .borderImageWrapper {
   display: flex;
   align-items: center;
-  border: 1px dotted pink;
   height: 150px;
 }
 

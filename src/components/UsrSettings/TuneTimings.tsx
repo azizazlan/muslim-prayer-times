@@ -20,30 +20,29 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
   return (
     <div class={styles.tuneTimings}>
       <div>
-        <h2>Tune Prayer Timings</h2>
-        <div class={styles.tuneInput}>
+        <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Fajr:
           </label>
-          <input type="number" name="fajr" value={props.timingConfig.fajr} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="fajr" value={props.timingConfig.fajr} onInput={handleChange} step="0.1" />
         </div>
-        <div class={styles.tuneInput}>
+        <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Dhuhr:
           </label>
-          <input type="number" name="dhuhr" value={props.timingConfig.dhuhr} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="dhuhr" value={props.timingConfig.dhuhr} onInput={handleChange} step="0.1" />
         </div>
-        <div class={styles.tuneInput}>
+        <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Maghrib:
           </label>
-          <input type="number" name="maghrib" value={props.timingConfig.maghrib} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="maghrib" value={props.timingConfig.maghrib} onInput={handleChange} step="0.1" />
         </div>
-        <div class={styles.tuneInput}>
+        <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Isha:
           </label>
-          <input type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneButtons}>
           <button class={styles.testButton} onClick={props.handleRefetch}>REFETCH</button>
@@ -52,7 +51,7 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
       </div>
       <div>
         <div class={styles.currentConfigs}>
-          <h3>Current Configuration:</h3>
+          <h5>Current Configuration:</h5>
           <pre>{JSON.stringify(props.timingConfig, null, 2)}</pre>
         </div>
       </div>

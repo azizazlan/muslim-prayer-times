@@ -1,28 +1,32 @@
 .tuneTimings {
-  margin: 0 auto;
+  margin: 1rem 1rem;
   color: white;
   font-size: 1.5rem;
   display: flex;
-  flex-direction: row;
-  width: 700px;
+  flex-direction: column;
+  width: 100%; 
   justify-content: space-between;
+}
+
+.tuneField {
+  display: flex;
+  margin-bottom: 0.15rem; 
 }
 
 .tuneInput {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.15rem;
   font-size: 1.5rem;
+  max-width: 75px;
 }
 
 .tuneLabel {
+  min-width: 175px;
   margin-right: 1rem;
   color: white; 
 }
 
 .tuneButtons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .currentConfigs {

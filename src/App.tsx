@@ -13,6 +13,7 @@ import Iqamah from './components/Iqamah';
 import BottomStrip from './components/BottomStrip';
 import DefaultMainArea from './components/DefaultMainArea';
 import DevMode from './components/DevMode';
+import Settings from './components/UsrSettings/Settings';
 import TuneTimings from './components/UsrSettings/TuneTimings';
 import PrayerTimes from './components/PrayerTimes';
 import { DisplayMode } from "./types/displaymode";
@@ -285,27 +286,34 @@ const App: Component = () => {
       case DisplayMode.PRAYER_TIMES:
         return <PrayerTimes prayers={updatedPrayers()} />
       case DisplayMode.SETTINGS:
-        return <TuneTimings timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
-          handleRefetch={toggleRefetch} />
+        return <Settings
+          timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
+          handleRefetch={toggleRefetch}
+        />
+      // return <TuneTimings timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
+      //   handleRefetch={toggleRefetch} />
+      case DisplayMode.DEV:
+        return <DevMode
+          toggleTestSubuh={toggleTestSubuh}
+          toggleTestSyuruk={toggleTestSyuruk}
+          toggleRefetch={toggleRefetch}
+          lastApiTimestamp={lastApiTimestamp()}
+          toggleDisplayMode={toggleDisplayMode}
+        />
       default:
-        if (import.meta.env.VITE_DEV_MODE === 'true') {
-          return <DevMode
-            toggleTestSubuh={toggleTestSubuh}
-            toggleTestSyuruk={toggleTestSyuruk}
-            toggleRefetch={toggleRefetch}
-            lastApiTimestamp={lastApiTimestamp()}
-            toggleDisplayMode={toggleDisplayMode}
-          />
-        }
         return <DefaultMainArea />
     }
   };
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
-      <button class={styles.btnMosqueName} onClick={() => toggleDisplayMode(DisplayMode.DEFAULT)}>
-        {import.meta.env.VITE_MOSQUE_NAME}
-      </button>
+      <div class={styles.topLeftButtons}>
+        <button class={styles.btnDev} onClick={() => toggleDisplayMode(DisplayMode.ADHAN)}>Home</button>
+        <button class={styles.btnMosqueName} onClick={() => toggleDisplayMode(DisplayMode.DEFAULT)}>
+          {import.meta.env.VITE_MOSQUE_NAME}
+        </button>
+        <button class={styles.btnDev} onClick={() => toggleDisplayMode(DisplayMode.DEV)}>Dev</button>
+      </div>
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>

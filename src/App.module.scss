@@ -78,11 +78,27 @@
   // Add any other styles you need for the border image
 }
 
-.btnMosqueName {
+.topLeftButtons {
   position: absolute;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   z-index: 10;
   font-size: 1.0rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 98%;
+}
+
+.btnDev {
+  color: #fff;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.btnMosqueName {
   color: #fff;
   border: none;
   background: transparent;
