@@ -2,6 +2,9 @@ import { createEffect, createResource, createSignal, createMemo, onCleanup } fro
 import { addSeconds, subMinutes, parse } from 'date-fns';
 import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
+
+import { usePrayerService } from './context/usePrayerService';
+
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
 import { getPrayerTime, secsUntilNextPrayer } from './utils/prayers';
@@ -42,6 +45,8 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 }
 
 const App: Component = () => {
+
+  const { loading } = usePrayerService();
 
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
