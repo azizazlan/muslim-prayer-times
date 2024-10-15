@@ -2,7 +2,7 @@ import { createEffect } from 'solid-js';
 import { differenceInMinutes, differenceInSeconds, format, addDays, addSeconds, setHours, setMinutes, isAfter, isBefore, startOfDay, parse, set, subMinutes, subSeconds } from 'date-fns';
 import { getByDay } from 'prayertiming';
 import { Prayer } from '../types/prayer';
-import { PrayerMode } from '../types/prayermode';
+import { PrayerMode } from '../types/prayer';
 
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
@@ -129,3 +129,34 @@ function modeSelector(props: ModeSelectorProps) {
 }
 
 export { modeSelector };
+
+interface GetLeadPrayerProps {
+  currentTime: Date;
+  timingConfig: {};
+}
+
+function getLeadPrayer(props: GetLeadPrayerProps) {
+  const { currentTime, timingConfig } = props;
+  const prayers = getPrayers({ currentTime, timingConfig })
+  const leadPrayer = prayers.find(prayer => modeSelector({ prayer, currentTime, timingConfig }) === PrayerMode.IMMEDIATE_NEXT && prayer.name !== 'Syuruk');
+  return leadPrayer;
+}
+export { getLeadPrayer };
+
+interface SecsUntilNextPrayerProps {
+  currentTime: Date;
+  timingConfig: {};
+}
+
+function secsUntilNextPrayer(props: SecsUntilNextPrayerProps) {
+  const { currentTime, timingConfig } = props;
+  const leadPrayer = getLeadPrayer({ currentTime, timingConfig });
+  //get the difference
+  if (leadPrayer) {
+    const leadPrayerTime = parse(leadPrayer.time, 'HH:mm', currentTime)
+    const secs = differenceInSeconds(leadPrayerTime, currentTime);
+    return secs;
+  }
+  return 0;
+}
+export { secsUntilNextPrayer }

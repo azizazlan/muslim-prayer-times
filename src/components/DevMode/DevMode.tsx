@@ -6,9 +6,7 @@ import { TestMode } from '../../types/testMode';
 
 interface DevModeProps {
   toggleDisplayMode: (mode: DisplayMode) => void;
-  toggleTestSubuh: () => void;
-  toggleTestSyuruk: () => void;
-  toggleRefetch: () => void;
+  toggleTest: () => void;
 }
 
 const DevMode = (props: DevModeProps) => {
@@ -38,7 +36,6 @@ const DevMode = (props: DevModeProps) => {
         <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => props.toggleTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
         <button class={styles.testButton} onClick={() => props.toggleTest(TestMode.TEST_SYURUK)}>Test Syuruk</button>
-        <button class={styles.testButton} onClick={() => props.toggleRefetch()}>Refetch</button>
       </div>
     </div>
   );

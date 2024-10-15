@@ -4,7 +4,7 @@ import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
-import { getPrayerTime } from './utils/prayers';
+import { getPrayerTime, secsUntilNextPrayer } from './utils/prayers';
 
 // Components
 import Sleep from './components/Sleep';
@@ -15,15 +15,14 @@ import DefaultMainArea from './components/DefaultMainArea';
 import DevMode from './components/DevMode';
 import Settings from './components/UsrSettings/Settings';
 import PrayerTimes from './components/PrayerTimes';
-import { DisplayMode } from "./types/displaymode";
+import { DisplayMode } from "./types/displayMode";
 import { TestMode } from "./types/testMode";
 import styles from './App.module.scss';
 
 const LANGUAGE = import.meta.env.VITE_LANGUAGE;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
-
-
+const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '13', 10);
 const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
 
 async function fetchDictionary(locale: Locale): Promise<Dictionary> {
@@ -67,14 +66,6 @@ const App: Component = () => {
     setDisplayMode(mode);
   };
 
-  const toggleTestScreenIqamah = () => {
-    setDisplayMode(DisplayMode.IQAMAH);
-  };
-
-  const toggleRefetch = () => {
-
-  };
-
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch((e) => {
@@ -98,18 +89,14 @@ const App: Component = () => {
       case DisplayMode.IQAMAH:
         return <Iqamah currentTime={currentTime()} />
       case DisplayMode.PRAYER_TIMES:
-        return <PrayerTimes prayers={updatedPrayers()} />
+        return <PrayerTimes timingConfig={timingConfig()} />
       case DisplayMode.SETTINGS:
-        return <Settings
-          timingConfig={timingConfig()} setTimingConfig={setTimingConfig}
-          handleRefetch={toggleRefetch}
-        />
+        return <Settings timingConfig={timingConfig()} setTimingConfig={setTimingConfig} />
       case DisplayMode.SLEEP:
         return <Sleep />
       case DisplayMode.DEV:
         return <DevMode
           toggleTest={toggleTest}
-          toggleRefetch={toggleRefetch}
           toggleDisplayMode={toggleDisplayMode}
         />
       default:
@@ -117,25 +104,40 @@ const App: Component = () => {
     }
   };
 
-  const updateTimeInterval = setInterval(() => {
-    if (testMode() === TestMode.TEST_SUBUH && !hasUpdatedTestTime()) {
-      let subuhTime = getPrayerTime({ name: 'Subuh' });
-      subuhTime = parse(subuhTime, 'HH:mm', new Date());
-      setCurrentTime(subuhTime);
-      let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
-      nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55); // Make it quicker I can't wait one minute!
-      setCurrentTime(nMinuteBeforeSubuh);
-      setHasUpdatedTestTime(true);
+  const checkPrayerProgress = () => {
+    if (testMode() === TestMode.TEST_SUBUH || testMode() === TestMode.TEST_SYURUK) {
+      // console.log(`ADHAN_LEAD_MINS_TEST: ${ADHAN_LEAD_MINS_TEST}`);
+      const secs = secsUntilNextPrayer({ currentTime: currentTime() });
+      console.log(`secs left ${secs} ADHAN_LEAD_MINS_TEST secs=${ADHAN_LEAD_MINS_TEST * 60}`);
+      if (secs <= ADHAN_LEAD_MINS_TEST * 60 && displayMode() !== DisplayMode.ADHAN) {
+        toggleDisplayMode(DisplayMode.ADHAN);
+      }
+      if (secs === 0 && displayMode() === DisplayMode.ADHAN && displayMode() !== DisplayMode.IQAMAH) {
+        toggleDisplayMode(DisplayMode.IQAMAH)
+      }
+      return;
     }
-    else {
-      setCurrentTime(prevTime => addSeconds(prevTime, 1));
-    }
+    console.log(`ADHAN_LEAD_MINS: ${ADHAN_LEAD_MINS}`);
+  }
 
-
-  }, 1000);
-
-  // Clean up the interval on component unmount
-  onCleanup(() => clearInterval(updateTimeInterval));
+  createEffect(() => {
+    const updateTimeInterval = setInterval(() => {
+      if (testMode() === TestMode.TEST_SUBUH && !hasUpdatedTestTime()) {
+        let subuhTime = getPrayerTime({ name: 'Subuh' });
+        subuhTime = parse(subuhTime, 'HH:mm', new Date());
+        setCurrentTime(subuhTime);
+        let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
+        nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
+        setCurrentTime(nMinuteBeforeSubuh);
+        setHasUpdatedTestTime(true);
+      } else {
+        setCurrentTime(prevTime => addSeconds(prevTime, 1));
+      }
+      checkPrayerProgress();
+    }, 1000);
+    // Clean up the interval on component unmount
+    onCleanup(() => clearInterval(updateTimeInterval));
+  });
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
@@ -149,9 +151,7 @@ const App: Component = () => {
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>
-      <Show fallback={<div>Loading...</div>} when={currentTime()}>
-        <BottomStrip testMode={testMode()} currentTime={currentTime()} timingConfig={memoizedTimingConfig()} />
-      </Show>
+      <BottomStrip testMode={testMode()} currentTime={currentTime()} timingConfig={memoizedTimingConfig()} />
     </div>
   );
 };

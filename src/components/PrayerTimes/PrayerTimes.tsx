@@ -3,7 +3,6 @@ import styles from './PrayerTimes.module.scss';
 import { Prayer } from '../../types/prayer';
 
 interface PrayerTimesProps {
-  prayers: Prayer[];
 }
 
 const PrayerTimes: Component<PrayerTimesProps> = (props) => {
