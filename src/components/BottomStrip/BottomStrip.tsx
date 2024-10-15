@@ -1,33 +1,39 @@
-import { Component, For, createMemo } from 'solid-js';
-import { format } from 'date-fns';
+import { Component, For, createMemo, createEffect, createSignal, onCleanup } from 'solid-js';
+import { format, addSeconds } from 'date-fns';
 import styles from './BottomStrip.module.scss';
 import borderImage from '../../assets/images/lantern.png';
 import { Prayer } from '../../types/prayer';
 import Clock from '../Clock';
 import PrayerBox from './PrayerBox';
+import { getPrayers } from '../../utils/prayers';
+import { TestMode } from '../../types/testMode';
+
 interface BottomStripProps {
-  prayers: Prayer[];
   currentTime: Date;
-  isTestMode: boolean;
+  timingConfig: {};
+  testMode: TestMode;
 }
 
 const BottomStrip: Component<BottomStripProps> = (props) => {
-  const currentTime = createMemo(() => props.currentTime);
-  const prayers = createMemo(() => props.prayers);
+  const timingConfig = createMemo(() => props.timingConfig);
+
+  const prayers = createMemo(() => getPrayers({ currentTime: props.currentTime, timingConfig }));
+
 
   return (
     <div class={styles.container}>
       <div class={styles.topBorder}></div>
       <div class={styles.content}>
-        <Clock isTestMode={props.isTestMode} time={currentTime()} />
+        {props.testMode} <br />
+        {`${props.currentTime}`}
         <div class={styles.horizontalContainer}>
           <For each={prayers()}>
             {(prayer, index) => (
               <>
                 <div class={styles.prayerBoxWrapper}>
-                  <PrayerBox prayer={prayer} />
+                  <PrayerBox currentTime={props.currentTime} prayer={prayer} timingConfig={timingConfig()} />
                 </div>
-                {index() < props.prayers.length - 1 && (
+                {index() < prayers.length - 1 && (
                   <div class={styles.borderImageWrapper}>
                     <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
                   </div>
