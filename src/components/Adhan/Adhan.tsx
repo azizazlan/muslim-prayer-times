@@ -15,21 +15,38 @@ const Adhan: Component<AdhanProps> = (props) => {
   const leadPrayer = getLeadPrayer({ currentTime, timingConfig });
 
   const secondsLeft = createMemo(() => {
-    const leadPrayerTime = parse(leadPrayer.time, 'HH:mm', props.currentTime);
-    const secs = differenceInSeconds(leadPrayerTime, props.currentTime);
-    if (secs > -1) return secs;
-    else return 0;
+    if (leadPrayer) {
+      const leadPrayerTime = parse(leadPrayer.time, 'HH:mm', props.currentTime);
+      const secs = differenceInSeconds(leadPrayerTime, props.currentTime);
+      if (secs > -1) return secs;
+      else return 0;
+    }
   });
+
+  if (!leadPrayer) {
+    return <div>display iqamah</div>
+  }
+
+  if (secondsLeft() === 0 || !leadPrayer) {
+    return (
+      <div class={styles.container}>
+        <div class={styles.message}>
+          IQAMAH
+        </div>
+        <div class={styles.countdown}>
+          <Countdown secondsLeft={15} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div class={styles.container}>
       <div class={styles.message}>
-        {/* ADHAN {leadPrayer().name.toUpperCase()} {secondsLeft() < 3601 && secondsLeft() > 0 ? 'SEBENTAR LAGI' : ''} */}
-        ADHAN {leadPrayer.name.toUpperCase()}
+        ADHAN {leadPrayer.name.toUpperCase()} {secondsLeft() < 3601 && secondsLeft() > 0 ? 'SEBENTAR LAGI' : ''}
       </div>
       <div class={styles.countdown}>
-        {/* <Countdown secondsLeft={secondsLeft()} /> */}
-        countdown {secondsLeft()}
+        <Countdown secondsLeft={secondsLeft()} />
       </div>
     </div>
   );

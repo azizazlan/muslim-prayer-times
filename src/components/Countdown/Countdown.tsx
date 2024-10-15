@@ -11,7 +11,7 @@ const Countdown: Component<CountdownProps> = (props) => {
   const [timeLeft, setTimeLeft] = createSignal(props.secondsLeft);
 
   createEffect(() => {
-    // Update timeLeft when props.secondsLeft changes
+    // Reset timeLeft when props.secondsLeft changes
     setTimeLeft(props.secondsLeft);
 
     const timer = setInterval(() => {

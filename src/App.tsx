@@ -63,7 +63,7 @@ const App: Component = () => {
     if (mode === DisplayMode.DEFAULT) {
       window.location.reload();
     }
-    setDisplayMode(mode);
+    setDisplayMode(prev => mode);
   };
 
   const toggleFullScreen = () => {
@@ -87,7 +87,7 @@ const App: Component = () => {
       case DisplayMode.ADHAN:
         return <Adhan currentTime={currentTime()} />
       case DisplayMode.IQAMAH:
-        return <Iqamah currentTime={currentTime()} />
+        return <Iqamah />
       case DisplayMode.PRAYER_TIMES:
         return <PrayerTimes timingConfig={timingConfig()} />
       case DisplayMode.SETTINGS:
@@ -108,16 +108,17 @@ const App: Component = () => {
     if (testMode() === TestMode.TEST_SUBUH || testMode() === TestMode.TEST_SYURUK) {
       // console.log(`ADHAN_LEAD_MINS_TEST: ${ADHAN_LEAD_MINS_TEST}`);
       const secs = secsUntilNextPrayer({ currentTime: currentTime() });
-      console.log(`secs left ${secs} ADHAN_LEAD_MINS_TEST secs=${ADHAN_LEAD_MINS_TEST * 60}`);
-      if (secs <= ADHAN_LEAD_MINS_TEST * 60 && displayMode() !== DisplayMode.ADHAN) {
+      // console.log(`secs left ${secs} ADHAN_LEAD_MINS_TEST secs=${ADHAN_LEAD_MINS_TEST * 60}`);
+      if (secs <= ADHAN_LEAD_MINS_TEST * 60 && displayMode() !== DisplayMode.ADHAN && displayMode() !== DisplayMode.IQAMAH) {
+        console.log("toggleDisplayMode(DisplayMode.ADHAN)");
         toggleDisplayMode(DisplayMode.ADHAN);
       }
       if (secs === 0 && displayMode() === DisplayMode.ADHAN && displayMode() !== DisplayMode.IQAMAH) {
+        console.log("toggleDisplayMode(DisplayMode.IQAMAH)");
         toggleDisplayMode(DisplayMode.IQAMAH)
       }
       return;
     }
-    console.log(`ADHAN_LEAD_MINS: ${ADHAN_LEAD_MINS}`);
   }
 
   createEffect(() => {

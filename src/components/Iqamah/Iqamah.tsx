@@ -10,47 +10,38 @@ const IS_DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
 const INTERVAL_MS = IS_DEV_MODE ? IQAMAH_INTERVAL_MS_TEST : IQAMAH_INTERVAL_MS;
 
 interface IqamahProps {
-  prayers: Prayer[];
+  initialSeconds: number; // The initial countdown duration in seconds
 }
 
-const Iqamah: Component<AdhanProps> = (props) => {
-  const { prayers } = props;
-
+const Iqamah: Component<IqamahProps> = () => {
   const [timeLeft, setTimeLeft] = createSignal(INTERVAL_MS / 1000);
-  const [beginPrayer, setBeginPrayer] = createSignal(false);
 
-  createEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 0) {
-          clearInterval(timer);
-          setBeginPrayer(true);
-          return 0;
-        }
-        // console.log('timeLeft', prev);
-        return prev - 1;
-      });
-    }, 1000);
-    onCleanup(() => clearInterval(timer));
-  });
+  // Start the countdown immediately when the component mounts
+  const interval = setInterval(() => {
+    setTimeLeft(prev => {
+      if (prev <= 0) {
+        clearInterval(interval); // Clear the interval when countdown reaches 0
+        return 0;
+      }
+      return prev - 1; // Decrease timeLeft by 1 second
+    });
+  }, 1000);
+
+  onCleanup(() => clearInterval(interval));
 
   return (
     <div class={styles.container}>
-      {beginPrayer() ? (
-        <div class={styles.beginPrayerContainer}>
-          <div class={styles.safTitle}>الصلاة</div>
-          <div class={styles.message}>LURUS DAN RAPATKAN SAF</div>
-        </div>
-      ) :
-        <div class={styles.iqamahContainer}>
+      {timeLeft() === 0 ? <div class={styles.iqamahContainer}><div class={styles.safMessage}>
+        LURUSKAN DAN RAPATKAN SAF
+      </div></div> :
+        <div class={styles.iqamahContainer} style={{ textAlign: 'center' }}>
           <div class={styles.iqamahMessage}>
             IQAMAH SEBENTAR LAGI
           </div>
           <div class={styles.countdown}>
             <Countdown secondsLeft={timeLeft()} />
           </div>
-        </div>
-      }
+        </div>}
     </div>
   );
 };
