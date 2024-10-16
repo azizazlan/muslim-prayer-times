@@ -76,31 +76,28 @@ const App: Component = () => {
   };
 
   const renderMainArea = () => {
+
     switch (memoizedScreen()) {
       case Screen.ADHAN:
-        return <Adhan />
+        return <Adhan />;
       case Screen.IQAMAH:
-        return <Iqamah />
+        return <Iqamah />;
       case Screen.PRAYER_TIMES:
-        return <PrayerTimes />
+        return <PrayerTimes />;
       case Screen.SETTINGS:
-        return <Settings />
-      // case DisplayMode.SLEEP:
-      //   return <Sleep />
+        return <Settings />;
       case Screen.DEV:
-        return <DevMode />
+        return <DevMode />;
       default:
-        return <DefaultMainArea />
+        return <DefaultMainArea />;
     }
+
   };
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
       <div class={styles.topLeftButtons}>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.ADHAN)}>Home</button>
-        <button class={styles.btnMosqueName} onClick={() => toggleScreen(Screen.DEFAULT)}>
-          {import.meta.env.VITE_MOSQUE_NAME}
-        </button>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.DEV)}>Dev</button>
       </div>
       <div class={styles.mainArea}>
