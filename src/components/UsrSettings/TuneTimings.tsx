@@ -48,8 +48,8 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
       </div>
       <div>
         <div class={styles.currentConfigs}>
-          <h5>Current Configuration:</h5>
-          <pre>{JSON.stringify(props.timingConfig, null, 2)}</pre>
+          <div>Current Configuration</div>
+          <pre>{JSON.stringify(timingConfig(), null, 2)}</pre>
         </div>
       </div>
     </div>
