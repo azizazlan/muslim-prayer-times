@@ -81,8 +81,8 @@ const App: Component = () => {
       //   return <Adhan currentTime={currentTime()} />
       // case DisplayMode.IQAMAH:
       //   return <Iqamah />
-      // case DisplayMode.PRAYER_TIMES:
-      //   return <PrayerTimes timingConfig={timingConfig()} />
+      case DisplayMode.PRAYER_TIMES:
+        return <PrayerTimes />
       case DisplayMode.SETTINGS:
         return <Settings />
       // case DisplayMode.SLEEP:
