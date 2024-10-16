@@ -1,5 +1,5 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
-import { addSeconds, subMinutes, parse, set } from 'date-fns';
+import { addSeconds, subMinutes, parse, set, isBefore, isAfter } from 'date-fns';
 import { getByDay } from 'prayertiming';
 import { Prayer, PrayerMode } from '../types/prayer';
 import { TestMode } from '../types/testMode';
@@ -69,6 +69,7 @@ export function createServicePrayerHook() {
           setCurrentTime(new Date());
         }
         setCurrentTime(prevTime => addSeconds(prevTime, 1));
+        updatePrayerProgress();
       }, 1000);
       // Clean up the interval on component unmount
       onCleanup(() => clearInterval(updateTimeInterval));
@@ -95,6 +96,91 @@ export function createServicePrayerHook() {
           { name: 'Maghrib', time: prayerTimes.maghrib, mode: PrayerMode.INACTIVE },
           { name: 'Isyak', time: prayerTimes.isha, mode: PrayerMode.INACTIVE }
         ]);
+    }
+
+    function getPrayerTime(name: String) {
+      const p = prayers().find(prayer => prayer.name === name);
+      return parse(p.time, 'HH:mm', currentTime());
+    }
+
+    function updatePrayerProgress() {
+      const updatedPrayers = prayers().map(prayer => {
+        // Create a new object for each prayer to avoid direct mutation
+        const updatedPrayer = { ...prayer };
+
+        if (updatedPrayer.name === 'Subuh') {
+          const subuhTime = getPrayerTime("Subuh");
+          const syurukTime = getPrayerTime('Syuruk');
+
+          if (isBefore(currentTime, subuhTime)) {
+            updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+          } else if (isAfter(currentTime, subuhTime) && isBefore(currentTime, syurukTime)) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+          } else {
+            updatedPrayer.mode = PrayerMode.INACTIVE;
+          }
+        }
+
+        if (updatedPrayer.name === 'Zohor') {
+          const syurukTime = getPrayerTime('Syuruk');
+          const zohorTime = getPrayerTime('Zohor');
+          const asarTime = getPrayerTime('Asar');
+
+          if (isAfter(currentTime, syurukTime) && isBefore(currentTime, zohorTime)) {
+            updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+          } else if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+          } else {
+            updatedPrayer.mode = PrayerMode.INACTIVE;
+          }
+        }
+
+        if (updatedPrayer.name === 'Asar') {
+          const zohorTime = getPrayerTime('Zohor');
+          const asarTime = getPrayerTime('Asar');
+          const maghribTime = getPrayerTime('Maghrib');
+
+          if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
+            updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+          } else if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+          } else {
+            updatedPrayer.mode = PrayerMode.INACTIVE;
+          }
+        }
+
+        if (updatedPrayer.name === 'Maghrib') {
+          const asarTime = getPrayerTime('Asar');
+          const maghribTime = getPrayerTime('Maghrib');
+          const isyakTime = getPrayerTime('Isyak');
+
+          if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
+            updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+          } else if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+          } else {
+            updatedPrayer.mode = PrayerMode.INACTIVE;
+          }
+        }
+
+        if (updatedPrayer.name === 'Isyak') {
+          const maghribTime = getPrayerTime('Maghrib');
+          const isyakTime = getPrayerTime('Isyak');
+
+          if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
+            updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+          } else if (isAfter(currentTime, isyakTime)) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+          } else {
+            updatedPrayer.mode = PrayerMode.INACTIVE;
+          }
+        }
+
+        return updatedPrayer; // Return the updated prayer object
+      });
+
+      // Update the state with the new array of updated prayers
+      setPrayers(updatedPrayers);
     }
 
     function clear() {
