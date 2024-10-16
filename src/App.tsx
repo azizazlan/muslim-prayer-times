@@ -1,5 +1,4 @@
 import { createEffect, createResource, createSignal, createMemo, onCleanup } from 'solid-js';
-import { addSeconds, subMinutes, parse } from 'date-fns';
 import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 
@@ -47,22 +46,11 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 const App: Component = () => {
 
   const { loading } = usePrayerService();
-
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
-  const [currentTime, setCurrentTime] = createSignal(new Date());
-  const [hasUpdatedTestTime, setHasUpdatedTestTime] = createSignal(false);
   const [displayMode, setDisplayMode] = createSignal<DisplayMode>(DisplayMode.DEFAULT);
-  const [testMode, setTestMode] = createSignal<DisplayMode>(TestMode.DEACTIVATED);
-  const [timingConfig, setTimingConfig] = createSignal({
-    fajr: 17.7,
-    dhuhr: 1.2,
-    maghrib: 1.1,
-    isha: 18.3,
-  });
-  const memoizedTimingConfig = createMemo(() => timingConfig());
 
   const toggleDisplayMode = (mode: DisplayMode) => {
     if (mode === DisplayMode.DEFAULT) {
@@ -83,67 +71,24 @@ const App: Component = () => {
     }
   };
 
-  const toggleTest = (testMode: TestMode) => {
-    setTestMode(testMode);
-  };
-
   const renderMainArea = () => {
     switch (displayMode()) {
-      case DisplayMode.ADHAN:
-        return <Adhan currentTime={currentTime()} />
-      case DisplayMode.IQAMAH:
-        return <Iqamah />
-      case DisplayMode.PRAYER_TIMES:
-        return <PrayerTimes timingConfig={timingConfig()} />
-      case DisplayMode.SETTINGS:
-        return <Settings timingConfig={timingConfig()} setTimingConfig={setTimingConfig} />
-      case DisplayMode.SLEEP:
-        return <Sleep />
+      // case DisplayMode.ADHAN:
+      //   return <Adhan currentTime={currentTime()} />
+      // case DisplayMode.IQAMAH:
+      //   return <Iqamah />
+      // case DisplayMode.PRAYER_TIMES:
+      //   return <PrayerTimes timingConfig={timingConfig()} />
+      // case DisplayMode.SETTINGS:
+      //   return <Settings timingConfig={timingConfig()} setTimingConfig={setTimingConfig} />
+      // case DisplayMode.SLEEP:
+      //   return <Sleep />
       case DisplayMode.DEV:
-        return <DevMode
-          toggleTest={toggleTest}
-          toggleDisplayMode={toggleDisplayMode}
-        />
+        return <DevMode toggleDisplayMode={toggleDisplayMode} />
       default:
         return <DefaultMainArea />
     }
   };
-
-  const checkPrayerProgress = () => {
-    if (testMode() === TestMode.TEST_SUBUH || testMode() === TestMode.TEST_SYURUK) {
-      // console.log(`ADHAN_LEAD_MINS_TEST: ${ADHAN_LEAD_MINS_TEST}`);
-      const secs = secsUntilNextPrayer({ currentTime: currentTime() });
-      // console.log(`secs left ${secs} ADHAN_LEAD_MINS_TEST secs=${ADHAN_LEAD_MINS_TEST * 60}`);
-      if (secs <= ADHAN_LEAD_MINS_TEST * 60 && displayMode() !== DisplayMode.ADHAN && displayMode() !== DisplayMode.IQAMAH) {
-        console.log("toggleDisplayMode(DisplayMode.ADHAN)");
-        toggleDisplayMode(DisplayMode.ADHAN);
-      }
-      if (secs === 0 && displayMode() === DisplayMode.ADHAN && displayMode() !== DisplayMode.IQAMAH) {
-        console.log("toggleDisplayMode(DisplayMode.IQAMAH)");
-        toggleDisplayMode(DisplayMode.IQAMAH)
-      }
-      return;
-    }
-  }
-
-  createEffect(() => {
-    const updateTimeInterval = setInterval(() => {
-      if (testMode() === TestMode.TEST_SUBUH && !hasUpdatedTestTime()) {
-        let subuhTime = getPrayerTime({ name: 'Subuh' });
-        subuhTime = parse(subuhTime, 'HH:mm', new Date());
-        setCurrentTime(subuhTime);
-        let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
-        nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
-        setCurrentTime(nMinuteBeforeSubuh);
-        setHasUpdatedTestTime(true);
-      } else {
-        setCurrentTime(prevTime => addSeconds(prevTime, 1));
-      }
-      checkPrayerProgress();
-    }, 1000);
-    // Clean up the interval on component unmount
-    onCleanup(() => clearInterval(updateTimeInterval));
-  });
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
@@ -157,7 +102,7 @@ const App: Component = () => {
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>
-      <BottomStrip testMode={testMode()} currentTime={currentTime()} timingConfig={memoizedTimingConfig()} />
+      <BottomStrip />
     </div>
   );
 };

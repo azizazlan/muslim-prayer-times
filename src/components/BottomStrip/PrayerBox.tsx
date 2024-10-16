@@ -4,18 +4,18 @@ import { Prayer } from '../../types';
 import styles from './PrayerBox.module.scss';
 import { PrayerMode } from '../../types/prayer';
 import { modeSelector } from '../../utils/prayers';
+import { usePrayerService } from '../../context/usePrayerService';
 
 interface PrayerBoxProps {
   prayer: Prayer;
-  currentTime: Date;
-  timingConfig: {};
 }
 
 const PrayerBox = (props: PrayerBoxProps) => {
-  const { prayer, timingConfig } = props;
-  const currentTime = createMemo(() => props.currentTime);
-  // Create a memoized value for mode that updates when currentTime changes
-  const mode = createMemo(() => modeSelector({ prayer, currentTime: currentTime(), timingConfig }));
+  const { prayer } = props;
+  const { currentTime, prayers } = usePrayerService();
+  const memoizedPrayers = createMemo(() => prayers())
+
+  const mode = createMemo(() => modeSelector({ prayer, prayers: memoizedPrayers(), currentTime: currentTime() }));
 
   if (mode() === PrayerMode.IMMEDIATE_NEXT) {
     return (

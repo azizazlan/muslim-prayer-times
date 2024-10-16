@@ -7,33 +7,37 @@ import Clock from '../Clock';
 import PrayerBox from './PrayerBox';
 import { getPrayers } from '../../utils/prayers';
 import { TestMode } from '../../types/testMode';
+import { usePrayerService } from '../../context/usePrayerService';
 
 interface BottomStripProps {
-  currentTime: Date;
-  timingConfig: {};
-  testMode: TestMode;
 }
 
 const BottomStrip: Component<BottomStripProps> = (props) => {
-  const timingConfig = createMemo(() => props.timingConfig);
 
-  const prayers = createMemo(() => getPrayers({ currentTime: props.currentTime, timingConfig }));
-
+  const { currentTime, prayers } = usePrayerService();
+  const memoizedCurrentTime = createMemo(() => new Date(currentTime()));
+  const memoizedPrayers = createMemo(() => prayers());
 
   return (
     <div class={styles.container}>
       <div class={styles.topBorder}></div>
       <div class={styles.content}>
-        {props.testMode} <br />
-        {`${props.currentTime}`}
+        <div class={styles.clock}>
+          <div>
+            {format(memoizedCurrentTime(), 'HH:mm:ss')}
+          </div>
+          <div>
+            {format(memoizedCurrentTime(), 'dd/MM/yyyy')}
+          </div>
+        </div>
         <div class={styles.horizontalContainer}>
-          <For each={prayers()}>
+          <For each={memoizedPrayers()}>
             {(prayer, index) => (
               <>
                 <div class={styles.prayerBoxWrapper}>
-                  <PrayerBox currentTime={props.currentTime} prayer={prayer} timingConfig={timingConfig()} />
+                  <PrayerBox prayer={prayer} />
                 </div>
-                {index() < prayers.length - 1 && (
+                {index() < prayers().length - 1 && (
                   <div class={styles.borderImageWrapper}>
                     <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
                   </div>

@@ -62,12 +62,20 @@
 .borderImageWrapper {
   display: flex;
   align-items: center;
-  height: 150px;
+  color: black;
 }
 
 .borderImage {
   height: 100%;
   width: auto;
+}
+
+.clock {
+  min-width: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 $small: 1440px;
