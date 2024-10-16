@@ -56,6 +56,10 @@ const App: Component = () => {
     if (mode === DisplayMode.DEFAULT) {
       window.location.reload();
     }
+    if (mode === DisplayMode.FULLSCREEN) {
+      toggleFullScreen();
+      return;
+    }
     setDisplayMode(prev => mode);
   };
 

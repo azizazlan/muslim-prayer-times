@@ -6,10 +6,10 @@ enum PrayerMode {
   INACTIVE = 'INACTIVE', // For example Syuruk, Last third of the night and etc. Ignore when calculating adhan lead time
 }
 
-export interface Prayer {
+type Prayer = {
   name: string;
   time: string;
   mode: PrayerMode;
 }
 
-export { PrayerMode };
+export { Prayer, PrayerMode };

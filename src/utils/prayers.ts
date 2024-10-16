@@ -1,6 +1,5 @@
 import { differenceInMinutes, differenceInSeconds, format, addDays, addSeconds, setHours, setMinutes, isAfter, isBefore, startOfDay, parse, set, subMinutes, subSeconds } from 'date-fns';
-import { Prayer } from '../types/prayer';
-import { PrayerMode } from '../types/prayer';
+import { Prayer, PrayerMode } from '../types/prayer';
 
 interface GetPrayerTimeProps {
   prayers: [];
@@ -15,7 +14,7 @@ function getPrayerTime(props: GetPrayerTimeProps) {
 export { getPrayerTime };
 
 interface ModeSelectorProps {
-  prayers: [];
+  prayers: Array<Prayer>;
   prayer: Prayer;
   currentTime: Date;
 }

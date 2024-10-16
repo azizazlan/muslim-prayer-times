@@ -15,7 +15,12 @@ const PrayerBox = (props: PrayerBoxProps) => {
   const { currentTime, prayers } = usePrayerService();
   const memoizedPrayers = createMemo(() => prayers())
 
+  if (!prayer) {
+    return <div>Loading...</div>
+  }
+
   const mode = createMemo(() => modeSelector({ prayer, prayers: memoizedPrayers(), currentTime: currentTime() }));
+
 
   if (mode() === PrayerMode.IMMEDIATE_NEXT) {
     return (

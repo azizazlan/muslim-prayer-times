@@ -5,7 +5,8 @@ enum DisplayMode {
   ADHAN = 'ADHAN',
   IQAMAH = 'IQAMAH',
   SETTINGS = 'SETTINGS',
-  DEV = 'DEV'
+  DEV = 'DEV',
+  FULLSCREEN = 'FULLSCREEN'
 }
 
 export { DisplayMode };

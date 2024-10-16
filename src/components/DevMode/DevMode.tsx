@@ -7,18 +7,11 @@ import { usePrayerService } from '../../context/usePrayerService';
 
 interface DevModeProps {
   toggleDisplayMode: (mode: DisplayMode) => void;
-  toggleTest: () => void;
 }
 
 const DevMode = (props: DevModeProps) => {
-  const { clear, timingConfig, setTimingConfig } = usePrayerService();
+  const { clear, timingConfig, setTimingConfig, test, setTest } = usePrayerService();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const toggleTestContext = () => {
-    setTimingConfig(
-      { "fajr": 7.7, "dhuhr": 1.2, "maghrib": 1.1, "isha": 18.3 }
-    );
-  }
 
   const lastApiTimestamp = createMemo(() => props.lastApiTimestamp);
   return (
@@ -43,10 +36,10 @@ const DevMode = (props: DevModeProps) => {
       </div>
       <div class={styles.testButtonsContainer}>
         <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.SETTINGS)}>Settings</button>
+        <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.FULLSCREEN)}>Fullscreen</button>
         <button class={styles.testButton} onClick={() => props.toggleDisplayMode(DisplayMode.PRAYER_TIMES)}>Prayer Times</button>
-        <button class={styles.testButton} onClick={() => props.toggleTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
-        <button class={styles.testButton} onClick={() => props.toggleTest(TestMode.TEST_SYURUK)}>Test Syuruk</button>
-        <button class={styles.testButton} onClick={() => toggleTestContext()}>Test Context</button>
+        <button class={styles.testButton} onClick={() => setTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
+        <button class={styles.testButton} onClick={() => setTest(TestMode.DEACTIVATED)}>Cancel Test</button>
       </div>
     </div>
   );

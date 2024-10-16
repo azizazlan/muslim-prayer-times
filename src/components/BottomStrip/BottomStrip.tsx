@@ -1,4 +1,4 @@
-import { Component, For, createMemo, createEffect, createSignal, onCleanup } from 'solid-js';
+import { Component, For, createMemo, createEffect, createSignal, onCleanup, Show } from 'solid-js';
 import { format, addSeconds } from 'date-fns';
 import styles from './BottomStrip.module.scss';
 import borderImage from '../../assets/images/lantern.png';
@@ -14,9 +14,14 @@ interface BottomStripProps {
 
 const BottomStrip: Component<BottomStripProps> = (props) => {
 
-  const { currentTime, prayers } = usePrayerService();
+  const { currentTime, prayers, test } = usePrayerService();
   const memoizedCurrentTime = createMemo(() => new Date(currentTime()));
   const memoizedPrayers = createMemo(() => prayers());
+  const memoizedTest = createMemo(() => test());
+
+  if (memoizedPrayers().length === 0 || !memoizedPrayers()) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div class={styles.container}>
@@ -29,22 +34,27 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
           <div>
             {format(memoizedCurrentTime(), 'dd/MM/yyyy')}
           </div>
+          <div>
+            {memoizedTest()}
+          </div>
         </div>
         <div class={styles.horizontalContainer}>
-          <For each={memoizedPrayers()}>
-            {(prayer, index) => (
-              <>
-                <div class={styles.prayerBoxWrapper}>
-                  <PrayerBox prayer={prayer} />
-                </div>
-                {index() < prayers().length - 1 && (
-                  <div class={styles.borderImageWrapper}>
-                    <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
+          <Show when={memoizedPrayers().length > 0} fallback="Loading...">
+            <For each={memoizedPrayers()}>
+              {(prayer, index) => (
+                <>
+                  <div class={styles.prayerBoxWrapper}>
+                    <PrayerBox prayer={prayer} />
                   </div>
-                )}
-              </>
-            )}
-          </For>
+                  {index() < prayers().length - 1 && (
+                    <div class={styles.borderImageWrapper}>
+                      <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
+                    </div>
+                  )}
+                </>
+              )}
+            </For>
+          </Show>
         </div>
       </div>
     </div>
