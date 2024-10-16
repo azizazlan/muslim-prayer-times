@@ -1,4 +1,4 @@
-enum DisplayMode {
+enum Screen {
   DEFAULT = 'DEFAULT',
   REST = 'REST',
   PRAYER_TIMES = 'PRAYER_TIMES', // Display prayer timings or schedule for the day
@@ -9,4 +9,4 @@ enum DisplayMode {
   FULLSCREEN = 'FULLSCREEN'
 }
 
-export { DisplayMode };
+export { Screen };

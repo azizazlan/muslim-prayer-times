@@ -17,8 +17,8 @@ import DefaultMainArea from './components/DefaultMainArea';
 import DevMode from './components/DevMode';
 import Settings from './components/UsrSettings/Settings';
 import PrayerTimes from './components/PrayerTimes';
-import { DisplayMode } from "./types/displayMode";
 import { TestMode } from "./types/testMode";
+import { Screen } from './types/screen';
 import styles from './App.module.scss';
 
 const LANGUAGE = import.meta.env.VITE_LANGUAGE;
@@ -45,22 +45,22 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 
 const App: Component = () => {
 
-  const { loading } = usePrayerService();
+  const { screen, setScreen } = usePrayerService();
+  const memoizedScreen = createMemo(() => screen());
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
-  const [displayMode, setDisplayMode] = createSignal<DisplayMode>(DisplayMode.DEFAULT);
 
-  const toggleDisplayMode = (mode: DisplayMode) => {
-    if (mode === DisplayMode.DEFAULT) {
+  const toggleScreen = (mode: Screen) => {
+    if (mode === Screen.DEFAULT) {
       window.location.reload();
     }
-    if (mode === DisplayMode.FULLSCREEN) {
+    if (mode === Screen.FULLSCREEN) {
       toggleFullScreen();
       return;
     }
-    setDisplayMode(prev => mode);
+    setScreen(prev => mode);
   };
 
   const toggleFullScreen = () => {
@@ -76,19 +76,19 @@ const App: Component = () => {
   };
 
   const renderMainArea = () => {
-    switch (displayMode()) {
-      // case DisplayMode.ADHAN:
-      //   return <Adhan currentTime={currentTime()} />
-      // case DisplayMode.IQAMAH:
-      //   return <Iqamah />
-      case DisplayMode.PRAYER_TIMES:
+    switch (memoizedScreen()) {
+      case Screen.ADHAN:
+        return <Adhan />
+      case Screen.IQAMAH:
+        return <Iqamah />
+      case Screen.PRAYER_TIMES:
         return <PrayerTimes />
-      case DisplayMode.SETTINGS:
+      case Screen.SETTINGS:
         return <Settings />
       // case DisplayMode.SLEEP:
       //   return <Sleep />
-      case DisplayMode.DEV:
-        return <DevMode toggleDisplayMode={toggleDisplayMode} />
+      case Screen.DEV:
+        return <DevMode />
       default:
         return <DefaultMainArea />
     }
@@ -97,11 +97,11 @@ const App: Component = () => {
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
       <div class={styles.topLeftButtons}>
-        <button class={styles.btnDev} onClick={() => toggleDisplayMode(DisplayMode.ADHAN)}>Home</button>
-        <button class={styles.btnMosqueName} onClick={() => toggleDisplayMode(DisplayMode.DEFAULT)}>
+        <button class={styles.btnDev} onClick={() => toggleScreen(Screen.ADHAN)}>Home</button>
+        <button class={styles.btnMosqueName} onClick={() => toggleScreen(Screen.DEFAULT)}>
           {import.meta.env.VITE_MOSQUE_NAME}
         </button>
-        <button class={styles.btnDev} onClick={() => toggleDisplayMode(DisplayMode.DEV)}>Dev</button>
+        <button class={styles.btnDev} onClick={() => toggleScreen(Screen.DEV)}>Dev</button>
       </div>
       <div class={styles.mainArea}>
         {renderMainArea()}

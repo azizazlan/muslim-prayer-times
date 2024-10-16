@@ -20,6 +20,7 @@
   "dependencies": {
     "@solid-primitives/i18n": "^2.1.1",
     "date-fns": "^4.1.0",
+    "hijri-converter": "^1.1.1",
     "prayertiming": "^2.0.2",
     "solid-js": "^1.8.11"
   }

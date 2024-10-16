@@ -1,8 +1,9 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
-import { addSeconds, subMinutes, parse, set, isBefore, isAfter } from 'date-fns';
+import { addSeconds, subMinutes, parse, set, isBefore, isAfter, differenceInSeconds } from 'date-fns';
 import { getByDay } from 'prayertiming';
 import { Prayer, PrayerMode } from '../types/prayer';
 import { TestMode } from '../types/testMode';
+import { Screen } from '../types/screen';
 
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
@@ -16,6 +17,8 @@ interface ProviderProps {
 export function createServicePrayerHook() {
   // Interface for the context value props
   interface ContextValueProps {
+    screen: Accessor<string>;
+    setScreen: (screen: Screen) => void;
     test: Accessor<TestMode>;
     setTest: (testMode: TestMode) => void;
     prayers: Accessor<Array<Prayer>>;
@@ -41,6 +44,7 @@ export function createServicePrayerHook() {
   const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
+  const [screen, setScreen] = createSignal(Screen.DEFAULT);
 
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
@@ -111,11 +115,15 @@ export function createServicePrayerHook() {
         if (updatedPrayer.name === 'Subuh') {
           const subuhTime = getPrayerTime("Subuh");
           const syurukTime = getPrayerTime('Syuruk');
-
           if (isBefore(currentTime, subuhTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+            setLeadPrayer(updatedPrayer);
+            const secs = differenceInSeconds(subuhTime, currentTime());
+            setSecsUntilNextPrayer(secs);
+            setScreen(Screen.ADHAN);
           } else if (isAfter(currentTime, subuhTime) && isBefore(currentTime, syurukTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.IQAMAH);
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
@@ -125,9 +133,11 @@ export function createServicePrayerHook() {
           const syurukTime = getPrayerTime('Syuruk');
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
-
           if (isAfter(currentTime, syurukTime) && isBefore(currentTime, zohorTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+            const secs = differenceInSeconds(zohorTime, currentTime());
+            setSecsUntilNextPrayer(secs);
+            setLeadPrayer(updatedPrayer);
           } else if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -139,9 +149,11 @@ export function createServicePrayerHook() {
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
-
           if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+            const secs = differenceInSeconds(asarTime, currentTime());
+            setSecsUntilNextPrayer(secs);
+            setLeadPrayer(updatedPrayer);
           } else if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -153,9 +165,11 @@ export function createServicePrayerHook() {
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
-
           if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+            const secs = differenceInSeconds(maghribTime, currentTime());
+            setSecsUntilNextPrayer(secs);
+            setLeadPrayer(updatedPrayer);
           } else if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -166,9 +180,11 @@ export function createServicePrayerHook() {
         if (updatedPrayer.name === 'Isyak') {
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
-
           if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
+            const secs = differenceInSeconds(isyakTime, currentTime());
+            setSecsUntilNextPrayer(secs);
+            setLeadPrayer(updatedPrayer);
           } else if (isAfter(currentTime, isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -178,7 +194,6 @@ export function createServicePrayerHook() {
 
         return updatedPrayer; // Return the updated prayer object
       });
-
       // Update the state with the new array of updated prayers
       setPrayers(updatedPrayers);
     }
@@ -188,6 +203,8 @@ export function createServicePrayerHook() {
     }
 
     const value: ContextValueProps = {
+      setScreen,
+      screen,
       test,
       setTest,
       prayers,
