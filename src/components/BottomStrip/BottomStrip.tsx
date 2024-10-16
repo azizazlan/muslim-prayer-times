@@ -19,9 +19,11 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
   const memoizedPrayers = createMemo(() => prayers());
   const memoizedTest = createMemo(() => test());
 
-  if (memoizedPrayers().length === 0 || !memoizedPrayers()) {
-    return <div>Loading...</div>
-  }
+  createEffect(() => {
+    memoizedCurrentTime();
+    memoizedPrayers();
+    memoizedTest();
+  });
 
   return (
     <div class={styles.container}>
@@ -39,22 +41,20 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
           </div>
         </div>
         <div class={styles.horizontalContainer}>
-          <Show when={memoizedPrayers().length > 0} fallback="Loading...">
-            <For each={memoizedPrayers()}>
-              {(prayer, index) => (
-                <>
-                  <div class={styles.prayerBoxWrapper}>
-                    <PrayerBox prayer={prayer} />
+          <For each={memoizedPrayers()}>
+            {(prayer, index) => (
+              <>
+                <div class={styles.prayerBoxWrapper}>
+                  <PrayerBox prayer={prayer} />
+                </div>
+                {index() < prayers().length - 1 && (
+                  <div class={styles.borderImageWrapper}>
+                    <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
                   </div>
-                  {index() < prayers().length - 1 && (
-                    <div class={styles.borderImageWrapper}>
-                      <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
-                    </div>
-                  )}
-                </>
-              )}
-            </For>
-          </Show>
+                )}
+              </>
+            )}
+          </For>
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ export function createServicePrayerHook() {
               subuhTime = set(subuhTime, { date: subuhTime.getDate() + 1 });
             }
             let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
-            nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
+            nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 50);
             setCurrentTime(nMinuteBeforeSubuh);
           }
         } else {
@@ -74,9 +74,11 @@ export function createServicePrayerHook() {
       onCleanup(() => clearInterval(updateTimeInterval));
     });
 
+    const date = currentTime();
+
     function fetchPrayerTimes() {
       const prayerTimes = getByDay({
-        date: currentTime(),
+        date,
         long: LONGITUDE,
         lat: LATITUDE,
         method: 'JAKIM',
@@ -86,12 +88,12 @@ export function createServicePrayerHook() {
 
       setPrayers(
         [
-          { name: "Subuh", time: prayerTimes.fajr },
-          { name: 'Syuruk', time: prayerTimes.sunrise },
-          { name: 'Zohor', time: prayerTimes.dhuhr },
-          { name: 'Asar', time: prayerTimes.asr },
-          { name: 'Maghrib', time: prayerTimes.maghrib },
-          { name: 'Isyak', time: prayerTimes.isha }
+          { name: "Subuh", time: prayerTimes.fajr, mode: PrayerMode.INACTIVE },
+          { name: 'Syuruk', time: prayerTimes.sunrise, mode: PrayerMode.INACTIVE },
+          { name: 'Zohor', time: prayerTimes.dhuhr, mode: PrayerMode.INACTIVE },
+          { name: 'Asar', time: prayerTimes.asr, mode: PrayerMode.INACTIVE },
+          { name: 'Maghrib', time: prayerTimes.maghrib, mode: PrayerMode.INACTIVE },
+          { name: 'Isyak', time: prayerTimes.isha, mode: PrayerMode.INACTIVE }
         ]);
     }
 

@@ -13,16 +13,13 @@ interface PrayerBoxProps {
 const PrayerBox = (props: PrayerBoxProps) => {
   const { prayer } = props;
   const { currentTime, prayers } = usePrayerService();
+  const memoizedCurrentTime = createMemo(() => currentTime());
   const memoizedPrayers = createMemo(() => prayers())
+  const memoizedPrayer = createMemo(() => prayer)
 
-  if (!prayer) {
-    return <div>Loading...</div>
-  }
+  if (!memoizedPrayer()) return <div>Loading...</div>
 
-  const mode = createMemo(() => modeSelector({ prayer, prayers: memoizedPrayers(), currentTime: currentTime() }));
-
-
-  if (mode() === PrayerMode.IMMEDIATE_NEXT) {
+  if (memoizedPrayer().mode === PrayerMode.IMMEDIATE_NEXT) {
     return (
       <div class={styles.nextPrayerContainer}>
         <div class={styles.name}>
@@ -35,7 +32,7 @@ const PrayerBox = (props: PrayerBoxProps) => {
     );
   }
   return (
-    <div class={`${styles.container} ${mode() === PrayerMode.ACTIVE ? styles.active : ''}`}>
+    <div class={`${styles.container} ${memoizedPrayer().mode === PrayerMode.ACTIVE ? styles.active : ''}`}>
       <div class={styles.name}>
         {prayer.name}
       </div>
