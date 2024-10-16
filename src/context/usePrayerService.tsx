@@ -45,6 +45,8 @@ export function createServicePrayerHook() {
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
   const [screen, setScreen] = createSignal(Screen.DEFAULT);
+  const [startSwitchScreens, setStartSwitchScreens] = createSignal(false);
+  const [switchingScreens, setSwitchingScreens] = createSignal(false);
 
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
@@ -71,12 +73,34 @@ export function createServicePrayerHook() {
           }
         } else {
           setCurrentTime(new Date());
+          const minsBeforeNextPrayer = secsUntilNextPrayer() / 60;
+          if (minsBeforeNextPrayer > 30 && !switchingScreens() || !leadPrayer()) {
+            console.log('setSwitchingScreens(true)')
+            setSwitchingScreens(true);
+          }
+
+          if (minsBeforeNextPrayer < 30 && leadPrayer()) {
+            console.log('setSwitchingScreens(false)')
+            setSwitchingScreens(false);
+          }
         }
         setCurrentTime(prevTime => addSeconds(prevTime, 1));
         updatePrayerProgress();
       }, 1000);
-      // Clean up the interval on component unmount
-      onCleanup(() => clearInterval(updateTimeInterval));
+
+      // New function to toggle screens every minute
+      const toggleScreensInterval = setInterval(() => {
+        if (switchingScreens()) {
+          setScreen(prevScreen =>
+            prevScreen === Screen.DEFAULT ? Screen.PRAYER_TIMES : Screen.DEFAULT
+          );
+        }
+      }, 60000); // 60000 ms = 1 minute
+
+      onCleanup(() => {
+        clearInterval(updateTimeInterval);
+        clearInterval(toggleScreensInterval); // Clear the new interval
+      });
     });
 
     const date = currentTime();

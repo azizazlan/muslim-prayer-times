@@ -7,18 +7,22 @@
   color: white;
 }
 
+.mosqueName {
+  font-size: 3.1rem;
+  border-bottom: 1px solid silver;;
+}
+
 .dateContainer {
   display: flex;
   flex-direction: column;
-   font-size: 3rem;
-   margin-left: 3rem;
+   font-size: 2.5rem;
+   margin-left: 5.5rem;
 }
 
 .hijriDate {
   font-weight: bold;
-  color: rgb(193, 244, 91);
 }
 
 .gregorianDate {
-  font-weight: bold;
+  font-weight: 300;
 }

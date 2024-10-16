@@ -30,14 +30,13 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
       <div class={styles.topBorder}></div>
       <div class={styles.content}>
         <div class={styles.clock}>
-          <div>
-            {format(memoizedCurrentTime(), 'HH:mm:ss')}
+          <div class={styles.clockTime}>
+            {format(memoizedCurrentTime(), 'HH')}
+            <span class={styles.blinkingSeparator}>:</span>
+            {format(memoizedCurrentTime(), 'mm')}
           </div>
-          <div>
-            {format(memoizedCurrentTime(), 'dd/MM/yyyy')}
-          </div>
-          <div>
-            {memoizedTest()}
+          <div class={styles.clockDate}>
+            {format(memoizedCurrentTime(), 'dd.MM.yyyy')}
           </div>
         </div>
         <div class={styles.horizontalContainer}>

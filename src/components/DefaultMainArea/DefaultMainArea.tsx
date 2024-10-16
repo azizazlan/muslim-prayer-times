@@ -1,9 +1,11 @@
 import { format } from 'date-fns';
+import { ms } from 'date-fns/locale';
 import { createMemo } from 'solid-js';
 import { toHijri } from "hijri-converter";
 import { usePrayerService } from '../../context/usePrayerService';
 import styles from './DefaultMainArea.module.scss';
 import { AnalogClock } from '../AnalogClock/AnalogClock'
+import { getHijriMonthName } from '../../utils/formatter';
 
 const DefaultMainArea = () => {
   const { currentTime } = usePrayerService();
@@ -20,11 +22,12 @@ const DefaultMainArea = () => {
         <AnalogClock />
       </div>
       <div class={styles.dateContainer}>
+        <div class={styles.mosqueName}>Surau <i>De Rozelle</i></div>
         <div class={styles.gregorianDate}>
-          {format(memoizedCurrentTime(), 'EEE dd, MMMM yyyy')}
+          {format(memoizedCurrentTime(), 'EEEE dd, MMMM yyyy', { locale: ms })}
         </div>
         <div class={styles.hijriDate}>
-          {hijri.hd}-{hijri.hm}-{hijri.hy}H
+          {format(memoizedCurrentTime(), 'EEEE', { locale: ms })} {hijri.hd}, {getHijriMonthName(hijri.hm)} {hijri.hy}H
         </div>
       </div>
     </div>

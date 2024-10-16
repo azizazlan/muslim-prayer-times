@@ -25,6 +25,22 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
       <Hand rotate={props.hour} class="hour" length={50} width={4} />
       <Hand rotate={props.minute} class="minute" length={70} width={3} />
       <Hand rotate={props.second} class="second" length={80} width={2} />
+
+      <image
+        class="clock-logo"
+        href="/src/assets/images/clock-logo.png" // Replace with the path to your PNG image
+        x="-45"
+        y="-60" // Position below the seconds hand
+        width="90" // Set the width of the image
+        height="50" // Set the height of the image
+        zIndex="-100"
+      />
+      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="#003366">
+        KOTA DAMANSARA
+      </text>
+      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="5" font-weight="bold" fill="#003366">
+        SELANGOR
+      </text>
     </g>
   </svg>
 );

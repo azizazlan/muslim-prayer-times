@@ -47,3 +47,37 @@ const getPrettyFormattedDate = (date: Date) => {
   return 'Invalid Date';
 };
 export { getPrettyFormattedDate };
+
+
+const getHijriMonthName = (month) => {
+  switch (month) {
+    case 1:
+      return "Muharam";
+    case 2:
+      return "Safar";
+    case 3:
+      return "Rabi'Awwal";
+    case 4:
+      return "Rabi'Akhir";
+    case 5:
+      return "Jamadilawal";
+    case 6:
+      return "Jamadilakhir ";
+    case 7:
+      return "Rejab";
+    case 8:
+      return "Sha'ban";
+    case 9:
+      return "Ramadan";
+    case 10:
+      return "Shawal";
+    case 11:
+      return "Zulkaedah";
+    case 12:
+      return "Zulhijah";
+    default:
+      return "Invalid month"; // Handle invalid month input
+  }
+}
+
+export { getHijriMonthName };

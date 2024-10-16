@@ -37,6 +37,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-left: 2.0rem;
 }
 
 .prayerBoxWrapper {
@@ -80,10 +81,57 @@
   justify-content: center;
 }
 
+.clockTime {
+   font-size: 4.5rem;
+   font-weight: bold;
+   display: flex;
+   flex-direction: row;
+}
+
+.clockDate {
+  font-size: 2.0rem;
+  font-weight: bold;
+ }
+
+ .blinkingSeparator {
+  margin-top: -0.3rem;
+  animation: heartbeatOpacity 1.3s infinite;
+}
+
+@keyframes heartbeatOpacity {
+  0%, 100% {
+    opacity: 1; // Fully visible
+  }
+  20% {
+    opacity: 0.7; // Fade to 70% opacity
+  }
+  40% {
+    opacity: 0.3; // Fade to 30% opacity
+  }
+  60% {
+    opacity: 0.5; // Fade back to 50% opacity
+  }
+  80% {
+    opacity: 0.9; // Fade back to 90% opacity
+  }
+}
+
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .borderImageWrapper {
     height: 70px;
   }
+
+  .clock {
+    min-width: 135px;
+  }
+
+  .clockTime {
+    font-size: 3.5rem;
+ }
+
+ .clockDate {
+  font-size: 1.7rem;
+ }
 }
