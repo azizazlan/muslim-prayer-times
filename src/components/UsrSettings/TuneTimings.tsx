@@ -1,17 +1,18 @@
-import { Component, createSignal, For } from 'solid-js';
+import { Component, createSignal, createMemo, For } from 'solid-js';
+import { usePrayerService } from '../../context/usePrayerService';
 import styles from './TuneTimings.module.scss';
 
 interface TuneTimingsProps {
-  timingConfig: { fajr: number; dhuhr: number; maghrib: number; isha: number };
-  setTimingConfig: (config: { fajr: number; dhuhr: number; maghrib: number; isha: number }) => void;
-  handleRefetch: () => void;
 }
 
 const TuneTimings: Component<TuneTimingsProps> = (props) => {
 
+  const { timingConfig, setTimingConfig } = usePrayerService();
+  const memoTimingConfig = createMemo(() => timingConfig());
+
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
-    props.setTimingConfig((prevConfig) => ({
+    setTimingConfig((prevConfig) => ({
       ...prevConfig,
       [name]: parseFloat(value),
     }));
@@ -24,29 +25,25 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
           <label class={styles.tuneLabel}>
             Subuh
           </label>
-          <input class={styles.tuneInput} type="number" name="fajr" value={props.timingConfig.fajr} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="fajr" value={memoTimingConfig().fajr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Zohor
           </label>
-          <input class={styles.tuneInput} type="number" name="dhuhr" value={props.timingConfig.dhuhr} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="dhuhr" value={memoTimingConfig().dhuhr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Maghrib
           </label>
-          <input class={styles.tuneInput} type="number" name="maghrib" value={props.timingConfig.maghrib} onInput={handleChange} step="0.1" />
+          <input class={styles.tuneInput} type="number" name="maghrib" value={memoTimingConfig().maghrib} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
             Isyak
           </label>
-          <input class={styles.tuneInput} type="number" name="isha" value={props.timingConfig.isha} onInput={handleChange} step="0.1" />
-        </div>
-        <div class={styles.tuneButtons}>
-          <button class={styles.testButton} onClick={props.handleRefetch}>REFETCH</button>
-          <button class={styles.testButton} onClick={props.handleSave}>SAVE</button>
+          <input class={styles.tuneInput} type="number" name="isha" value={memoTimingConfig().isha} onInput={handleChange} step="0.1" />
         </div>
       </div>
       <div>

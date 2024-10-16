@@ -79,8 +79,8 @@ const App: Component = () => {
       //   return <Iqamah />
       // case DisplayMode.PRAYER_TIMES:
       //   return <PrayerTimes timingConfig={timingConfig()} />
-      // case DisplayMode.SETTINGS:
-      //   return <Settings timingConfig={timingConfig()} setTimingConfig={setTimingConfig} />
+      case DisplayMode.SETTINGS:
+        return <Settings />
       // case DisplayMode.SLEEP:
       //   return <Sleep />
       case DisplayMode.DEV:

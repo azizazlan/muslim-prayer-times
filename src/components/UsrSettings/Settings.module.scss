@@ -17,17 +17,18 @@ $width: 98%;
   flex-direction: row;
   cursor: pointer;
   border-bottom: 1px solid silver;
+  text-transform: uppercase;
 }
 
 .activeTabTitle {
   padding: 10px 20px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
 .tabTitle {
   padding: 10px 20px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: silver;
 }
 
