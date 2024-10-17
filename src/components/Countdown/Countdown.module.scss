@@ -43,11 +43,13 @@
   font-weight: 500;
   text-transform: uppercase;
   border-radius: 7px;
-  background-color: white;
-  color: #0984e3;
+  //background-color: lightsteelblue;
+  //color: #0984e3;
+  color: white;
   text-align: center;
-  border: 1px solid white;
-  opacity: 0.5;
+  border-top: 1px solid white;
+  opacity: 1;
+  padding-top: 1rem;
 }
 
 .separator {

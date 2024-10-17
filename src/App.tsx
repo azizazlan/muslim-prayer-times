@@ -8,6 +8,7 @@ import { usePrayerService } from './context/usePrayerService';
 import getWindowDimensions from './utils/getWindowDimensions';
 
 // Components
+import TopToolbar from './components/TopToolbar/TopToolbar';
 import Adhan from './components/Adhan/Adhan';
 import Iqamah from './components/Iqamah/Iqamah';
 import BottomStrip from './components/BottomStrip/BottomStrip';
@@ -61,16 +62,6 @@ const App: Component = () => {
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
 
-  const toggleScreen = (mode: Screen) => {
-    if (mode === Screen.DEFAULT) {
-      window.location.reload();
-    }
-    if (mode === Screen.FULLSCREEN) {
-      toggleFullScreen();
-      return;
-    }
-    setScreen(mode);
-  };
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -105,11 +96,7 @@ const App: Component = () => {
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
-      <div class={styles.topButtons}>
-        <button class={styles.btnDev} onClick={() => toggleScreen(Screen.ADHAN)}>Home</button>
-        <button class={styles.btnDev} onClick={() => toggleScreen(Screen.DEV)}>Dev</button>
-        <div class={styles.version}>Ver 1.0.0</div>
-      </div>
+      <TopToolbar />
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>

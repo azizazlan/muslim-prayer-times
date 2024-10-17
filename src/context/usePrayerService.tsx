@@ -54,6 +54,7 @@ export function createServicePrayerHook() {
   const [currentTime, setCurrentTime] = createSignal(new Date());
   const [prayers, setPrayers] = createSignal<Prayer[]>([]); // Initialize as an empty array
   const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
+  // secsUntilNextPrayer is used in the Adhan component
   const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
@@ -79,14 +80,13 @@ export function createServicePrayerHook() {
               console.log('subuhPrayer is null');
               return;
             }
-
             const now = new Date();
             const [hours, minutes] = subuhPrayer.time.split(':').map(Number);
             let subuhTime = set(now, { hours, minutes, seconds: 0, milliseconds: 0 });
             if (subuhTime < currentTime()) {
               subuhTime = set(subuhTime, { date: subuhTime.getDate() + 1 });
             }
-            let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS + 1);
+            let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
             nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
             setCurrentTime(nMinuteBeforeSubuh);
           }
@@ -132,6 +132,7 @@ export function createServicePrayerHook() {
       return parse(p.time, 'HH:mm', currentTime());
     }
 
+    // updatePrayerProgress will be called every second
     function updatePrayerProgress() {
       const updatedPrayers = (prayers() as Array<Prayer>).map((prayer: Prayer) => {
         // Create a new object for each prayer to avoid direct mutation
@@ -140,6 +141,11 @@ export function createServicePrayerHook() {
         if (updatedPrayer.name === 'Subuh') {
           const subuhTime = getPrayerTime("Subuh");
           const syurukTime = getPrayerTime('Syuruk');
+
+          // seconds after subuh is used so that we do not want to display "Luruskan saf" for too long!
+          // In the logic below we only display Iaqamah for 15 mins (900 ms) 
+          const secsAfterSubuh = differenceInSeconds(currentTime(), subuhTime);
+
           if (isBefore(currentTime(), subuhTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             setLeadPrayer(updatedPrayer);
@@ -148,11 +154,14 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime)) {
+          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
-            const secs = differenceInSeconds(subuhTime, currentTime());
-          } else {
+          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh > 900) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.DEFAULT);
+          }
+          else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
         }
@@ -161,6 +170,9 @@ export function createServicePrayerHook() {
           const syurukTime = getPrayerTime('Syuruk');
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
+
+          const secsAfterZohor = differenceInSeconds(currentTime(), zohorTime);
+
           if (isAfter(currentTime(), syurukTime) && isBefore(currentTime(), zohorTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(zohorTime, currentTime());
@@ -169,9 +181,14 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime)) {
+          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-          } else {
+            setScreen(Screen.IQAMAH);
+          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor > 900) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.DEFAULT);
+          }
+          else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
         }
@@ -180,6 +197,9 @@ export function createServicePrayerHook() {
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
+
+          const secsAfterAsar = differenceInSeconds(currentTime(), asarTime);
+
           if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(asarTime, currentTime());
@@ -188,9 +208,14 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime)) {
+          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-          } else {
+            setScreen(Screen.IQAMAH);
+          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar > 900) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.DEFAULT);
+          }
+          else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
         }
@@ -199,6 +224,9 @@ export function createServicePrayerHook() {
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
+
+          const secsAfterMaghrib = differenceInSeconds(currentTime(), maghribTime);
+
           if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(maghribTime, currentTime());
@@ -207,9 +235,15 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime)) {
+          } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-          } else {
+            setScreen(Screen.IQAMAH);
+          }
+          else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib > 900) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.DEFAULT);
+          }
+          else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
         }
@@ -217,6 +251,9 @@ export function createServicePrayerHook() {
         if (updatedPrayer.name === 'Isyak') {
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
+
+          const secsAfterIsyak = differenceInSeconds(currentTime(), isyakTime);
+
           if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(isyakTime, currentTime());
@@ -225,9 +262,15 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), isyakTime)) {
+          } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-          } else {
+            setScreen(Screen.IQAMAH);
+          }
+          else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak > 900) {
+            updatedPrayer.mode = PrayerMode.ACTIVE;
+            setScreen(Screen.DEFAULT);
+          }
+          else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
         }
