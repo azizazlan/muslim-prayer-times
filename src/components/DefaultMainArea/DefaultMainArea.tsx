@@ -9,9 +9,8 @@ import { getHijriMonthName } from '../../utils/formatter';
 import caligraphy from '../../assets/images/white-clock-logo.png'
 
 const DefaultMainArea = () => {
-  const { currentTime, timeWarp } = usePrayerService();
+  const { currentTime } = usePrayerService();
   const memoizedCurrentTime = createMemo(() => currentTime());
-  const memoizedTimeWarp = createMemo(() => timeWarp());
 
   // Extract day, month, and year
   const day = createMemo(() => memoizedCurrentTime().getDate()); // Day of the month

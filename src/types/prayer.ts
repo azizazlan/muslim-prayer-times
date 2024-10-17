@@ -12,4 +12,4 @@ type Prayer = {
   mode: PrayerMode;
 }
 
-export { Prayer, PrayerMode };
+export { type Prayer, PrayerMode };

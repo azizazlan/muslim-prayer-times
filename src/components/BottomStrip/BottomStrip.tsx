@@ -3,9 +3,8 @@ import { format, addSeconds } from 'date-fns';
 import styles from './BottomStrip.module.scss';
 import borderImage from '../../assets/images/lantern.png';
 import { Prayer } from '../../types/prayer';
-import Clock from '../Clock';
+import Clock from '../Clock/Clock';
 import PrayerBox from './PrayerBox';
-import { getPrayers } from '../../utils/prayers';
 import { TestMode } from '../../types/testMode';
 import { usePrayerService } from '../../context/usePrayerService';
 

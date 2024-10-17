@@ -21,8 +21,6 @@ export function createServicePrayerHook() {
     setScreen: (screen: Screen) => void;
     test: Accessor<TestMode>;
     setTest: (testMode: TestMode) => void;
-    timeWarp: Accessor<boolean>;
-    setTimeWarp: (warp: boolean) => void;
     prayers: Accessor<Array<Prayer>>;
     leadPrayer: Accessor<Prayer | null>;
     currentTime: Accessor<Date>;
@@ -41,20 +39,12 @@ export function createServicePrayerHook() {
     isha: 18.3,
   });
   const [currentTime, setCurrentTime] = createSignal(new Date());
-  const [prayers, setPrayers] = createSignal(Array<Prayer>);
+  const [prayers, setPrayers] = createSignal<Array<Prayer>>([]); // Initialize as an empty array
   const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
   const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
   const [screen, setScreen] = createSignal(Screen.DEFAULT);
-  const [startSwitchScreens, setStartSwitchScreens] = createSignal(false);
-  const [switchingScreens, setSwitchingScreens] = createSignal(false);
-
-
-
-  const [timeWarp, setTimeWarp] = createSignal(false);
-  const [currentPrayer, setCurrentPrayer] = createSignal<Prayer | null>(null);
-  const [secsLapsCurrPrayer, setSecsLapsCurrPrayer] = createSignal(0);
 
 
   // Provider component that wraps the children
@@ -72,6 +62,11 @@ export function createServicePrayerHook() {
           if (!isTestInProgress()) {
             setIsTestInProgress(true);
             const subuhPrayer = prayers().find(prayer => prayer.name === 'Subuh');
+            if (!subuhPrayer) {
+              console.log('subuhPrayer is null');
+              return;
+            }
+
             const now = new Date();
             const [hours, minutes] = subuhPrayer.time.split(':').map(Number);
             let subuhTime = set(now, { hours, minutes, seconds: 0, milliseconds: 0 });
@@ -119,20 +114,20 @@ export function createServicePrayerHook() {
     }
 
     function getPrayerTime(name: String) {
-      const p = prayers().find(prayer => prayer.name === name);
+      const p = (prayers() as Array<Prayer>).find((prayer: Prayer) => prayer.name === name);
+      if (!p) return new Date();
       return parse(p.time, 'HH:mm', currentTime());
     }
 
     function updatePrayerProgress() {
-      const updatedPrayers = prayers().map(prayer => {
+      const updatedPrayers = (prayers() as Array<Prayer>).map((prayer: Prayer) => {
         // Create a new object for each prayer to avoid direct mutation
         const updatedPrayer = { ...prayer };
-        setCurrentPrayer(null);
 
         if (updatedPrayer.name === 'Subuh') {
           const subuhTime = getPrayerTime("Subuh");
           const syurukTime = getPrayerTime('Syuruk');
-          if (isBefore(currentTime, subuhTime)) {
+          if (isBefore(currentTime(), subuhTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             setLeadPrayer(updatedPrayer);
             const secs = differenceInSeconds(subuhTime, currentTime());
@@ -140,10 +135,9 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime, subuhTime) && isBefore(currentTime, syurukTime)) {
+          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
-            setCurrentPrayer(updatedPrayer);
             const secs = differenceInSeconds(subuhTime, currentTime());
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -154,7 +148,7 @@ export function createServicePrayerHook() {
           const syurukTime = getPrayerTime('Syuruk');
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
-          if (isAfter(currentTime, syurukTime) && isBefore(currentTime, zohorTime)) {
+          if (isAfter(currentTime(), syurukTime) && isBefore(currentTime(), zohorTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(zohorTime, currentTime());
             setSecsUntilNextPrayer(secs);
@@ -162,7 +156,7 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
+          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -173,7 +167,7 @@ export function createServicePrayerHook() {
           const zohorTime = getPrayerTime('Zohor');
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
-          if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
+          if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(asarTime, currentTime());
             setSecsUntilNextPrayer(secs);
@@ -181,7 +175,7 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
+          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -192,7 +186,7 @@ export function createServicePrayerHook() {
           const asarTime = getPrayerTime('Asar');
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
-          if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
+          if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(maghribTime, currentTime());
             setSecsUntilNextPrayer(secs);
@@ -200,7 +194,7 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
+          } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -210,7 +204,7 @@ export function createServicePrayerHook() {
         if (updatedPrayer.name === 'Isyak') {
           const maghribTime = getPrayerTime('Maghrib');
           const isyakTime = getPrayerTime('Isyak');
-          if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
+          if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime)) {
             updatedPrayer.mode = PrayerMode.IMMEDIATE_NEXT;
             const secs = differenceInSeconds(isyakTime, currentTime());
             setSecsUntilNextPrayer(secs);
@@ -218,7 +212,7 @@ export function createServicePrayerHook() {
             if (secs < 1800) { // display ADHAN when less 30 mins
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime, isyakTime)) {
+          } else if (isAfter(currentTime(), isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -238,8 +232,6 @@ export function createServicePrayerHook() {
     const value: ContextValueProps = {
       setScreen,
       screen,
-      timeWarp,
-      setTimeWarp,
       test,
       setTest,
       prayers,

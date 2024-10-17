@@ -1,4 +1,5 @@
 import { createSignal, createMemo, createEffect, onCleanup } from 'solid-js';
+import { Component } from 'solid-js/types';
 import styles from './Countdown.module.scss';
 
 const IQAMAH_INTERVAL_MINS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MINS || '12', 10);

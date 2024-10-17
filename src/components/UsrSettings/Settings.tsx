@@ -3,9 +3,6 @@ import styles from './Settings.module.scss';
 import TuneTimings from "./TuneTimings";
 
 interface SettingsProps {
-  timingConfig: { fajr: number; dhuhr: number; maghrib: number; isha: number };
-  setTimingConfig: (config: { fajr: number; dhuhr: number; maghrib: number; isha: number }) => void;
-  handleRefetch: () => void;
 }
 
 const Settings = (props: SettingsProps) => {
@@ -39,8 +36,7 @@ const Settings = (props: SettingsProps) => {
           <GeneralSettings />
         )}
         {activeTab() === "timings" && (
-          <TuneTimings timingConfig={props.timingConfig} setTimingConfig={props.setTimingConfig}
-            handleRefetch={props.toggleRefetch} />
+          <TuneTimings />
         )}
       </div>
     </div>

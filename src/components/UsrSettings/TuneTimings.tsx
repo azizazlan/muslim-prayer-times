@@ -2,6 +2,13 @@ import { Component, createSignal, createMemo, For } from 'solid-js';
 import { usePrayerService } from '../../context/usePrayerService';
 import styles from './TuneTimings.module.scss';
 
+interface TimingConfig {
+  fajr: number;
+  dhuhr: number;
+  maghrib: number;
+  isha: number;
+}
+
 interface TuneTimingsProps {
 }
 
@@ -12,9 +19,9 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
-    setTimingConfig((prevConfig) => ({
+    setTimingConfig((prevConfig: TimingConfig) => ({
       ...prevConfig,
-      [name]: parseFloat(value),
+      [name]: parseFloat(value), // Ensure this is always a number
     }));
   };
 

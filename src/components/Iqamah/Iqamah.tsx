@@ -1,7 +1,6 @@
 import { Component, createEffect, createSignal, onCleanup } from 'solid-js';
-import { Badge, Card } from 'solid-bootstrap';
 import styles from './Iqamah.module.scss';
-import { Countdown } from '../countdown';
+import Countdown from '../Countdown/Countdown';
 // 720000 MS = 12 mins
 const IQAMAH_INTERVAL_MS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS || '720000', 10);
 const IQAMAH_INTERVAL_MS_TEST = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS_TEST || '3000', 10);
@@ -10,7 +9,6 @@ const IS_DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
 const INTERVAL_MS = IS_DEV_MODE ? IQAMAH_INTERVAL_MS_TEST : IQAMAH_INTERVAL_MS;
 
 interface IqamahProps {
-  initialSeconds: number; // The initial countdown duration in seconds
 }
 
 const Iqamah: Component<IqamahProps> = () => {
@@ -34,7 +32,7 @@ const Iqamah: Component<IqamahProps> = () => {
       {timeLeft() === 0 ? <div class={styles.iqamahContainer}><div class={styles.safMessage}>
         LURUSKAN DAN RAPATKAN SAF
       </div></div> :
-        <div class={styles.iqamahContainer} style={{ textAlign: 'center' }}>
+        <div class={styles.iqamahContainer}>
           <div class={styles.iqamahMessage}>
             IQAMAH SEBENTAR LAGI
           </div>

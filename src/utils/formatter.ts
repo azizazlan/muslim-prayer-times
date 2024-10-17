@@ -49,7 +49,7 @@ const getPrettyFormattedDate = (date: Date) => {
 export { getPrettyFormattedDate };
 
 
-const getHijriMonthName = (month) => {
+const getHijriMonthName = (month: number) => {
   switch (month) {
     case 1:
       return "Muharam";

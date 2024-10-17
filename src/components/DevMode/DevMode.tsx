@@ -9,17 +9,8 @@ interface DevModeProps {
 }
 
 const DevMode = (props: DevModeProps) => {
-  const { setScreen, clear, timingConfig, setTimingConfig, test, setTest, timeWarp, setTimeWarp } = usePrayerService();
+  const { setScreen, clear, timingConfig, setTimingConfig, test, setTest } = usePrayerService();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const lastApiTimestamp = createMemo(() => props.lastApiTimestamp);
-
-  const toggleTimeWarp = () => {
-    console.log("toggleTimeWarp");
-    const tw = !timeWarp();
-    setTimeWarp(tw);
-  }
-
 
   return (
     <div class={styles.container}>
@@ -47,7 +38,6 @@ const DevMode = (props: DevModeProps) => {
         <button class={styles.testButton} onClick={() => setScreen(Screen.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => setTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
         <button class={styles.testButton} onClick={() => setTest(TestMode.DEACTIVATED)}>Cancel Test</button>
-        <button class={styles.testButton} onClick={() => toggleTimeWarp()}>Time Warp</button>
       </div>
     </div>
   );

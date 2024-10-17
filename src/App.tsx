@@ -6,20 +6,28 @@ import { usePrayerService } from './context/usePrayerService';
 
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
-import { getPrayerTime, secsUntilNextPrayer } from './utils/prayers';
 
 // Components
-import Sleep from './components/Sleep';
-import Adhan from './components/Adhan';
-import Iqamah from './components/Iqamah';
-import BottomStrip from './components/BottomStrip';
-import DefaultMainArea from './components/DefaultMainArea';
-import DevMode from './components/DevMode';
+import Adhan from './components/Adhan/Adhan';
+import Iqamah from './components/Iqamah/Iqamah';
+import BottomStrip from './components/BottomStrip/BottomStrip';
+import DefaultMainArea from './components/DefaultMainArea/DefaultMainArea';
+import DevMode from './components/DevMode/DevMode';
 import Settings from './components/UsrSettings/Settings';
-import PrayerTimes from './components/PrayerTimes';
+import PrayerTimes from './components/PrayerTimes/PrayerTimes';
 import { TestMode } from "./types/testMode";
 import { Screen } from './types/screen';
 import styles from './App.module.scss';
+
+export type Locale = 'en' | 'es' | 'fr'; // Example locales, adjust as needed
+
+export interface Dictionary {
+  [key: string]: string; // Example structure, adjust as needed
+}
+
+export interface RawDictionary {
+  [key: string]: string | { [key: string]: string }; // Adjust based on your actual structure
+}
 
 const LANGUAGE = import.meta.env.VITE_LANGUAGE;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
@@ -31,8 +39,9 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
   try {
     const module = await import(`./i18n/${locale}.ts`);
     if (module && module.dict) {
-      const dict: RawDictionary = module.dict;
-      return i18n.flatten(dict);
+      const dict: RawDictionary = module.dict; // Ensure dict is of type RawDictionary
+      const flattenedDict = i18n.flatten(dict) as Dictionary; // Cast to Dictionary if necessary
+      return flattenedDict;
     } else {
       console.error(`Dictionary for locale ${locale} is undefined or missing 'dict' export`);
       return {}; // Return an empty object as fallback
@@ -45,7 +54,7 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 
 const App: Component = () => {
 
-  const { screen, setScreen, setTimeWarp } = usePrayerService();
+  const { screen, setScreen } = usePrayerService();
   const memoizedScreen = createMemo(() => screen());
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
@@ -60,7 +69,7 @@ const App: Component = () => {
       toggleFullScreen();
       return;
     }
-    setScreen(prev => mode);
+    setScreen(mode);
   };
 
   const toggleFullScreen = () => {
@@ -99,7 +108,6 @@ const App: Component = () => {
       <div class={styles.topButtons}>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.ADHAN)}>Home</button>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.DEV)}>Dev</button>
-        <button class={styles.btnDev} onClick={() => setTimeWarp(tw => !tw)}>Time Warp</button>
         <div class={styles.version}>Ver 1.0.0</div>
       </div>
       <div class={styles.mainArea}>
