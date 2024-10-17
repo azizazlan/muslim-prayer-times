@@ -32,14 +32,27 @@ export function createServicePrayerHook() {
 
   const Context = createContext<ContextValueProps>();
 
+  // export type Settings = {
+  //   fajr?: number;
+  //   isha?: number | `${number} min`;
+  //   imsak?: `${number} min`;
+  //   dhuhr?: `${number} min`;
+  //   maghrib?: number | `${number} min`;
+  //   midnight?: Midnight;
+  //   highLats?: HighLats;
+  // };
+
   const [timingConfig, setTimingConfig] = createSignal({
     fajr: 17.7,
     dhuhr: 1.2,
     maghrib: 1.1,
     isha: 18.3,
+    midnight: 'Standard',
+    highLats: 'NightMiddle'
   });
+
   const [currentTime, setCurrentTime] = createSignal(new Date());
-  const [prayers, setPrayers] = createSignal<Array<Prayer>>([]); // Initialize as an empty array
+  const [prayers, setPrayers] = createSignal<Prayer[]>([]); // Initialize as an empty array
   const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
   const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
@@ -104,12 +117,12 @@ export function createServicePrayerHook() {
 
       setPrayers(
         [
-          { name: "Subuh", time: prayerTimes.fajr, mode: PrayerMode.INACTIVE },
-          { name: 'Syuruk', time: prayerTimes.sunrise, mode: PrayerMode.INACTIVE },
-          { name: 'Zohor', time: prayerTimes.dhuhr, mode: PrayerMode.INACTIVE },
-          { name: 'Asar', time: prayerTimes.asr, mode: PrayerMode.INACTIVE },
-          { name: 'Maghrib', time: prayerTimes.maghrib, mode: PrayerMode.INACTIVE },
-          { name: 'Isyak', time: prayerTimes.isha, mode: PrayerMode.INACTIVE }
+          { name: "Subuh", time: `${prayerTimes.fajr}`, mode: PrayerMode.INACTIVE },
+          { name: 'Syuruk', time: `${prayerTimes.sunrise}`, mode: PrayerMode.INACTIVE },
+          { name: 'Zohor', time: `${prayerTimes.dhuhr}`, mode: PrayerMode.INACTIVE },
+          { name: 'Asar', time: `${prayerTimes.asr}`, mode: PrayerMode.INACTIVE },
+          { name: 'Maghrib', time: `${prayerTimes.maghrib}`, mode: PrayerMode.INACTIVE },
+          { name: 'Isyak', time: `${prayerTimes.isha}`, mode: PrayerMode.INACTIVE }
         ]);
     }
 

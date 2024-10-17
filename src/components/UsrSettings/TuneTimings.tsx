@@ -7,6 +7,8 @@ interface TimingConfig {
   dhuhr: number;
   maghrib: number;
   isha: number;
+  midnight: string;
+  highLats: string;
 }
 
 interface TuneTimingsProps {
@@ -19,10 +21,15 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
-    setTimingConfig((prevConfig: TimingConfig) => ({
-      ...prevConfig,
-      [name]: parseFloat(value), // Ensure this is always a number
-    }));
+
+    // Ensure the name is a key of TimingConfig
+    setTimingConfig((prevConfig: TimingConfig) => {
+      const updatedConfig = { ...prevConfig as TimingConfig }; // Copy the previous config
+      const key = name as keyof TimingConfig;
+
+      updatedConfig[key] = parseFloat(value); // Ensure value is a number
+      return updatedConfig;
+    });
   };
 
   return (
@@ -53,6 +60,8 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
           <input class={styles.tuneInput} type="number" name="isha" value={memoTimingConfig().isha} onInput={handleChange} step="0.1" />
         </div>
       </div>
+      <input class={styles.tuneInput} name="midnight" value="Standard" onInput={handleChange} />
+      <input class={styles.tuneInput} name="highLats" value="NightMiddle" onInput={handleChange} />
       <div>
         <div class={styles.currentConfigs}>
           <div>Current Configuration</div>
