@@ -45,7 +45,7 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 
 const App: Component = () => {
 
-  const { screen, setScreen } = usePrayerService();
+  const { screen, setScreen, setTimeWarp } = usePrayerService();
   const memoizedScreen = createMemo(() => screen());
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
@@ -96,9 +96,11 @@ const App: Component = () => {
 
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
-      <div class={styles.topLeftButtons}>
+      <div class={styles.topButtons}>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.ADHAN)}>Home</button>
         <button class={styles.btnDev} onClick={() => toggleScreen(Screen.DEV)}>Dev</button>
+        <button class={styles.btnDev} onClick={() => setTimeWarp(tw => !tw)}>Time Warp</button>
+        <div class={styles.version}>Ver 1.0.0</div>
       </div>
       <div class={styles.mainArea}>
         {renderMainArea()}

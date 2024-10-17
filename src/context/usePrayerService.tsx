@@ -21,6 +21,8 @@ export function createServicePrayerHook() {
     setScreen: (screen: Screen) => void;
     test: Accessor<TestMode>;
     setTest: (testMode: TestMode) => void;
+    timeWarp: Accessor<boolean>;
+    setTimeWarp: (warp: boolean) => void;
     prayers: Accessor<Array<Prayer>>;
     leadPrayer: Accessor<Prayer | null>;
     currentTime: Accessor<Date>;
@@ -48,6 +50,13 @@ export function createServicePrayerHook() {
   const [startSwitchScreens, setStartSwitchScreens] = createSignal(false);
   const [switchingScreens, setSwitchingScreens] = createSignal(false);
 
+
+
+  const [timeWarp, setTimeWarp] = createSignal(false);
+  const [currentPrayer, setCurrentPrayer] = createSignal<Prayer | null>(null);
+  const [secsLapsCurrPrayer, setSecsLapsCurrPrayer] = createSignal(0);
+
+
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
@@ -56,7 +65,9 @@ export function createServicePrayerHook() {
     });
 
     createEffect(() => {
+
       const updateTimeInterval = setInterval(() => {
+
         if (test() === TestMode.TEST_SUBUH) {
           if (!isTestInProgress()) {
             setIsTestInProgress(true);
@@ -67,39 +78,20 @@ export function createServicePrayerHook() {
             if (subuhTime < currentTime()) {
               subuhTime = set(subuhTime, { date: subuhTime.getDate() + 1 });
             }
-            let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
-            nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 50);
+            let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS + 1);
+            nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
             setCurrentTime(nMinuteBeforeSubuh);
           }
         } else {
           setCurrentTime(new Date());
-          const minsBeforeNextPrayer = secsUntilNextPrayer() / 60;
-          if (minsBeforeNextPrayer > 30 && !switchingScreens() || !leadPrayer()) {
-            console.log('setSwitchingScreens(true)')
-            setSwitchingScreens(true);
-          }
-
-          if (minsBeforeNextPrayer < 30 && leadPrayer()) {
-            console.log('setSwitchingScreens(false)')
-            setSwitchingScreens(false);
-          }
         }
         setCurrentTime(prevTime => addSeconds(prevTime, 1));
         updatePrayerProgress();
       }, 1000);
 
-      // New function to toggle screens every minute
-      const toggleScreensInterval = setInterval(() => {
-        if (switchingScreens()) {
-          setScreen(prevScreen =>
-            prevScreen === Screen.DEFAULT ? Screen.PRAYER_TIMES : Screen.DEFAULT
-          );
-        }
-      }, 60000); // 60000 ms = 1 minute
-
       onCleanup(() => {
         clearInterval(updateTimeInterval);
-        clearInterval(toggleScreensInterval); // Clear the new interval
+        // clearInterval(toggleScreensInterval); // Clear the new interval
       });
     });
 
@@ -135,6 +127,7 @@ export function createServicePrayerHook() {
       const updatedPrayers = prayers().map(prayer => {
         // Create a new object for each prayer to avoid direct mutation
         const updatedPrayer = { ...prayer };
+        setCurrentPrayer(null);
 
         if (updatedPrayer.name === 'Subuh') {
           const subuhTime = getPrayerTime("Subuh");
@@ -144,10 +137,14 @@ export function createServicePrayerHook() {
             setLeadPrayer(updatedPrayer);
             const secs = differenceInSeconds(subuhTime, currentTime());
             setSecsUntilNextPrayer(secs);
-            setScreen(Screen.ADHAN);
+            if (secs < 1800) { // display ADHAN when less 30 mins
+              setScreen(Screen.ADHAN);
+            }
           } else if (isAfter(currentTime, subuhTime) && isBefore(currentTime, syurukTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setCurrentPrayer(updatedPrayer);
+            const secs = differenceInSeconds(subuhTime, currentTime());
           } else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
           }
@@ -162,6 +159,9 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(zohorTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
+            if (secs < 1800) { // display ADHAN when less 30 mins
+              setScreen(Screen.ADHAN);
+            }
           } else if (isAfter(currentTime, zohorTime) && isBefore(currentTime, asarTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -178,6 +178,9 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(asarTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
+            if (secs < 1800) { // display ADHAN when less 30 mins
+              setScreen(Screen.ADHAN);
+            }
           } else if (isAfter(currentTime, asarTime) && isBefore(currentTime, maghribTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -194,6 +197,9 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(maghribTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
+            if (secs < 1800) { // display ADHAN when less 30 mins
+              setScreen(Screen.ADHAN);
+            }
           } else if (isAfter(currentTime, maghribTime) && isBefore(currentTime, isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -209,6 +215,9 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(isyakTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
+            if (secs < 1800) { // display ADHAN when less 30 mins
+              setScreen(Screen.ADHAN);
+            }
           } else if (isAfter(currentTime, isyakTime)) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           } else {
@@ -229,6 +238,8 @@ export function createServicePrayerHook() {
     const value: ContextValueProps = {
       setScreen,
       screen,
+      timeWarp,
+      setTimeWarp,
       test,
       setTest,
       prayers,

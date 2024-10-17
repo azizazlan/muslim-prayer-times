@@ -9,11 +9,12 @@
 }
 
 .message {
-  padding-top: 9rem;
+  padding-top: 15rem;
   display: flex;
   align-items: center;
-  font-size: 3.0rem;
+  font-size: 4.0rem;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .countdown {
@@ -21,5 +22,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -5rem;
+  margin-top: -20rem;
 }

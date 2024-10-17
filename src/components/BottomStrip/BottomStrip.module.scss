@@ -63,9 +63,11 @@
 }
 
 .borderImageWrapper {
-  height: 135px;
+  height: 155px;
   display: flex;
   align-items: center;
+  opacity: 0.5;
+  margin: -1rem;
 }
 
 .borderImage {
@@ -74,7 +76,7 @@
 }
 
 .clock {
-  min-width: 75px;
+  width: 15%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,14 +84,14 @@
 }
 
 .clockTime {
-   font-size: 4.5rem;
+   font-size: 5.7rem;
    font-weight: bold;
    display: flex;
    flex-direction: row;
 }
 
 .clockDate {
-  font-size: 2.0rem;
+  font-size: 3.0rem;
   font-weight: bold;
  }
 
@@ -123,12 +125,8 @@ $medium: 1441px;
     height: 70px;
   }
 
-  .clock {
-    min-width: 135px;
-  }
-
   .clockTime {
-    font-size: 3.5rem;
+    font-size: 3.7rem;
  }
 
  .clockDate {

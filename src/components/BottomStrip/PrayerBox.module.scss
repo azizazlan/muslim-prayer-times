@@ -3,11 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Oswald', sans-serif;
-  padding: 0.5rem;
   color: #0984e3;
   font-size: 3.5rem;
-  font-weight: 400;
 }
 
 .container.active {
@@ -22,11 +19,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Oswald', sans-serif;
   padding: 0.5rem;
   color: #273c75;
   font-size: 3.5rem;
   font-weight: 500;
+}
+
+.name {
+  margin-bottom: -0.5rem;
 }
 
 .time {
