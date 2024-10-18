@@ -21,21 +21,21 @@ const PrayerTimes: Component<PrayerTimesProps> = (props) => {
       <div class={styles.rowContainer}>
         <div class={styles.prayerName}>{subuh.name}</div>
         <div class={styles.prayerTime}>{subuh.time}</div>
-        <div class={styles.decorationSun}></div>
+        <div class={styles.decorationSunrise}></div>
         <div class={styles.prayerName}>{syuruk.name}</div>
         <div class={styles.prayerTime}>{syuruk.time}</div>
       </div>
       <div class={styles.rowContainer}>
         <div class={styles.prayerName}>{zohor.name}</div>
         <div class={styles.prayerTime}>{zohor.time}</div>
-        <div class={styles.emptyDecoration}></div>
+        <div class={styles.decorationSun}></div>
         <div class={styles.prayerName}>{asar.name}</div>
         <div class={styles.prayerTime}>{asar.time}</div>
       </div>
       <div class={styles.rowContainer}>
         <div class={styles.prayerName}>{maghrib.name}</div>
         <div class={styles.prayerTime}>{maghrib.time}</div>
-        <div class={styles.decoration}></div>
+        <div class={styles.decorationMoon}></div>
         <div class={styles.prayerName}>{isyak.name}</div>
         <div class={styles.prayerTime}>{isyak.time}</div>
       </div>

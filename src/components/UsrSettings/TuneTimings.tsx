@@ -27,7 +27,10 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
       const updatedConfig = { ...prevConfig as TimingConfig }; // Copy the previous config
       const key = name as keyof TimingConfig;
 
-      updatedConfig[key] = parseFloat(value); // Ensure value is a number
+      const parsedValue = parseFloat(value.toString());
+      if (isNaN(parsedValue)) return updatedConfig; // Return early if value is not a number
+
+      updatedConfig[key] = parseFloat(parsedValue); // Ensure value is a number
       return updatedConfig;
     });
   };

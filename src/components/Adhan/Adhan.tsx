@@ -11,7 +11,7 @@ const Adhan: Component = () => {
   return (
     <div class={styles.container}>
       <div class={styles.message}>
-        ADHAN {leadPrayer()?.name.toUpperCase()} {secsUntilNextPrayer() < ADHAN_LEAD_MINS * 60 && secsUntilNextPrayer() > 0 ? 'SEBENTAR LAGI' : ''}
+        AZAN {leadPrayer()?.name.toUpperCase()} {secsUntilNextPrayer() < ADHAN_LEAD_MINS * 60 && secsUntilNextPrayer() > 0 ? 'SEBENTAR LAGI' : ''}
       </div>
       <div class={styles.countdown}>
         <Countdown secondsLeft={secsUntilNextPrayer()} />

@@ -6,10 +6,19 @@ enum PrayerMode {
   INACTIVE = 'INACTIVE', // For example Syuruk, Last third of the night and etc. Ignore when calculating adhan lead time
 }
 
+enum PrayerName {
+  SUBUH = 'Subuh',
+  SYURUK = 'Syuruk',
+  ZOHOR = 'Zohor',
+  ASAR = 'Asar',
+  MAGHRIB = 'Maghrib',
+  ISYAK = 'Isyak'
+}
+
 type Prayer = {
-  name: string;
+  name: PrayerName;
   time: string;
   mode: PrayerMode;
 }
 
-export { type Prayer, PrayerMode };
+export { type Prayer, PrayerName, PrayerMode };

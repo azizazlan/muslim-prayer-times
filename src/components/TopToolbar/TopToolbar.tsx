@@ -1,3 +1,4 @@
+import { Component } from 'solid-js/types'
 import { usePrayerService } from '../../context/usePrayerService';
 import { Screen } from '../../types/screen';
 import { TestMode } from '../../types/testMode';
