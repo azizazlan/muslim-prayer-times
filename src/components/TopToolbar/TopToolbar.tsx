@@ -15,8 +15,9 @@ const TopToolbar: Component = () => {
   return (
     <div class={styles.topButtons}>
       <button class={styles.btnDev} onClick={() => setScreen(Screen.DEFAULT)}>Home</button>
+      <button class={styles.btnDev} onClick={() => setScreen(Screen.SETTINGS)}>Settings</button>
       <button class={styles.btnDev} onClick={() => handleReload()}>Reload</button>
-      <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
+      <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
       <button class={styles.btnDev} onClick={() => setScreen(Screen.DEV)}>Dev</button>
       <div class={styles.version}>Ver 1.0.0</div>
     </div>

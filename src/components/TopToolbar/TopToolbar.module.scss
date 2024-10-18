@@ -3,23 +3,26 @@
   top: 10px;
   left: 10px;
   z-index: 10;
-  font-size: 1.1rem;
+  font-size: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   width: 98%;
+  color: gray;
 }
 
 
 .version {
+  margin-top: 0.07rem;
   margin-left: 0.2rem;
-  color: white;
+  text-transform: uppercase;
 }
 
 .btnDev {
-  font-size: 1.1rem;
-  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
   border: none;
   background: transparent;
   cursor: pointer;
+  color: rgb(77, 77, 77);
 }

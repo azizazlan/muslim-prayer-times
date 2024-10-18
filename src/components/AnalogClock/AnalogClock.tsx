@@ -56,11 +56,14 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
       <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7" font-weight="bold" fill="black">
         SURAU DE ROZELLE
       </text>
-      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
+      <text x="-1" y="41" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
         KOTA DAMANSARA
       </text>
-      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="5" font-weight="bold" fill="black">
-        PJ, SELANGOR
+      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="#e67e22">
+        LAT:{import.meta.env.VITE_LATITUDE} LONG:{import.meta.env.VITE_LONGITUDE}
+      </text>
+      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
+        SELANGOR
       </text>
     </g>
   </svg>
