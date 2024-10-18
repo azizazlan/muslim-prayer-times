@@ -6,6 +6,7 @@
   height: 100%;
   margin: 1rem;
   color: white;
+  font-family: 'Archivo Narrow', serif;
 }
 
 .iqamahContainer {
@@ -24,10 +25,10 @@
 }
 
 .message {
-  padding-top: 15rem;
+  padding-top: 5rem;
   display: flex;
   align-items: center;
-  font-size: 4.0rem;
+  font-size: 7.0rem;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -46,16 +47,16 @@
 }
 
 .iqamahMessage {
-  padding-top: 15rem;
+  padding-top: 5rem;
   display: flex;
   align-items: center;
-  font-size: 4.0rem;
+  font-size: 7.0rem;
   text-transform: uppercase;
   font-weight: bold;
 }
 
 .safMessage {
-  font-size: 5.0rem;
+  font-size: 7.0rem;
   margin-top: -5rem; 
   font-weight: bold;
 }

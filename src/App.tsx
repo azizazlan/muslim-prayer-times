@@ -1,4 +1,4 @@
-import { createEffect, createResource, createSignal, createMemo, onCleanup } from 'solid-js';
+import { createEffect, createResource, createSignal, createMemo, onCleanup, onMount } from 'solid-js';
 import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 
@@ -63,17 +63,17 @@ const App: Component = () => {
   const t = i18n.translator(dict);
 
 
-  const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch((e) => {
-        console.log(`Error attempting to enable full-screen mode: ${e.message}`);
-      });
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  };
+  // const toggleFullScreen = () => {
+  //   if (!document.fullscreenElement) {
+  //     document.documentElement.requestFullscreen().catch((e) => {
+  //       console.log(`Error attempting to enable full-screen mode: ${e.message}`);
+  //     });
+  //   } else {
+  //     if (document.exitFullscreen) {
+  //       document.exitFullscreen();
+  //     }
+  //   }
+  // };
 
   const renderMainArea = () => {
 

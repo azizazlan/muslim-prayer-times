@@ -34,7 +34,6 @@ const DevMode = (props: DevModeProps) => {
       </div>
       <div class={styles.testButtonsContainer}>
         <button class={styles.testButton} onClick={() => setScreen(Screen.SETTINGS)}>Settings</button>
-        <button class={styles.testButton} onClick={() => setScreen(Screen.FULLSCREEN)}>Fullscreen</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => setTest(TestMode.TEST_SUBUH)}>Test Subuh</button>
         <button class={styles.testButton} onClick={() => setTest(TestMode.DEACTIVATED)}>Cancel Test</button>

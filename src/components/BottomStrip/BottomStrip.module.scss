@@ -6,6 +6,7 @@
   background-color: white;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  min-height: 200px;
 }
 
 .topBorder {
@@ -55,11 +56,11 @@
 
 .prayerName {
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 .prayerTime {
-  font-size: 1em;
+  font-size: 1.5em;
 }
 
 .borderImageWrapper {
@@ -81,13 +82,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: 'Archivo Narrow', serif;
 }
 
 .clockTime {
-   font-size: 5.7rem;
+   font-size: 6rem;
    font-weight: bold;
    display: flex;
    flex-direction: row;
+   margin-bottom: -1rem;
+   margin-top: -1rem;
 }
 
 .clockDate {

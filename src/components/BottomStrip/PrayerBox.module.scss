@@ -5,13 +5,16 @@
   justify-content: center;
   color: #0984e3;
   font-size: 3.5rem;
+  font-family: 'Archivo Narrow', serif;
+  padding: 1rem;
 }
 
 .container.active {
   border-radius: 10px;
   background-color: #0984e3;
-  font-weight: 500;
+  font-weight: 700;
   color: #fff;
+  padding: 1rem;
 }
 
 .nextPrayerContainer {
@@ -22,11 +25,29 @@
   padding: 0.5rem;
   color: #273c75;
   font-size: 3.5rem;
-  font-weight: 500;
+  font-family: 'Archivo Narrow', serif;
+  font-weight: 700;
+  font-style: italic;
+  animation: heartbeatOpacity 5s ease-in-out infinite; /* Apply the heartbeat animation */
+}
+
+@keyframes heartbeatOpacity {
+  0%, 100% {
+    opacity: 0.9; /* Start and end at 0.5 opacity */
+  }
+  25% {
+    opacity: 0.3; /* Fade to 0.3 opacity */
+  }
+  50% {
+    opacity: 0.9; /* Fade to 0.7 opacity */
+  }
+  75% {
+    opacity: 0.4; /* Fade to 0.4 opacity */
+  }
 }
 
 .name {
-  margin-bottom: -0.5rem;
+  margin-bottom: -1.5rem;
 }
 
 .time {

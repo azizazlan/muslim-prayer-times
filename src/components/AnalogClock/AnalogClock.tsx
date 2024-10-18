@@ -20,7 +20,7 @@ type ClockFaceProps = {
 };
 
 export const ClockFace: Component<ClockFaceProps> = (props) => (
-  <svg viewBox="0 0 200 200" width="95vh">
+  <svg viewBox="0 0 200 200" width="70vh">
     <g transform="translate(100, 100)">
       {/* static */}
       <circle class="text-neutral-900" r="99" fill="white" stroke="currentColor" />

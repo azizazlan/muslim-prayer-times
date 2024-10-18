@@ -1,11 +1,20 @@
 .container {
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
-  padding: 1.5rem;
+  animation: fadeIn 1.1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Start fully transparent */
+  }
+  100% {
+    opacity: 1; /* End fully opaque */
+  }
 }
 
 .rowContainer {
@@ -14,20 +23,19 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-family: 'Oswald', sans-serif;
-  font-size: 7.5rem;
+  font-family: 'Archivo Narrow', serif;
+  font-size: 8.5rem;
 }
 
 .prayerName {
   min-width: 450px;
   padding-left: 2rem;
-  font-weight: 300;
-  text-transform: uppercase;
+  font-family: 'Archivo Narrow', serif;
 }
 
 .prayerTime {
-  min-width: 265px;
-  font-weight: 500;
+  min-width: 255px;
+  font-weight: 600;
   text-align: center;
 } 
 

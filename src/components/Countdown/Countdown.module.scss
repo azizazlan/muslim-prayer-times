@@ -30,25 +30,23 @@
 }
 
 .digits {
-  font-size: 17rem;
+  font-size: 21rem;
   font-weight: bold;
-  font-family: 'Montserrat', Arial, sans-serif;
+  font-family: 'Archivo Narrow', serif;
 }
 
 .label {
   width: 295px;
   height: 35px;
   margin-top: -1.5rem;
-  font-size: 1.7rem;
+  font-size: 5.7rem;
   font-weight: 500;
-  text-transform: uppercase;
   border-radius: 7px;
   //background-color: lightsteelblue;
-  //color: #0984e3;
   color: white;
+  opacity: 0.7;
   text-align: center;
   border-top: 1px solid white;
-  opacity: 1;
   padding-top: 1rem;
 }
 
