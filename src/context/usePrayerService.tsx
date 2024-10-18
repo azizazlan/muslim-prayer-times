@@ -32,16 +32,6 @@ export function createServicePrayerHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  // export type Settings = {
-  //   fajr?: number;
-  //   isha?: number | `${number} min`;
-  //   imsak?: `${number} min`;
-  //   dhuhr?: `${number} min`;
-  //   maghrib?: number | `${number} min`;
-  //   midnight?: Midnight;
-  //   highLats?: HighLats;
-  // };
-
   const [timingConfig, setTimingConfig] = createSignal({
     fajr: 17.7,
     dhuhr: 1.2,
@@ -60,9 +50,7 @@ export function createServicePrayerHook() {
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
   const [screen, setScreen] = createSignal(Screen.DEFAULT);
 
-
   const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
-
 
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
@@ -72,9 +60,17 @@ export function createServicePrayerHook() {
     });
 
     const switchComponent = () => {
-      if (screen() === Screen.ADHAN || screen() === Screen.IQAMAH) return;
+
+      const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
+      console.log(`currentPrayer.name: ${currentPrayer.name} timing ${currentPrayer.time}`);
+      const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
+      console.log(`secsAfterPrayer: ${secsAfterPrayer} ${secsAfterPrayer / 60} mins`);
+
+      // Do not switch if seconds after prayer time is still under 20 mins (1200 ms)
+      if ((screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < 1200) return;
+
       setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
-      console.log(currentIndex());
+      // console.log(currentIndex());
       if (currentIndex() == 0) {
         setScreen(Screen.HOURS_BEFORE_ADHAN);
       }
@@ -132,7 +128,6 @@ export function createServicePrayerHook() {
     });
 
     const [currentIndex, setCurrentIndex] = createSignal(0);
-
 
     const date = currentTime();
 

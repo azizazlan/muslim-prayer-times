@@ -23,7 +23,7 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
   <svg viewBox="0 0 200 200" width="70vh">
     <g transform="translate(100, 100)">
       {/* static */}
-      <circle class="text-neutral-900" r="99" fill="white" stroke="currentColor" />
+      <circle class="text-neutral-900" r="99" fill="#f6e58d" stroke="#f6e58d" />
       <Lines numberOfLines={60} class="subsecond" length={2} width={1} />
       <Lines numberOfLines={12} class="hour" length={5} width={2} />
 
@@ -49,9 +49,9 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
 
 
       {/* dynamic */}
-      <Hand rotate={props.hour} class="hour" length={50} width={4} />
-      <Hand rotate={props.minute} class="minute" length={70} width={3} />
-      <Hand rotate={props.second} class="second" length={80} width={2} />
+      <Hand rotate={props.hour} class="hour" length={50} width={7} />
+      <Hand rotate={props.minute} class="minute" length={87} width={5} />
+      <Hand rotate={props.second} class="second" length={87} width={2} />
 
       <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7" font-weight="bold" fill="black">
         SURAU DE ROZELLE

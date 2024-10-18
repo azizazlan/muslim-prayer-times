@@ -7,15 +7,17 @@
   color: black;
   font-size: 3.5rem;
   font-family: 'Archivo Narrow', serif;
+  font-weight: 700;
   padding: 1rem;
 }
 
 .container.active {
-  border-radius: 10px;
+  border-radius: 0px;
   // background-color: #0984e3;
-  background-color: #009432;
+  background-color: #badc58;
   font-weight: 700;
-  color: #fff;
+  // color: #fff;
+  color: black;
   padding: 1rem;
 }
 
@@ -50,11 +52,12 @@
 }
 
 .name {
+  font-size: 3.7rem;
   margin-bottom: -1.5rem;
 }
 
 .time {
-  font-size: 5.5rem;
+  font-size: 5.9rem;
   font-weight: 500;
 }
 

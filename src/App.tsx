@@ -63,7 +63,7 @@ const App: Component = () => {
   const t = i18n.translator(dict);
 
   const renderMainArea = () => {
-    console.log(screen());
+    // console.log(screen());
     switch (screen()) {
       case Screen.ADHAN:
         return <Adhan />;

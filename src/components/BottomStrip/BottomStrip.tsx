@@ -45,11 +45,11 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
                 <div class={styles.prayerBoxWrapper}>
                   <PrayerBox prayer={prayer} />
                 </div>
-                {index() < prayers().length - 1 && (
+                {/* {index() < prayers().length - 1 && (
                   <div class={styles.borderImageWrapper}>
                     <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
                   </div>
-                )}
+                )} */}
               </>
             )}
           </For>

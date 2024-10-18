@@ -10,17 +10,24 @@
   color: silver;
 }
 
-.hour,
-.minute {
+.hour
+{
   /* color: #273c75; */
   /* color: #009432; */
   color: black;
   z-index: 100;
 }
 
+.minute {
+  /* color: #273c75; */
+  /* color: #009432; */
+  color: #2f3640;
+  z-index: 100;
+}
+
 .second {
   /* color: #0984e3; */
-  color: black;
+  color: rgb(122, 122, 122);
   z-index: 100;
 }
 
