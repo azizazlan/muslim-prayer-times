@@ -61,11 +61,40 @@ export function createServicePrayerHook() {
   const [screen, setScreen] = createSignal(Screen.DEFAULT);
 
 
+  const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
+
+
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
     createEffect(() => {
       fetchPrayerTimes();
+    });
+
+    const switchComponent = () => {
+
+      console.log(`switching...${switchingDisplays()}`)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
+      console.log(currentIndex());
+      if (currentIndex() == 0) {
+        setScreen(Screen.ADHAN);
+      }
+      if (currentIndex() == 1) {
+        setScreen(Screen.DEFAULT);
+      }
+      if (currentIndex() == 2) {
+        setScreen(Screen.PRAYER_TIMES);
+      }
+    };
+
+    createEffect(() => {
+      if (!switchingDisplays()) return;
+      // Set up an interval to switch components every minute (60000 milliseconds)
+      const intervalId = setInterval(switchComponent, 7000);
+      onCleanup(() => {
+        clearInterval(intervalId);
+        // clearInterval(toggleScreensInterval); // Clear the new interval
+      });
     });
 
     createEffect(() => {
@@ -97,11 +126,22 @@ export function createServicePrayerHook() {
         updatePrayerProgress();
       }, 1000);
 
+      console.log(secsUntilNextPrayer())
+      if (secsUntilNextPrayer() > 3600) {
+        setSwitchingDisplays(true);
+      }
+
+      if (secsUntilNextPrayer() < 3600) {
+        setSwitchingDisplays(false);
+      }
+
       onCleanup(() => {
         clearInterval(updateTimeInterval);
-        // clearInterval(toggleScreensInterval); // Clear the new interval
       });
     });
+
+    const [currentIndex, setCurrentIndex] = createSignal(0);
+
 
     const date = currentTime();
 

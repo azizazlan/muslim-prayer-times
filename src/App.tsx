@@ -62,21 +62,7 @@ const App: Component = () => {
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
 
-
-  // const toggleFullScreen = () => {
-  //   if (!document.fullscreenElement) {
-  //     document.documentElement.requestFullscreen().catch((e) => {
-  //       console.log(`Error attempting to enable full-screen mode: ${e.message}`);
-  //     });
-  //   } else {
-  //     if (document.exitFullscreen) {
-  //       document.exitFullscreen();
-  //     }
-  //   }
-  // };
-
   const renderMainArea = () => {
-
     switch (memoizedScreen()) {
       case Screen.ADHAN:
         return <Adhan />;
@@ -91,7 +77,6 @@ const App: Component = () => {
       default:
         return <DefaultMainArea />;
     }
-
   };
 
   return (

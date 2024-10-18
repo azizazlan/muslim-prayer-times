@@ -7,7 +7,6 @@ import styles from './DefaultMainArea.module.scss';
 import { AnalogClock } from '../AnalogClock/AnalogClock'
 import { getHijriMonthName } from '../../utils/formatter';
 import caligraphy from '../../assets/images/white-clock-logo.png'
-import PrayerTimes from '../PrayerTimes/PrayerTimes';
 
 const DefaultDisplay = () => {
   const { currentTime } = usePrayerService();
@@ -41,24 +40,7 @@ const DefaultDisplay = () => {
 }
 
 const DefaultMainArea = () => {
-  const [showPrayerTimes, setShowPrayerTimes] = createSignal(false);
-
-  // Function to toggle the display
-  const toggleDisplay = () => {
-    setShowPrayerTimes((prev) => !prev);
-  };
-
-  // Set up an interval to switch components every minute (60000 milliseconds)
-  const intervalId = setInterval(toggleDisplay, 60000);
-
-  // Clean up the interval when the component is unmounted
-  onCleanup(() => clearInterval(intervalId));
-
-  return (
-    <>
-      {showPrayerTimes() ? <PrayerTimes /> : <DefaultDisplay />}
-    </>
-  );
+  return <DefaultDisplay />
 };
 
 export default DefaultMainArea; 
