@@ -90,7 +90,7 @@ export function createServicePrayerHook() {
 
     createEffect(() => {
       // Set up an interval to switch components every minute (60000 milliseconds)
-      const intervalId = setInterval(switchComponent, 15000);
+      const intervalId = setInterval(switchComponent, 30000);
       onCleanup(() => {
         clearInterval(intervalId);
         // clearInterval(toggleScreensInterval); // Clear the new interval
@@ -182,7 +182,7 @@ export function createServicePrayerHook() {
             setLeadPrayer(updatedPrayer);
             const secs = differenceInSeconds(subuhTime, currentTime());
             setSecsUntilNextPrayer(secs);
-            if (secs < 1800) { // display ADHAN when less 30 mins
+            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < 900) {
@@ -209,7 +209,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(zohorTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < 1800) { // display ADHAN when less 30 mins
+            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < 900) {
@@ -235,7 +235,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(asarTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < 1800) { // display ADHAN when less 30 mins
+            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < 900) {
@@ -261,7 +261,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(maghribTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < 1800) { // display ADHAN when less 30 mins
+            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < 900) {
@@ -287,7 +287,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(isyakTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < 1800) { // display ADHAN when less 30 mins
+            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < 900) {

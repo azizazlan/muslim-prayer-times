@@ -12,12 +12,15 @@
 
 .hour,
 .minute {
-  color: #273c75;
+  /* color: #273c75; */
+  /* color: #009432; */
+  color: black;
   z-index: 100;
 }
 
 .second {
-  color: #0984e3;
+  /* color: #0984e3; */
+  color: black;
   z-index: 100;
 }
 

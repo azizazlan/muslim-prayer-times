@@ -40,7 +40,7 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
             class="hour-label"
             font-size="17"
             font-weight="bold"
-            fill="#003366"
+            fill="black"
           >
             {index === 0 ? 12 : index} {/* Display 12 for 0 */}
           </text>
@@ -53,22 +53,13 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
       <Hand rotate={props.minute} class="minute" length={70} width={3} />
       <Hand rotate={props.second} class="second" length={80} width={2} />
 
-      {/* <image
-        class="clock-logo"
-        href="/src/assets/images/clock-logo.png" // Replace with the path to your PNG image
-        x="-45"
-        y="-60" // Position below the seconds hand
-        width="90" // Set the width of the image
-        height="50" // Set the height of the image
-        zIndex="-100"
-      /> */}
-      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7" font-weight="bold" fill="#003366">
+      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7" font-weight="bold" fill="black">
         SURAU DE ROZELLE
       </text>
-      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="#003366">
+      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
         KOTA DAMANSARA
       </text>
-      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="5" font-weight="bold" fill="#003366">
+      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="5" font-weight="bold" fill="black">
         PJ, SELANGOR
       </text>
     </g>
