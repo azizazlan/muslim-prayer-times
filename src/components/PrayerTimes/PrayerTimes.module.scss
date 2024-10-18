@@ -19,16 +19,17 @@
 
 .rowContainer {
   width: 100%;
+  min-height: 225px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   font-family: 'Archivo Narrow', serif;
-  font-size: 8.5rem;
+  font-size: 9.0rem;
 }
 
 .prayerName {
-  min-width: 450px;
+  min-width: 475px;
   padding-left: 2rem;
   font-family: 'Archivo Narrow', serif;
 }

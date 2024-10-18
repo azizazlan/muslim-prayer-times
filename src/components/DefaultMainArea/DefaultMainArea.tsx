@@ -24,15 +24,14 @@ const DefaultDisplay = () => {
         <AnalogClock />
       </div>
       <div class={styles.dateContainer}>
-        {/* <div class={styles.caligraphy}>
-          <img class={styles.caligraphyImg} src={caligraphy} />
-        </div> */}
-        {/* <div class={styles.mosqueName}>Surau <i>De Rozelle</i></div> */}
+        <div class={styles.gregorianDay}>
+          {format(memoizedCurrentTime(), 'EEEE', { locale: ms })}
+        </div>
         <div class={styles.gregorianDate}>
-          {format(memoizedCurrentTime(), 'EEEE dd, MMMM yyyy', { locale: ms })}
+          {format(memoizedCurrentTime(), 'dd, MMM yyyy', { locale: ms })}
         </div>
         <div class={styles.hijriDate}>
-          {format(memoizedCurrentTime(), 'EEEE', { locale: ms })} {hijri.hd}, {getHijriMonthName(hijri.hm)} {hijri.hy}H
+          {hijri.hd}, {getHijriMonthName(hijri.hm)} {hijri.hy}
         </div>
       </div>
     </div>

@@ -63,8 +63,11 @@ const App: Component = () => {
   const t = i18n.translator(dict);
 
   const renderMainArea = () => {
-    switch (memoizedScreen()) {
+    console.log(screen());
+    switch (screen()) {
       case Screen.ADHAN:
+        return <Adhan />;
+      case Screen.HOURS_BEFORE_ADHAN:
         return <Adhan />;
       case Screen.IQAMAH:
         return <Iqamah />;

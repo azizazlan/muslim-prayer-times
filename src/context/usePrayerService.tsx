@@ -72,25 +72,25 @@ export function createServicePrayerHook() {
     });
 
     const switchComponent = () => {
-
-      console.log(`switching...${switchingDisplays()}`)
+      if (screen() === Screen.ADHAN || screen() === Screen.IQAMAH) return;
       setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
       console.log(currentIndex());
       if (currentIndex() == 0) {
-        setScreen(Screen.ADHAN);
-      }
-      if (currentIndex() == 1) {
-        setScreen(Screen.DEFAULT);
+        setScreen(Screen.HOURS_BEFORE_ADHAN);
       }
       if (currentIndex() == 2) {
         setScreen(Screen.PRAYER_TIMES);
+        return;
+      }
+      if (currentIndex() == 1) {
+        setScreen(Screen.DEFAULT);
+        return;
       }
     };
 
     createEffect(() => {
-      if (!switchingDisplays()) return;
       // Set up an interval to switch components every minute (60000 milliseconds)
-      const intervalId = setInterval(switchComponent, 7000);
+      const intervalId = setInterval(switchComponent, 15000);
       onCleanup(() => {
         clearInterval(intervalId);
         // clearInterval(toggleScreensInterval); // Clear the new interval
@@ -125,15 +125,6 @@ export function createServicePrayerHook() {
         setCurrentTime(prevTime => addSeconds(prevTime, 1));
         updatePrayerProgress();
       }, 1000);
-
-      console.log(secsUntilNextPrayer())
-      if (secsUntilNextPrayer() > 3600) {
-        setSwitchingDisplays(true);
-      }
-
-      if (secsUntilNextPrayer() < 3600) {
-        setSwitchingDisplays(false);
-      }
 
       onCleanup(() => {
         clearInterval(updateTimeInterval);
@@ -199,7 +190,7 @@ export function createServicePrayerHook() {
             setScreen(Screen.IQAMAH);
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh > 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-            setScreen(Screen.DEFAULT);
+            // setScreen(Screen.DEFAULT);
           }
           else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -226,7 +217,6 @@ export function createServicePrayerHook() {
             setScreen(Screen.IQAMAH);
           } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor > 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-            setScreen(Screen.DEFAULT);
           }
           else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -253,7 +243,6 @@ export function createServicePrayerHook() {
             setScreen(Screen.IQAMAH);
           } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar > 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-            setScreen(Screen.DEFAULT);
           }
           else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -281,7 +270,6 @@ export function createServicePrayerHook() {
           }
           else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib > 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-            setScreen(Screen.DEFAULT);
           }
           else {
             updatedPrayer.mode = PrayerMode.INACTIVE;
@@ -308,7 +296,6 @@ export function createServicePrayerHook() {
           }
           else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak > 900) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
-            setScreen(Screen.DEFAULT);
           }
           else {
             updatedPrayer.mode = PrayerMode.INACTIVE;

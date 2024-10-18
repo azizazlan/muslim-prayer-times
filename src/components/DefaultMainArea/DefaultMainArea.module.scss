@@ -17,41 +17,25 @@
   }
 }
 
-.mosqueName {
-  font-size: 3.1rem;
-  border-bottom: 1px solid rgb(68, 164, 216);
-  margin-bottom: 1rem;
-}
-
 .dateContainer {
   display: flex;
   flex-direction: column;
    font-size: 5.0rem;
-   margin-left: 1.0rem;
+   margin-left: 3.0rem;
 }
 
 .hijriDate {
+  font-size: 7rem;
   font-weight: bold;
+}
+
+.gregorianDay {
+  font-size: 11.7rem;
+  font-weight: bold;
+  margin-bottom: -2.5rem;
 }
 
 .gregorianDate {
+  font-size: 7rem;
   font-weight: bold;
-}
-
-.memoCurrTime {
-  min-width: 777px;
-  padding: 1rem;
-  font-size: 3rem;
-  text-align: center;
-  font-family: monospace;
-  border: 3px solid red;
-}
-
-.caligraphy {
-  margin-left: -1rem;
-}
-
-.caligraphyImg {
-  width: 735px;
-  height: auto;
 }
