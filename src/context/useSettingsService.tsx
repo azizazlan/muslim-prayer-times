@@ -20,6 +20,8 @@ interface ProviderProps {
 export function createSettingsServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
+    enabledSlides: Accessor<boolean>;
+    setEnabledSlides: (enables: boolean) => void;
     calculationMethod: Accessor<string>;
     setCalculationMethod: (method: string) => void;
     mosqueName: Accessor<string>;
@@ -41,6 +43,7 @@ export function createSettingsServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
+  const [enabledSlides, setEnabledSlides] = createSignal<boolean>(true);
   const [calculationMethod, setCalculationMethod] = createSignal<string>("JAKIM");
   const [mosqueName, setMosqueName] = createSignal<string>(MOSQUE_NAME);
   const [locationName, setLocationName] = createSignal<string>("KOTA DAMANSARA, SELANGOR");
@@ -62,6 +65,8 @@ export function createSettingsServiceHook() {
     }
 
     const value: ContextValueProps = {
+      enabledSlides,
+      setEnabledSlides,
       calculationMethod,
       setCalculationMethod,
       mosqueName,

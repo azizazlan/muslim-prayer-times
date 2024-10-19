@@ -4,6 +4,8 @@ import styles from './GeneralSettings.module.scss'
 const GeneralSettings = () => {
 
   const {
+    enabledSlides,
+    setEnabledSlides,
     calculationMethod,
     setCalculationMethod,
     mosqueName,
@@ -104,17 +106,31 @@ const GeneralSettings = () => {
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
-          Selang masa tukar paparan
-        </label>
-        <input class={styles.formInput} type="number" name="slideIntervalMs" value={slideIntervalMs()} onInput={handleChange} />
-        <small class={styles.hint}>miliseconds sebelum tukar paparan seterusnya</small>
-      </div>
-      <div class={styles.field}>
-        <label class={styles.fieldLabel}>
           Selang masa sebelum Iqamah
         </label>
         <input class={styles.formInput} type="number" name="iqamahIntervalMs" value={iqamahIntervalMs()} onInput={handleChange} />
         <small class={styles.hint}>miliseconds (12 mins. 1 sec=1000 miliseconds) </small>
+      </div>
+      <div class={styles.field}>
+        <label class={styles.fieldLabel}>
+          Tukar paparan
+        </label>
+        <input
+          class={styles.formCheckboxInput}
+          type="checkbox"
+          name="enabledSlides"
+          checked={enabledSlides()}
+          onChange={(event) => {
+            setEnabledSlides(event.target.checked);
+          }}
+        />
+      </div>
+      <div class={styles.field}>
+        <label class={styles.fieldLabel}>
+          Selang masa tukar paparan
+        </label>
+        <input class={styles.formInput} type="number" name="slideIntervalMs" value={slideIntervalMs()} onInput={handleChange} />
+        <small class={styles.hint}>miliseconds sebelum tukar paparan seterusnya</small>
       </div>
     </div>
   );

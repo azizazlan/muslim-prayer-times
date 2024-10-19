@@ -78,11 +78,15 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .rowContainer {
-    font-size: 5rem;
+    font-size: 6.7rem;
+    min-height: 155px;
   }
 
   .prayerName {
-    min-width: 275px;
+    min-width: 355px;
     padding-left: 1rem;
   }
+  .prayerTime {
+    min-width: 175px;
+  } 
 }

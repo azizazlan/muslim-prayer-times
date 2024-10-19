@@ -6,8 +6,6 @@ import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
 
-const SWITCH_SLIDES = import.meta.env.VITE_SWITCH_SLIDES === 'true';
-
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
 }
@@ -53,7 +51,14 @@ export function createServicePrayerHook() {
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
-    const { calculationMethod, latitude, longitude, adhanLeadMins, slideIntervalMs } = useSettingsService();
+    const {
+      enabledSlides,
+      calculationMethod,
+      latitude,
+      longitude,
+      adhanLeadMins,
+      slideIntervalMs
+    } = useSettingsService();
 
     createEffect(() => {
       fetchPrayerTimes();
@@ -111,7 +116,7 @@ export function createServicePrayerHook() {
     };
 
     createEffect(() => {
-      if (!SWITCH_SLIDES) return;
+      if (!enabledSlides()) return;
       // Set up an interval to switch components every minute (60000 milliseconds)
       const intervalId = setInterval(switchComponent, slideIntervalMs());
       onCleanup(() => {
