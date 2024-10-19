@@ -1,4 +1,4 @@
-.tuneTimings {
+.container {
   margin: 1rem 1rem;
   color: white;
   font-size: 1.5rem;
@@ -6,6 +6,7 @@
   flex-direction: column;
   width: 100%; 
   justify-content: space-between;
+  font-family: monospace;
 }
 
 .tuneField {
@@ -15,7 +16,8 @@
 
 .tuneInput {
   font-size: 1.5rem;
-  max-width: 75px;
+  max-width: 195px;
+  font-family: monospace;
 }
 
 .tuneLabel {

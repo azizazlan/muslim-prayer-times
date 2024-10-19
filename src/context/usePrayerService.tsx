@@ -4,11 +4,10 @@ import { getByDay } from 'prayertiming';
 import { Prayer, PrayerMode, PrayerName } from '../types/prayer';
 import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
+import { useSettingsService } from "./useSettingsService";
 
-const LATITUDE = import.meta.env.VITE_LATITUDE;
-const LONGITUDE = import.meta.env.VITE_LONGITUDE;
-const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '13', 10);
 const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
+const SWITCH_SLIDES = import.meta.env.VITE_SWITCH_SLIDES === 'true';
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -55,6 +54,8 @@ export function createServicePrayerHook() {
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
+    const { latitude, longitude, adhanLeadMins, slideIntervalMs } = useSettingsService();
+
     createEffect(() => {
       fetchPrayerTimes();
     });
@@ -62,10 +63,26 @@ export function createServicePrayerHook() {
     const switchComponent = () => {
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
-      if (!currentPrayer) {
-        console.log("Abort switchComponent because currentPrayer is null");
+
+      if (!currentPrayer) { // SYURUK is when currentPrayer is null
+        console.log(`Syuruk when currentPrayer is null but leadPrayer is ${leadPrayer().name}`);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
+        // console.log(currentIndex());
+        if (currentIndex() == 0) {
+          setScreen(Screen.HOURS_BEFORE_ADHAN);
+          return;
+        }
+        if (currentIndex() == 1) {
+          setScreen(Screen.PRAYER_TIMES);
+          return;
+        }
+        if (currentIndex() == 2) {
+          setScreen(Screen.DEFAULT);
+          return;
+        }
         return;
       }
+
       console.log(`currentPrayer.name: ${currentPrayer.name} timing ${currentPrayer.time}`);
       const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
       console.log(`secsAfterPrayer: ${secsAfterPrayer} ${secsAfterPrayer / 60} mins`);
@@ -75,7 +92,7 @@ export function createServicePrayerHook() {
 
       setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
       // console.log(currentIndex());
-      if (currentIndex() == 0 && currentPrayer.name !== 'Isyak') {
+      if (currentIndex() == 0 && currentPrayer.name !== PrayerName.ISYAK && currentPrayer.name !== PrayerName.SUBUH) {
         setScreen(Screen.HOURS_BEFORE_ADHAN);
       }
       if (currentIndex() == 2) {
@@ -89,8 +106,9 @@ export function createServicePrayerHook() {
     };
 
     createEffect(() => {
+      if (!SWITCH_SLIDES) return;
       // Set up an interval to switch components every minute (60000 milliseconds)
-      const intervalId = setInterval(switchComponent, 30000);
+      const intervalId = setInterval(switchComponent, slideIntervalMs());
       onCleanup(() => {
         clearInterval(intervalId);
         // clearInterval(toggleScreensInterval); // Clear the new interval
@@ -104,6 +122,7 @@ export function createServicePrayerHook() {
         if (test() === TestMode.TEST_SUBUH) {
           if (!isTestInProgress()) {
             setIsTestInProgress(true);
+
             const subuhPrayer = prayers().find(prayer => prayer.name === PrayerName.SUBUH);
             if (!subuhPrayer) {
               console.log('subuhPrayer is null');
@@ -138,8 +157,8 @@ export function createServicePrayerHook() {
     function fetchPrayerTimes() {
       const prayerTimes = getByDay({
         date,
-        long: LONGITUDE,
-        lat: LATITUDE,
+        long: parseFloat(longitude()),
+        lat: parseFloat(latitude()),
         method: 'JAKIM',
         timeFormat: '24h',
         config: timingConfig()
@@ -181,7 +200,7 @@ export function createServicePrayerHook() {
             setLeadPrayer(updatedPrayer);
             const secs = differenceInSeconds(subuhTime, currentTime());
             setSecsUntilNextPrayer(secs);
-            if (secs < ADHAN_LEAD_MINS * 60) { // display ADHAN when less 15 mins
+            if (secs < adhanLeadMins() * 60) { // display ADHAN screen n secs before time
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < 900) {
@@ -207,7 +226,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(zohorTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < ADHAN_LEAD_MINS * 60) {
+            if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < 900) {
@@ -233,7 +252,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(asarTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < ADHAN_LEAD_MINS * 60) {
+            if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < 900) {
@@ -259,7 +278,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(maghribTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < ADHAN_LEAD_MINS * 60) {
+            if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < 900) {
@@ -285,7 +304,7 @@ export function createServicePrayerHook() {
             const secs = differenceInSeconds(isyakTime, currentTime());
             setSecsUntilNextPrayer(secs);
             setLeadPrayer(updatedPrayer);
-            if (secs < ADHAN_LEAD_MINS * 60) {
+            if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
           } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < 900) {

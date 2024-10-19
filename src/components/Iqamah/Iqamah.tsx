@@ -1,17 +1,17 @@
 import { Component, createEffect, createSignal, onCleanup } from 'solid-js';
 import styles from './Iqamah.module.scss';
 import Countdown from '../Countdown/Countdown';
+import { useSettingsService } from '../../context/useSettingsService';
 // 720000 MS = 12 mins
-const IQAMAH_INTERVAL_MS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS || '720000', 10);
 const IQAMAH_INTERVAL_MS_TEST = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS_TEST || '3000', 10);
 const IS_DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
-
-const INTERVAL_MS = IS_DEV_MODE ? IQAMAH_INTERVAL_MS_TEST : IQAMAH_INTERVAL_MS;
 
 interface IqamahProps {
 }
 
 const Iqamah: Component<IqamahProps> = () => {
+  const { iqamahIntervalMs } = useSettingsService();
+  const INTERVAL_MS = IS_DEV_MODE ? IQAMAH_INTERVAL_MS_TEST : iqamahIntervalMs();
   const [timeLeft, setTimeLeft] = createSignal(INTERVAL_MS / 1000);
 
   // Start the countdown immediately when the component mounts

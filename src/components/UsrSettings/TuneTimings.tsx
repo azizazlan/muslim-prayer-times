@@ -36,7 +36,7 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
   };
 
   return (
-    <div class={styles.tuneTimings}>
+    <div class={styles.container}>
       <div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>

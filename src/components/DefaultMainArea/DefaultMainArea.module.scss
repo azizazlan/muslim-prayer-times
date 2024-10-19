@@ -40,3 +40,31 @@
   font-size: 7rem;
   font-weight: bold;
 }
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .dateContainer {
+    display: flex;
+    flex-direction: column;
+     font-size: 5.0rem;
+     margin-left: -3rem !important;
+  }
+  
+  .hijriDate {
+    font-size: 5rem;
+    font-weight: bold;
+  }
+  
+  .gregorianDay {
+    color: white;
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: -1.5rem;
+  }
+  
+  .gregorianDate {
+    font-size: 5rem;
+    font-weight: bold;
+  }
+}

@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import styles from './Settings.module.scss';
+import GeneralSettings from "./GeneralSettings";
 import TuneTimings from "./TuneTimings";
 
 interface SettingsProps {
@@ -39,15 +40,6 @@ const Settings = (props: SettingsProps) => {
           <TuneTimings />
         )}
       </div>
-    </div>
-  );
-};
-
-// Placeholder for General Settings
-const GeneralSettings = () => {
-  return (
-    <div>
-      <p>Configure general application settings here.</p>
     </div>
   );
 };

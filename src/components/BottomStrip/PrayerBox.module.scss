@@ -64,12 +64,17 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .container {
-    font-size: 2.0rem;
+    font-size: 1.0rem !important;
   }
 
   .nextPrayerContainer {
-    font-size: 2.0rem;
+    font-size: 1.0rem;
     font-weight: 500;
+  }
+
+  .name {
+    font-size: 2.5rem;
+    margin-bottom: -0.5rem;
   }
 
   .time {

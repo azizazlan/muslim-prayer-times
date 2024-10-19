@@ -1,0 +1,30 @@
+.container {
+ margin-top: 1rem;
+ font-size: 1.5rem;
+ font-family: monospace;
+}
+
+.field {
+  display: flex;
+  margin-bottom: 0.15rem; 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.formInput {
+  font-family: monospace;
+  font-size: 1.5rem;
+  width: 375px;
+  text-align: right;
+}
+
+.fieldLabel {
+  min-width: 375px;
+  margin-right: 1rem;
+  color: white; 
+}
+
+.hint {
+  margin-left: 1rem;
+}

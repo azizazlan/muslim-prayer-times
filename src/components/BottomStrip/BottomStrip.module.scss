@@ -26,12 +26,6 @@
   width: 100%;
 }
 
-.testModeIndicator {
-  font-size: 0.8em;
-  color: #ff0000;
-  margin-left: 10px;
-}
-
 .horizontalContainer {
   display: flex;
   flex-grow: 1;
@@ -52,15 +46,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.prayerName {
-  font-weight: bold;
-  font-size: 1em;
-}
-
-.prayerTime {
-  font-size: 1.5em;
 }
 
 .borderImageWrapper {
@@ -127,6 +112,10 @@
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
+  .container {
+      min-height: 100px;;
+  }
+
   .borderImageWrapper {
     height: 70px;
   }

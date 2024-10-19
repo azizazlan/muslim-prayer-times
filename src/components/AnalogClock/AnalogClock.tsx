@@ -4,6 +4,7 @@ import { Lines } from './Lines';
 import { createAnimationLoop } from './utils';
 import type { Component } from 'solid-js';
 import './styles.css'
+import { useSettingsService } from '../../context/useSettingsService';
 
 const getSecondsSinceMidnight = (): number => (Date.now() - new Date().setHours(0, 0, 0, 0)) / 1000;
 
@@ -17,6 +18,9 @@ type ClockFaceProps = {
   minute: string;
   second: string;
   subsecond: string;
+  latitude: string;
+  mosqueName: string;
+  locationName: string;
 };
 
 export const ClockFace: Component<ClockFaceProps> = (props) => (
@@ -53,23 +57,24 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
       <Hand rotate={props.minute} class="minute" length={89} width={5} />
       <Hand rotate={props.second} class="second" length={90} width={2} />
 
-      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7" font-weight="bold" fill="black">
-        SURAU DE ROZELLE
+      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7.5" font-weight="bold" fill="black">
+        {props.mosqueName}
+      </text>
+      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7.5" font-weight="bold" fill="none" stroke="#ecf0f1" stroke-width="0.5">
+        {props.mosqueName}
       </text>
       <text x="-1" y="41" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
-        KOTA DAMANSARA
+        {props.locationName}
       </text>
-      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="#e67e22">
-        LAT:{import.meta.env.VITE_LATITUDE} LONG:{import.meta.env.VITE_LONGITUDE}
-      </text>
-      <text x="-1" y="55" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">
-        SELANGOR
+      <text x="-1" y="48" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="#f1c40f">
+        LAT:{props.latitude} LONG:{import.meta.env.VITE_LONGITUDE}
       </text>
     </g>
   </svg>
 );
 
 export const AnalogClock: Component = () => {
+  const { latitude, mosqueName, locationName } = useSettingsService();
   const [time, setTime] = createSignal<number>(getSecondsSinceMidnight());
   const dispose = createAnimationLoop(() => {
     setTime(getSecondsSinceMidnight());
@@ -85,7 +90,14 @@ export const AnalogClock: Component = () => {
 
   return (
     <div class="clock">
-      <ClockFace hour={hour()} minute={minute()} second={second()} subsecond={subsecond()} />
+      <ClockFace
+        mosqueName={mosqueName}
+        locationName={locationName}
+        latitude={latitude}
+        hour={hour()}
+        minute={minute()}
+        second={second()}
+        subsecond={subsecond()} />
     </div>
   );
 };
