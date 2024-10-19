@@ -2,6 +2,7 @@
 import { render } from 'solid-js/web';
 import { PrayerServiceProvider } from './context/usePrayerService';
 import { SettingsServiceProvider } from './context/useSettingsService';
+import { ThemeServiceProvider } from './context/useThemeService';
 
 import './index.css';
 import App from './App';
@@ -17,7 +18,9 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 render(() => (
   <SettingsServiceProvider>
     <PrayerServiceProvider>
-      <App />
+      <ThemeServiceProvider>
+        <App />
+      </ThemeServiceProvider>
     </PrayerServiceProvider>
   </SettingsServiceProvider>
 ), root!);

@@ -2,16 +2,17 @@ import { createSignal } from "solid-js";
 import styles from './Settings.module.scss';
 import GeneralSettings from "./GeneralSettings";
 import TuneTimings from "./TuneTimings";
+import ColorThemeSettings from "./ColorThemeSettings";
 
 interface SettingsProps {
 }
 
 const Settings = (props: SettingsProps) => {
   // Signal to track the active tab
-  const [activeTab, setActiveTab] = createSignal<"general" | "timings">("general");
+  const [activeTab, setActiveTab] = createSignal<"general" | "timings" | "colortheme">("general");
 
   // Helper function to switch tabs
-  const handleTabClick = (tab: "general" | "timings") => {
+  const handleTabClick = (tab: "general" | "timings" | "colortheme") => {
     setActiveTab(tab);
   };
 
@@ -30,6 +31,12 @@ const Settings = (props: SettingsProps) => {
         >
           Tune Timings
         </div>
+        <div
+          onClick={() => handleTabClick("colortheme")}
+          class={activeTab() === 'colortheme' ? styles.activeTabTitle : styles.tabTitle}
+        >
+          Color themes
+        </div>
       </div>
 
       <div class={styles.tabContents}>
@@ -38,6 +45,9 @@ const Settings = (props: SettingsProps) => {
         )}
         {activeTab() === "timings" && (
           <TuneTimings />
+        )}
+        {activeTab() === "colortheme" && (
+          <ColorThemeSettings />
         )}
       </div>
     </div>
