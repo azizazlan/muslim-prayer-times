@@ -88,24 +88,21 @@
 
  .blinkingSeparator {
   margin-top: -0.3rem;
-  animation: heartbeatOpacity 1.3s infinite;
+  animation: heartbeatOpacity 1.9s ease-in-out infinite; 
 }
 
 @keyframes heartbeatOpacity {
   0%, 100% {
-    opacity: 1; // Fully visible
+    opacity: 1; /* Start and end at 0.5 opacity */
   }
-  20% {
-    opacity: 0.7; // Fade to 70% opacity
+  25% {
+    opacity: 0.1; /* Fade to 0.3 opacity */
   }
-  40% {
-    opacity: 0.3; // Fade to 30% opacity
+  50% {
+    opacity: 0.9; /* Fade to 0.7 opacity */
   }
-  60% {
-    opacity: 0.5; // Fade back to 50% opacity
-  }
-  80% {
-    opacity: 0.9; // Fade back to 90% opacity
+  75% {
+    opacity: 0.2; /* Fade to 0.4 opacity */
   }
 }
 
