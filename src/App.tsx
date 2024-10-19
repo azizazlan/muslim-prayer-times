@@ -31,10 +31,6 @@ export interface RawDictionary {
 }
 
 const LANGUAGE = import.meta.env.VITE_LANGUAGE;
-const LATITUDE = import.meta.env.VITE_LATITUDE;
-const LONGITUDE = import.meta.env.VITE_LONGITUDE;
-const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '13', 10);
-const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
 
 async function fetchDictionary(locale: Locale): Promise<Dictionary> {
   try {

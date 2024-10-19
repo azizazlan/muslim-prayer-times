@@ -4,6 +4,8 @@ import styles from './GeneralSettings.module.scss'
 const GeneralSettings = () => {
 
   const {
+    calculationMethod,
+    setCalculationMethod,
     mosqueName,
     setMosqueName,
     locationName,
@@ -23,6 +25,9 @@ const GeneralSettings = () => {
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
     console.log(`name ${typeof name} ${name}`)
+    if (name === 'calculationMethod') {
+      setCalculationMethod(value);
+    }
     if (name === 'mosqueName') {
       setMosqueName(value);
     }
@@ -62,6 +67,24 @@ const GeneralSettings = () => {
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
+          Kaedah pengiraan masa solat
+        </label>
+        {/* <input class={styles.formInput} name="calculationMethod" value={calculationMethod()} onInput={handleChange} /> */}
+        {/* <small class={styles.hint}>JAKIM | Egypt | ISNA | Jafari | Makkah | MF | MWL | Tehran</small> */}
+        <select class={styles.formSelectInput} name="calculationMethod" value={calculationMethod()} onInput={handleChange}>
+          <option value="JAKIM">JAKIM</option>
+          <option value="Egypt">Egypt</option>
+          <option value="ISNA">ISNA</option>
+          <option value="Jafari">Jafari</option>
+          <option value="Karachi">Karachi</option>
+          <option value="Makkah">Makkah</option>
+          <option value="MF">MF</option>
+          <option value="MWL">MWL</option>
+          <option value="Tehran">Tehran</option>
+        </select>
+      </div>
+      <div class={styles.field}>
+        <label class={styles.fieldLabel}>
           Latitude
         </label>
         <input class={styles.formInput} name="latitude" value={latitude()} onInput={handleChange} />
@@ -77,21 +100,21 @@ const GeneralSettings = () => {
           Papar Skrin Countdown Azan
         </label>
         <input class={styles.formInput} type="number" name="adhanLeadMins" value={adhanLeadMins()} onInput={handleChange} />
-        <small class={styles.hint}>Minit sebelum waktu solat</small>
+        <small class={styles.hint}>minit sebelum waktu solat</small>
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
           Selang masa tukar paparan
         </label>
         <input class={styles.formInput} type="number" name="slideIntervalMs" value={slideIntervalMs()} onInput={handleChange} />
-        <small class={styles.hint}>Miliseconds sebelum tukar paparan seterusnya</small>
+        <small class={styles.hint}>miliseconds sebelum tukar paparan seterusnya</small>
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
           Selang masa sebelum Iqamah
         </label>
         <input class={styles.formInput} type="number" name="iqamahIntervalMs" value={iqamahIntervalMs()} onInput={handleChange} />
-        <small class={styles.hint}>Miliseconds (12 mins. 1 sec=1000 miliseconds) </small>
+        <small class={styles.hint}>miliseconds (12 mins. 1 sec=1000 miliseconds) </small>
       </div>
     </div>
   );

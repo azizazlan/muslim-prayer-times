@@ -4,7 +4,6 @@
   font-size: 1.5rem;
   display: flex;
   flex-direction: column;
-  width: 100%; 
   justify-content: space-between;
   font-family: monospace;
 }
@@ -21,7 +20,7 @@
 }
 
 .tuneLabel {
-  min-width: 175px;
+  min-width: 275px;
   margin-right: 1rem;
   color: white; 
 }

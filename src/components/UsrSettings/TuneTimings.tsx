@@ -40,34 +40,34 @@ const TuneTimings: Component<TuneTimingsProps> = (props) => {
       <div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Subuh
+            Subuh (fajr)
           </label>
           <input class={styles.tuneInput} type="number" name="fajr" value={memoTimingConfig().fajr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Zohor
+            Zohor (dhuhr)
           </label>
           <input class={styles.tuneInput} type="number" name="dhuhr" value={memoTimingConfig().dhuhr} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Maghrib
+            Maghrib (maghrib)
           </label>
           <input class={styles.tuneInput} type="number" name="maghrib" value={memoTimingConfig().maghrib} onInput={handleChange} step="0.1" />
         </div>
         <div class={styles.tuneField}>
           <label class={styles.tuneLabel}>
-            Isyak
+            Isyak (isha)
           </label>
           <input class={styles.tuneInput} type="number" name="isha" value={memoTimingConfig().isha} onInput={handleChange} step="0.1" />
         </div>
       </div>
-      <input class={styles.tuneInput} name="midnight" value="Standard" onInput={handleChange} />
-      <input class={styles.tuneInput} name="highLats" value="NightMiddle" onInput={handleChange} />
+      <input hidden class={styles.tuneInput} name="midnight" value="Standard" onInput={handleChange} />
+      <input hidden class={styles.tuneInput} name="highLats" value="NightMiddle" onInput={handleChange} />
       <div>
         <div class={styles.currentConfigs}>
-          <div>Current Configuration</div>
+          <h5>Current Configuration</h5>
           <pre>{JSON.stringify(timingConfig(), null, 2)}</pre>
         </div>
       </div>

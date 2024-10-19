@@ -28,7 +28,7 @@ const Settings = (props: SettingsProps) => {
           onClick={() => handleTabClick("timings")}
           class={activeTab() === 'timings' ? styles.activeTabTitle : styles.tabTitle}
         >
-          Timings
+          Tune Timings
         </div>
       </div>
 

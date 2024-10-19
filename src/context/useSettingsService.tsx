@@ -9,7 +9,6 @@ const MOSQUE_NAME = import.meta.env.VITE_MOSQUE_NAME;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
 const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '15', 10);
-const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
 const SWITCH_SLIDES = import.meta.env.VITE_SWITCH_SLIDES === 'true';
 const SWITCH_SLIDES_INTERVAL_MS = parseInt(import.meta.env.VITE_SWITCH_SLIDES_INTERVAL_MS || '30000', 10); // Default 30 secs
 const IQAMAH_INTERVAL_MS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS || '720000', 10);
@@ -21,6 +20,8 @@ interface ProviderProps {
 export function createSettingsServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
+    calculationMethod: Accessor<string>;
+    setCalculationMethod: (method: string) => void;
     mosqueName: Accessor<string>;
     setMosqueName: (name: string) => void;
     locationName: Accessor<string>;
@@ -40,6 +41,7 @@ export function createSettingsServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
+  const [calculationMethod, setCalculationMethod] = createSignal<string>("JAKIM");
   const [mosqueName, setMosqueName] = createSignal<string>(MOSQUE_NAME);
   const [locationName, setLocationName] = createSignal<string>("KOTA DAMANSARA, SELANGOR");
   const [latitude, setLatitude] = createSignal<string>(LATITUDE);
@@ -60,6 +62,8 @@ export function createSettingsServiceHook() {
     }
 
     const value: ContextValueProps = {
+      calculationMethod,
+      setCalculationMethod,
       mosqueName,
       setMosqueName,
       locationName,

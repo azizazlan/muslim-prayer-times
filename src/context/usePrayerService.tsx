@@ -6,7 +6,6 @@ import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
 
-const ADHAN_LEAD_MINS_TEST = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS_TEST || '1', 10);
 const SWITCH_SLIDES = import.meta.env.VITE_SWITCH_SLIDES === 'true';
 
 interface ProviderProps {
@@ -54,13 +53,19 @@ export function createServicePrayerHook() {
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
-    const { latitude, longitude, adhanLeadMins, slideIntervalMs } = useSettingsService();
+    const { calculationMethod, latitude, longitude, adhanLeadMins, slideIntervalMs } = useSettingsService();
 
     createEffect(() => {
       fetchPrayerTimes();
     });
 
     const switchComponent = () => {
+      console.log(`switchComponent interval ${slideIntervalMs()} ms`);
+
+      if (screen() === Screen.SETTINGS || screen() === Screen.DEV) {
+        console.log("switchComponent - Abort - because user is viewing Settings or Dev screen");
+        return;
+      }
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
 
@@ -134,7 +139,7 @@ export function createServicePrayerHook() {
             if (subuhTime < currentTime()) {
               subuhTime = set(subuhTime, { date: subuhTime.getDate() + 1 });
             }
-            let nMinuteBeforeSubuh = subMinutes(subuhTime, ADHAN_LEAD_MINS_TEST);
+            let nMinuteBeforeSubuh = subMinutes(subuhTime, 1);
             nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
             setCurrentTime(nMinuteBeforeSubuh);
           }
@@ -159,7 +164,7 @@ export function createServicePrayerHook() {
         date,
         long: parseFloat(longitude()),
         lat: parseFloat(latitude()),
-        method: 'JAKIM',
+        method: calculationMethod(),
         timeFormat: '24h',
         config: timingConfig()
       });
@@ -351,7 +356,7 @@ export function createServicePrayerHook() {
   function useServicePrayerContext() {
     const ctx = useContext(Context);
     if (!ctx) {
-      throw new Error("useRESTApi must be used within a RestAPIProvider");
+      throw new Error("useServicePrayerContext must be used within a PrayerServiceProvider");
     }
     return ctx;
   }
