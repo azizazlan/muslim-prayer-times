@@ -57,7 +57,7 @@
 
 .time {
   font-size: 5.9rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 $small: 1440px;
@@ -69,6 +69,7 @@ $medium: 1441px;
 
   .nextPrayerContainer {
     font-size: 1.0rem;
+    font-weight: 700 !important;
     font-weight: 500;
   }
 
@@ -78,6 +79,7 @@ $medium: 1441px;
   }
 
   .time {
-    font-size: 2.5rem !important;
+    font-size: 3.1rem !important;
+    font-weight: 700 !important;
   }
 }
