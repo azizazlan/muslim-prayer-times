@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 1rem;
+  font-family: 'Archivo Narrow', serif;
+}
+
+.bismillahText {
+  font-size: 3rem; 
+  opacity: 0.7;
+}
+
+.arabicText {
+  margin-top: 1rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  font-size: 3.5rem;
+  text-align: right;
+}
+
+.enTranslationText {
+  margin-top: 1rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  font-size: 2.5rem;
+}
+
+.verseInfo {
+  margin-top: 1rem;
+  font-size: 2.5rem;;
+}
+
+.translatorInfo {
+  margin-top: 1rem;
+  font-size: 1.0rem;; 
+}

@@ -6,6 +6,7 @@ import { ThemeServiceProvider } from './context/useThemeService';
 
 import './index.scss';
 import App from './App';
+import { DailyVerseServiceProvider } from './context/useDailyVerseService';
 
 const root = document.getElementById('root');
 
@@ -17,10 +18,12 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 
 render(() => (
   <SettingsServiceProvider>
-    <PrayerServiceProvider>
-      <ThemeServiceProvider>
-        <App />
-      </ThemeServiceProvider>
-    </PrayerServiceProvider>
+    <DailyVerseServiceProvider>
+      <PrayerServiceProvider>
+        <ThemeServiceProvider>
+          <App />
+        </ThemeServiceProvider>
+      </PrayerServiceProvider>
+    </DailyVerseServiceProvider>
   </SettingsServiceProvider>
 ), root!);

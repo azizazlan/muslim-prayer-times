@@ -5,6 +5,7 @@ import { Prayer, PrayerMode, PrayerName } from '../types/prayer';
 import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
+import { useDailyVerseService } from "./useDailyVerseService";
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -60,6 +61,8 @@ export function createServicePrayerHook() {
       slideIntervalMs
     } = useSettingsService();
 
+    const { internetOk } = useDailyVerseService();
+
     createEffect(() => {
       fetchPrayerTimes();
     });
@@ -74,21 +77,27 @@ export function createServicePrayerHook() {
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
 
+      const noOfSlides = internetOk() ? 4 : 3;
+      const availableScreens = internetOk()
+        ? [
+          Screen.HOURS_BEFORE_ADHAN,
+          Screen.PRAYER_TIMES,
+          Screen.DEFAULT,
+          Screen.DAILY_VERSE,
+        ]
+        : [
+          Screen.HOURS_BEFORE_ADHAN,
+          Screen.PRAYER_TIMES,
+          Screen.DEFAULT,
+        ];
+
       if (!currentPrayer) { // SYURUK is when currentPrayer is null
         console.log(`Syuruk when currentPrayer is null but leadPrayer is ${leadPrayer().name}`);
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
-        // console.log(currentIndex());
-        if (currentIndex() == 0) {
-          setScreen(Screen.HOURS_BEFORE_ADHAN);
-          return;
-        }
-        if (currentIndex() == 1) {
-          setScreen(Screen.PRAYER_TIMES);
-          return;
-        }
-        if (currentIndex() == 2) {
-          setScreen(Screen.DEFAULT);
-          return;
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+
+        const index = currentIndex();
+        if (index < availableScreens.length) {
+          setScreen(availableScreens[index]);
         }
         return;
       }
@@ -97,22 +106,29 @@ export function createServicePrayerHook() {
       const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
       console.log(`secsAfterPrayer: ${secsAfterPrayer} ${secsAfterPrayer / 60} mins`);
 
-      // Do not switch if seconds after prayer time is still under 20 mins (1200 ms)
       if ((screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < 1200) return;
 
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cycle through the components
-      // console.log(currentIndex());
-      if (currentIndex() == 0 && currentPrayer.name !== PrayerName.ISYAK && currentPrayer.name !== PrayerName.SUBUH) {
-        setScreen(Screen.HOURS_BEFORE_ADHAN);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+
+      // Define screens based on currentIndex
+      const screens = [
+        Screen.HOURS_BEFORE_ADHAN,
+        Screen.DEFAULT,
+        Screen.PRAYER_TIMES,
+        Screen.DAILY_VERSE,
+      ];
+
+      // Check if currentIndex is valid and set the screen accordingly
+      const index = currentIndex();
+      if (index < screens.length) {
+        // Special condition for ISYAK and SUBUH
+        if (index === 0 && currentPrayer.name !== PrayerName.ISYAK && currentPrayer.name !== PrayerName.SUBUH) {
+          setScreen(screens[index]);
+        } else {
+          setScreen(screens[index]);
+        }
       }
-      if (currentIndex() == 2) {
-        setScreen(Screen.PRAYER_TIMES);
-        return;
-      }
-      if (currentIndex() == 1) {
-        setScreen(Screen.DEFAULT);
-        return;
-      }
+
     };
 
     createEffect(() => {

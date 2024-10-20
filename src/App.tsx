@@ -9,6 +9,7 @@ import getWindowDimensions from './utils/getWindowDimensions';
 
 // Components
 import TopToolbar from './components/TopToolbar/TopToolbar';
+import DailyVerse from './components/DailyVerse/DailyVerse';
 import Adhan from './components/Adhan/Adhan';
 import Iqamah from './components/Iqamah/Iqamah';
 import BottomStrip from './components/BottomStrip/BottomStrip';
@@ -91,6 +92,8 @@ const App: Component = () => {
         return <Iqamah />;
       case Screen.PRAYER_TIMES:
         return <PrayerTimes />;
+      case Screen.DAILY_VERSE:
+        return <DailyVerse />;
       case Screen.SETTINGS:
         return <Settings />;
       case Screen.DEV:

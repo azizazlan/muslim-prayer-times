@@ -43,7 +43,7 @@ export function createSettingsServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  const [enabledSlides, setEnabledSlides] = createSignal<boolean>(true);
+  const [enabledSlides, setEnabledSlides] = createSignal<boolean>(false);
   const [calculationMethod, setCalculationMethod] = createSignal<string>("JAKIM");
   const [mosqueName, setMosqueName] = createSignal<string>(MOSQUE_NAME);
   const [locationName, setLocationName] = createSignal<string>("KOTA DAMANSARA, SELANGOR");

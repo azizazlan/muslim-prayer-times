@@ -1,3 +1,4 @@
+import { useDailyVerseService } from "../../context/useDailyVerseService";
 import { useSettingsService } from "../../context/useSettingsService";
 import styles from './GeneralSettings.module.scss'
 
@@ -23,6 +24,8 @@ const GeneralSettings = () => {
     iqamahIntervalMs,
     setIqamahIntervalMs
   } = useSettingsService();
+
+  const { internetOk } = useDailyVerseService();
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
@@ -131,6 +134,17 @@ const GeneralSettings = () => {
         </label>
         <input class={styles.formInput} type="number" name="slideIntervalMs" value={slideIntervalMs()} onInput={handleChange} />
         <small class={styles.hint}>miliseconds sebelum tukar paparan seterusnya</small>
+      </div>
+      <div class={styles.field}>
+        <label class={styles.fieldLabel}>
+          Papar daily verse
+        </label>
+        <input
+          disabled={!internetOk()}
+          class={styles.formCheckboxInput}
+          type="checkbox"
+          name="enabledDAilyVerse"
+        />
       </div>
     </div>
   );
