@@ -46,7 +46,6 @@ export function createServicePrayerHook() {
   const [test, setTest] = createSignal(TestMode.DEACTIVATED);
   const [isTestInProgress, setIsTestInProgress] = createSignal(false);
   const [screen, setScreen] = createSignal(Screen.DEFAULT);
-
   const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
 
   // Provider component that wraps the children
@@ -110,22 +109,19 @@ export function createServicePrayerHook() {
 
       setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
 
-      // Define screens based on currentIndex
-      const screens = [
-        Screen.HOURS_BEFORE_ADHAN,
-        Screen.DEFAULT,
-        Screen.PRAYER_TIMES,
-        Screen.DAILY_VERSE,
-      ];
-
       // Check if currentIndex is valid and set the screen accordingly
       const index = currentIndex();
-      if (index < screens.length) {
-        // Special condition for ISYAK and SUBUH
-        if (index === 0 && currentPrayer.name !== PrayerName.ISYAK && currentPrayer.name !== PrayerName.SUBUH) {
-          setScreen(screens[index]);
+      if (index < availableScreens.length) {
+        // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
+        if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
+          // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE
+          if (index === 0) {
+            setScreen(availableScreens[1]); // Set to DEFAULT screen
+          } else {
+            setScreen(availableScreens[index]); // Set to the current index screen
+          }
         } else {
-          setScreen(screens[index]);
+          setScreen(availableScreens[index]); // For other prayers, set normally
         }
       }
 
