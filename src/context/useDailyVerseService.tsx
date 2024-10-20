@@ -8,24 +8,52 @@ interface ProviderProps {
 export function createDailyVerseServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
-    internetOk: Accessor<boolean>;
+    isOnline: Accessor<boolean>;
     verse: Accessor<any | null>;
-    setInternetOk: (ok: boolean) => void;
+    setIsOnline: (ok: boolean) => void;
     fetchNextRandVerse: () => void;
     clear: () => void;
   }
 
   const Context = createContext<ContextValueProps>();
 
-  const [internetOk, setInternetOk] = createSignal<boolean>(true);
+  const [isOnline, setIsOnline] = createSignal<boolean>(true);
   const [verse, setVerse] = createSignal<any | null>(null)
 
   // longitude, setLongitudes the children
   function Provider(props: ProviderProps) {
 
-    const checkInternetConnection = () => {
-      setInternetOk(true);
-    }
+    const checkInternetConnection = async () => {
+      try {
+        // Attempt to fetch a small resource from a reliable server
+        const response = await fetch("https://www.google.com/favicon.ico", {
+          method: "HEAD",
+          mode: "no-cors",
+        });
+        setIsOnline(true);
+      } catch {
+        setIsOnline(false);
+      }
+    };
+
+    const updateOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+      if (navigator.onLine) {
+        checkInternetConnection();
+      }
+    };
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    // Initial check for internet connection
+    checkInternetConnection();
+
+    // Cleanup event listeners on component unmount
+    onCleanup(() => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    });
 
     //https://api.alquran.cloud/v1/ayah/862/editions/quran-uthmani,en.asad,en.pickthall
     const fetchRandomVerse = async (verseNo: number) => {
@@ -60,7 +88,7 @@ export function createDailyVerseServiceHook() {
     }
 
     createEffect(() => {
-      if (!internetOk()) return;
+      if (!isOnline()) return;
 
       // Generate a random verse number between 1 and 6326
       const randomVerseNo = Math.floor(Math.random() * 6326) + 1; // {{ edit_1 }}
@@ -68,7 +96,6 @@ export function createDailyVerseServiceHook() {
       // Define an async function to fetch the verse
       const fetchVerse = async () => {
         const result = await fetchRandomVerse(randomVerseNo); // {{ edit_2 }}
-        console.log(result);
         setVerse(result);
       };
 
@@ -90,7 +117,7 @@ export function createDailyVerseServiceHook() {
     }
 
     const value: ContextValueProps = {
-      internetOk,
+      isOnline,
       fetchNextRandVerse,
       verse,
       clear,

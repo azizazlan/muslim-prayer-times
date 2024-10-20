@@ -60,14 +60,13 @@ export function createServicePrayerHook() {
       slideIntervalMs
     } = useSettingsService();
 
-    const { internetOk } = useDailyVerseService();
+    const { isOnline } = useDailyVerseService();
 
     createEffect(() => {
       fetchPrayerTimes();
     });
 
     const switchComponent = () => {
-      console.log(`switchComponent interval ${slideIntervalMs()} ms`);
 
       if (screen() === Screen.SETTINGS || screen() === Screen.DEV) {
         console.log("switchComponent - Abort - because user is viewing Settings or Dev screen");
@@ -76,8 +75,8 @@ export function createServicePrayerHook() {
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
 
-      const noOfSlides = internetOk() ? 4 : 3;
-      const availableScreens = internetOk()
+      const noOfSlides = isOnline() ? 4 : 3;
+      const availableScreens = isOnline()
         ? [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
@@ -101,9 +100,7 @@ export function createServicePrayerHook() {
         return;
       }
 
-      console.log(`currentPrayer.name: ${currentPrayer.name} timing ${currentPrayer.time}`);
       const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
-      console.log(`secsAfterPrayer: ${secsAfterPrayer} ${secsAfterPrayer / 60} mins`);
 
       if ((screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < 1200) return;
 
