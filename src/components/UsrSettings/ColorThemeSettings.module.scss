@@ -22,7 +22,8 @@
  .fieldLabel {
    min-width: 395px;
    margin-right: 1rem;
-   color: white; 
+  //  background-color: var(--background-color);
+   color: var(--primary-color);
  }
  
  .hint {

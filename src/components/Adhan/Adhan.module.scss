@@ -5,7 +5,6 @@
   justify-content: center;
   height: 100%;
   margin: 1rem;
-  color: white;
   font-family: 'Archivo Narrow', serif;
 }
 
@@ -24,4 +23,15 @@
   align-items: center;
   justify-content: center;
   margin-top: -15rem;
+}
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .message {
+    font-size: 5rem;
+  }
+  .countdown {
+    margin-top: -9rem;
+  }
 }

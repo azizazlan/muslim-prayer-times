@@ -5,7 +5,6 @@
   justify-content: center;
   height: 100%;
   margin: 1rem;
-  color: white;
   font-family: 'Archivo Narrow', serif;
 }
 
@@ -22,15 +21,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.message {
-  padding-top: 5rem;
-  display: flex;
-  align-items: center;
-  font-size: 7.0rem;
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 .countdown {
@@ -59,4 +49,15 @@
   font-size: 7.0rem;
   margin-top: -5rem; 
   font-weight: bold;
+}
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .iqamahMessage {
+    font-size: 5.0rem;
+  }
+  .safMessage {
+    font-size: 5rem;
+  }
 }

@@ -7,6 +7,7 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   min-height: 200px;
+    //  background-color: var(--background-color);
 }
 
 .topBorder {
@@ -69,7 +70,7 @@
   justify-content: center;
   font-family: 'Archivo Narrow', serif;
   // color: #273c75;
-  color: black;
+  color: var(--font-color);
 }
 
 .clockTime {

@@ -19,6 +19,8 @@ import PrayerTimes from './components/PrayerTimes/PrayerTimes';
 import { TestMode } from "./types/testMode";
 import { Screen } from './types/screen';
 import styles from './App.module.scss';
+import { useThemeService } from './context/useThemeService';
+import { ColorTheme } from './types/theme';
 
 export type Locale = 'en' | 'es' | 'fr'; // Example locales, adjust as needed
 
@@ -51,12 +53,22 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 
 const App: Component = () => {
 
+  const { colorTheme } = useThemeService();
   const { screen, setScreen } = usePrayerService();
   const memoizedScreen = createMemo(() => screen());
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
   const [dict] = createResource(locale, fetchDictionary);
   dict(); // => Dictionary | undefined
   const t = i18n.translator(dict);
+
+  createEffect(() => {
+    // Clear existing theme classes
+    // document.body.classList.remove("light-theme", "dark-theme", "blue-theme");
+    document.body.classList.remove(ColorTheme.BLACK_AND_WHITE, ColorTheme.BLUE_AND_WHITE);
+    // Add the current theme class
+    document.body.classList.add(colorTheme());
+  });
+
 
   const renderMainArea = () => {
     // console.log(screen());

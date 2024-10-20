@@ -3,21 +3,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  // color: #0984e3;
-  color: black;
   font-size: 3.5rem;
   font-family: 'Archivo Narrow', serif;
   font-weight: 700;
   padding: 1rem;
+  color: var(--font-color);
 }
 
 .container.active {
   border-radius: 0px;
-  // background-color: #0984e3;
-  background-color: black;
   font-weight: 700;
-  color: #fff;
   padding: 1rem;
+  color: var(--primary-color);
+  background-color: var(--background-color);
 }
 
 .nextPrayerContainer {
@@ -26,12 +24,12 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  // color: #273c75;
-  color: black;
   font-size: 3.5rem;
   font-family: 'Archivo Narrow', serif;
   font-weight: 700;
   font-style: italic;
+  color: var(--font-color);
+  background-color: var(--primary-color);
   animation: heartbeatOpacity 5s ease-in-out infinite; /* Apply the heartbeat animation */
 }
 

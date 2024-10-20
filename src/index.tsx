@@ -4,7 +4,7 @@ import { PrayerServiceProvider } from './context/usePrayerService';
 import { SettingsServiceProvider } from './context/useSettingsService';
 import { ThemeServiceProvider } from './context/useThemeService';
 
-import './index.css';
+import './index.scss';
 import App from './App';
 
 const root = document.getElementById('root');
