@@ -64,7 +64,17 @@ const App: Component = () => {
   createEffect(() => {
     // Clear existing theme classes
     // document.body.classList.remove("light-theme", "dark-theme", "blue-theme");
-    document.body.classList.remove(ColorTheme.BLACK_AND_WHITE, ColorTheme.BLUE_AND_WHITE);
+    document.body.classList.remove(ColorTheme.BLACK_AND_WHITE,
+      ColorTheme.BLUE_AND_WHITE,
+      ColorTheme.PINK_AND_TIFFANY,
+      ColorTheme.GREENGRASS_AND_FLIRTMAROON,
+      ColorTheme.GREENGRASS_AND_BLACK,
+      ColorTheme.GOLD_AND_BLUE,
+      ColorTheme.FORESTBLUE_AND_REDWOORD,
+      ColorTheme.RED_MONOCHROMATIC,
+      ColorTheme.PINKGLAMOUR_MONOCHROMATIC,
+      ColorTheme.GREY_MONOCHROMATIC,
+    );
     // Add the current theme class
     document.body.classList.add(colorTheme());
   });

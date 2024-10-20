@@ -29,6 +29,61 @@
   --background-color: #0984e3; // Background color for blue theme
 }
 
+.pink-tiffany-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: #FF7979; // Text color for blue theme
+  --background-color: #30e0e0; // Background color for blue theme
+}
+
+.greengrass-flirtmaroon-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: #940062; // Text color for blue theme
+  --background-color: #009432; // Background color for blue theme
+}
+
+.greengrass-black-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: black; // Text color for blue theme
+  --background-color: #009432; // Background color for blue theme
+}
+
+.gold-darkblue-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: #002079; // Text color for blue theme
+  --background-color: #E1B12C; // Background color for blue theme
+}
+
+.forestblue-redwood-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: #622F0A; // Text color for blue theme
+  --background-color: #0A3D62; // Background color for blue theme 
+}
+
+.red-monochromatic-theme {
+  --primary-color: #ffffff; // Text color for blue theme
+  --font-color: #B71540; // Text color for blue theme
+  --background-color: #E51A50; // Background color for blue theme 
+}
+
+.pinkglamour-monochromatic-theme {
+  --primary-color: #ffffff;
+  --font-color: #FF4646;
+  --background-color: #FF4646;  
+}
+
+.grey-monochromatic-theme {
+  --primary-color: #ffffff;
+  --font-color: #535C68;
+  --background-color: #6A7584;  
+}
+
+.darkgrey-monochromatic-theme {
+  --primary-color: #ffffff;
+  --font-color: #222F3E;
+  --background-color: #34485F;  
+}
+
+
 body {
   background-color: var(--background-color);
   color: var(--primary-color);
