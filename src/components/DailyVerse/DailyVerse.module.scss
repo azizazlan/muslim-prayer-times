@@ -17,7 +17,7 @@
   margin-top: 1rem;
   margin-left: 3rem;
   margin-right: 3rem;
-  font-size: 3.5rem;
+  font-size: 5.7rem;
   text-align: right;
 }
 
@@ -25,15 +25,62 @@
   margin-top: 1rem;
   margin-left: 3rem;
   margin-right: 3rem;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
 }
 
 .verseInfo {
-  margin-top: 1rem;
+  margin-top: 3rem;
   font-size: 2.5rem;;
 }
 
 .translatorInfo {
   margin-top: 1rem;
-  font-size: 1.0rem;; 
+  font-size: 1.0rem; 
+  opacity: 0.7;
+}
+
+.btnFwd {
+  font-size: 3rem;;
+  border: none;
+  background-color: transparent;
+  color:  var(--primary-color);
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .bismillahText {
+    font-size: 2.5rem; 
+  }
+  
+  .arabicText {
+    margin-top: 1rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    font-size: 2.5rem;
+    text-align: right;
+  }
+  
+  .enTranslationText {
+    margin-top: 1rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    font-size: 2.0rem;
+  }
+  
+  .verseInfo {
+    margin-top: 1rem;
+    font-size: 2.0rem;;
+  }
+  
+  .translatorInfo {
+    margin-top: 1rem;
+    font-size: 1.0rem;; 
+  }
+
+  .btnFwd {
+    font-size: 2rem;;
+  }
 }

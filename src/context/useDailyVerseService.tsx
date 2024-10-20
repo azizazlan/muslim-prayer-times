@@ -9,7 +9,9 @@ export function createDailyVerseServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
     internetOk: Accessor<boolean>;
+    verse: Accessor<any | null>;
     setInternetOk: (ok: boolean) => void;
+    fetchNextRandVerse: () => void;
     clear: () => void;
   }
 
@@ -25,30 +27,63 @@ export function createDailyVerseServiceHook() {
       setInternetOk(true);
     }
 
-    const fetchVerse = () => {
-      return {
-        numberInSurah: 73,
-        text: "وَهُوَ ٱلَّذِى خَلَقَ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ بِٱلْحَقِّ ۖ وَيَوْمَ يَقُولُ كُن فَيَكُونُ ۚ قَوْلُهُ ٱلْحَقُّ ۚ وَلَهُ ٱلْمُلْكُ يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ عَٰلِمُ ٱلْغَيْبِ وَٱلشَّهَٰدَةِ ۚ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِي",
-        surah: {
-          number: 6,
-          name: "سُورَةُ الأَنۡعَامِ",
-          englishName: "Al-An'aam",
-          englishNameTranslation: "The Cattle",
-        },
-        translation: {
-          text: "He it is Who created the heavens and the earth in truth. In the day when He saith: Be! it is. His Word is the Truth, and His will be the Sovereignty on the day when the trumpet is blown. Knower of the Invisible and the Visible, He is the Wise, the Aware."
-        },
-        edition: {
-          englishName: "Mohammed Marmaduke William Pickthall"
-        },
+    //https://api.alquran.cloud/v1/ayah/862/editions/quran-uthmani,en.asad,en.pickthall
+    const fetchRandomVerse = async (verseNo: number) => {
+
+      const endpoint = `https://api.alquran.cloud/v1/ayah/${verseNo}/editions/quran-uthmani,en.asad,en.pickthall`;
+
+      try {
+        const response = await fetch(endpoint);
+        const responseBody = await response.json();
+
+        const data = responseBody.data[0];
+        const engData = responseBody.data[2]; //pickhall is at element 3
+
+        return {
+          text: data.text, // Quranic verse in arabic
+          numberInSurah: engData.numberInSurah,
+          surah: {
+            ...engData.surah,
+          },
+          translation: {
+            text: engData.text,
+          },
+          edition: {
+            englishName: engData.edition.englishName,
+          }
+        }
+
+      } catch (error) {
+        console.log(error);
+        return null;
       }
     }
 
     createEffect(() => {
       if (!internetOk()) return;
-      const result = fetchVerse();
-      setVerse(result);
+
+      // Generate a random verse number between 1 and 6326
+      const randomVerseNo = Math.floor(Math.random() * 6326) + 1; // {{ edit_1 }}
+
+      // Define an async function to fetch the verse
+      const fetchVerse = async () => {
+        const result = await fetchRandomVerse(randomVerseNo); // {{ edit_2 }}
+        console.log(result);
+        setVerse(result);
+      };
+
+      fetchVerse(); // Call the async function
     });
+
+    const fetchNextRandVerse = async () => {
+      // Generate a random verse number between 1 and 6326
+      const randomVerseNo = Math.floor(Math.random() * 6326) + 1; // {{ edit_1 }}
+      // Define an async function to fetch the verse
+      const result = await fetchRandomVerse(randomVerseNo); // {{ edit_2 }}
+      setVerse(prev => result);
+      console.log("Updated verse:", verse());
+    }
+
 
     function clear() {
       console.log("clear");
@@ -56,6 +91,7 @@ export function createDailyVerseServiceHook() {
 
     const value: ContextValueProps = {
       internetOk,
+      fetchNextRandVerse,
       verse,
       clear,
     };
