@@ -68,8 +68,8 @@ export function createServicePrayerHook() {
 
     const switchComponent = () => {
 
-      if (screen() === Screen.SETTINGS || screen() === Screen.DEV) {
-        console.log("switchComponent - Abort - because user is viewing Settings or Dev screen");
+      if (screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) {
+        console.log("switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen");
         return;
       }
 
@@ -108,7 +108,7 @@ export function createServicePrayerHook() {
 
       // Check if currentIndex is valid and set the screen accordingly
       const index = currentIndex();
-      if (index < availableScreens.length) {
+      if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
         // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
         if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
           // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 1rem;
+  font-family: 'Archivo Narrow', serif;
+}
+
+.header {
+  font-size: 7rem;
+  font-weight: 700;
+}
+
+.announcementText {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  font-size: 7rem;
+}

@@ -37,3 +37,8 @@ $width: 98%;
   width: $width;
   flex-grow: 1;
 }
+
+.eventSettingsContainer {
+  display: flex;
+  flex-direction: row;
+}

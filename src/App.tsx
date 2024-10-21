@@ -10,6 +10,7 @@ import getWindowDimensions from './utils/getWindowDimensions';
 
 // Components
 import TopToolbar from './components/TopToolbar/TopToolbar';
+import EventScreen from './components/EventScreen/EventScreen';
 import DailyVerse from './components/DailyVerse/DailyVerse';
 import Adhan from './components/Adhan/Adhan';
 import Iqamah from './components/Iqamah/Iqamah';
@@ -95,6 +96,8 @@ const App: Component = () => {
     switch (screen()) {
       case Screen.ADHAN:
         return <Adhan />;
+      case Screen.EVENT:
+        return <EventScreen />;
       case Screen.HOURS_BEFORE_ADHAN:
         return <Adhan />;
       case Screen.IQAMAH:
