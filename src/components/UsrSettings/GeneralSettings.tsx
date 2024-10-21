@@ -21,8 +21,8 @@ const GeneralSettings = () => {
     setAdhanLeadMins,
     slideIntervalMs,
     setSlideIntervalMs,
-    iqamahIntervalMs,
-    setIqamahIntervalMs
+    iqamahIntervalMins,
+    setIqamahIntervalMins
   } = useSettingsService();
 
   const { isOnline, enableDailyVerse } = useDailyVerseService();
@@ -51,8 +51,8 @@ const GeneralSettings = () => {
     if (name === 'slideIntervalMs') {
       setSlideIntervalMs(value);
     }
-    if (name === 'iqamahIntervalMs') {
-      setIqamahIntervalMs(value);
+    if (name === 'iqamahIntervalMins') {
+      setIqamahIntervalMins(value);
     }
   }
 
@@ -102,17 +102,17 @@ const GeneralSettings = () => {
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
-          Papar Skrin Countdown Azan
+          Papar Countdown Azan
         </label>
         <input class={styles.formInput} type="number" name="adhanLeadMins" value={adhanLeadMins()} onInput={handleChange} />
-        <small class={styles.hint}>minit sebelum waktu solat</small>
+        <small class={styles.hint}>minit sebelum waktu</small>
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
-          Selang masa sebelum Iqamah
+          Papar Countdown Iqamah
         </label>
-        <input class={styles.formInput} type="number" name="iqamahIntervalMs" value={iqamahIntervalMs()} onInput={handleChange} />
-        <small class={styles.hint}>miliseconds (12 mins. 1 sec=1000 miliseconds) </small>
+        <input class={styles.formInput} type="number" name="iqamahIntervalMs" value={iqamahIntervalMins()} onInput={handleChange} />
+        <small class={styles.hint}>minit sebelum iqamah</small>
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>

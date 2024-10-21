@@ -7,12 +7,12 @@ interface IqamahProps {
 }
 
 const Iqamah: Component<IqamahProps> = () => {
-  const { iqamahIntervalMs } = useSettingsService();
-  const [timeLeft, setTimeLeft] = createSignal(iqamahIntervalMs() / 1000);
+  const { iqamahIntervalMins } = useSettingsService();
+  const [secondsLeft, setSecondsLeft] = createSignal(iqamahIntervalMins() * 60);
 
   // Start the countdown immediately when the component mounts
   const interval = setInterval(() => {
-    setTimeLeft(prev => {
+    setSecondsLeft(prev => {
       if (prev <= 0) {
         clearInterval(interval); // Clear the interval when countdown reaches 0
         return 0;
@@ -25,15 +25,15 @@ const Iqamah: Component<IqamahProps> = () => {
 
   return (
     <div class={styles.container}>
-      {timeLeft() === 0 ? <div class={styles.iqamahContainer}><div class={styles.safMessage}>
+      {secondsLeft() === 0 ? <div class={styles.iqamahContainer}><div class={styles.safMessage}>
         LURUSKAN DAN RAPATKAN SAF
       </div></div> :
         <div class={styles.iqamahContainer}>
           <div class={styles.iqamahMessage}>
-            IQAMAH SEBENTAR LAGI
+            IQAMAH
           </div>
           <div class={styles.countdown}>
-            <Countdown secondsLeft={timeLeft()} />
+            <Countdown secondsLeft={secondsLeft()} />
           </div>
         </div>}
     </div>

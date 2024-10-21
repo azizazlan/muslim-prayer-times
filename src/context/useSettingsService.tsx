@@ -8,10 +8,10 @@ import { Screen } from '../types/screen';
 const MOSQUE_NAME = import.meta.env.VITE_MOSQUE_NAME;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
 const LONGITUDE = import.meta.env.VITE_LONGITUDE;
-const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '15', 10);
+const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '10', 10);
 const SWITCH_SLIDES = import.meta.env.VITE_SWITCH_SLIDES === 'true';
 const SWITCH_SLIDES_INTERVAL_MS = parseInt(import.meta.env.VITE_SWITCH_SLIDES_INTERVAL_MS || '30000', 10); // Default 30 secs
-const IQAMAH_INTERVAL_MS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MS || '720000', 10);
+const IQAMAH_INTERVAL_MINS = parseInt(import.meta.env.VITE_IQAMAH_INTERVAL_MINS || '12', 10);
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -36,8 +36,8 @@ export function createSettingsServiceHook() {
     setAdhanLeadMins: (mins: number) => void;
     slideIntervalMs: Accessor<number>;
     setSlideIntervalMs: (ms: number) => void;
-    iqamahIntervalMs: Accessor<number>;
-    setIqamahIntervalMs: (ms: number) => void;
+    iqamahIntervalMins: Accessor<number>;
+    setIqamahIntervalMins: (minutes: number) => void;
     clear: () => void;
   }
 
@@ -51,7 +51,7 @@ export function createSettingsServiceHook() {
   const [longitude, setLongitude] = createSignal<string>(LONGITUDE);
   const [adhanLeadMins, setAdhanLeadMins] = createSignal<string>(ADHAN_LEAD_MINS);
   const [slideIntervalMs, setSlideIntervalMs] = createSignal<number>(SWITCH_SLIDES_INTERVAL_MS);
-  const [iqamahIntervalMs, setIqamahIntervalMs] = createSignal<number>(IQAMAH_INTERVAL_MS);
+  const [iqamahIntervalMins, setIqamahIntervalMins] = createSignal<number>(IQAMAH_INTERVAL_MINS);
 
   // longitude, setLongitudes the children
   function Provider(props: ProviderProps) {
@@ -81,8 +81,8 @@ export function createSettingsServiceHook() {
       setAdhanLeadMins,
       slideIntervalMs,
       setSlideIntervalMs,
-      iqamahIntervalMs,
-      setIqamahIntervalMs,
+      iqamahIntervalMins,
+      setIqamahIntervalMins,
       clear,
     };
     // Provide the context value to children components
