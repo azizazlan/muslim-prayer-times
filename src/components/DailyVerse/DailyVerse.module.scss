@@ -30,7 +30,9 @@
 
 .verseInfo {
   margin-top: 3rem;
-  font-size: 2.5rem;;
+  padding-top: 1rem;
+  font-size: 2.1rem;
+  border-top: 1px solid white;
 }
 
 .translatorInfo {
@@ -52,14 +54,14 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .bismillahText {
-    font-size: 2.5rem; 
+    font-size: 2.7rem; 
   }
   
   .arabicText {
     margin-top: 1rem;
     margin-left: 3rem;
     margin-right: 3rem;
-    font-size: 2.5rem;
+    font-size: 3.0rem;
     text-align: right;
   }
   
@@ -67,12 +69,12 @@ $medium: 1441px;
     margin-top: 1rem;
     margin-left: 3rem;
     margin-right: 3rem;
-    font-size: 2.0rem;
+    font-size: 2.5rem;
   }
   
   .verseInfo {
-    margin-top: 1rem;
-    font-size: 2.0rem;;
+    margin-top: 1.5rem;
+    font-size: 1.5rem;;
   }
   
   .translatorInfo {

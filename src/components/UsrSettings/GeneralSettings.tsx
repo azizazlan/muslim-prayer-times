@@ -25,7 +25,7 @@ const GeneralSettings = () => {
     setIqamahIntervalMs
   } = useSettingsService();
 
-  const { internetOk } = useDailyVerseService();
+  const { isOnline, enableDailyVerse } = useDailyVerseService();
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
@@ -137,10 +137,11 @@ const GeneralSettings = () => {
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
-          Papar daily verse
+          Papar Teks Al-Quran
         </label>
         <input
-          disabled={!internetOk()}
+          checked={enableDailyVerse()}
+          disabled={!isOnline()}
           class={styles.formCheckboxInput}
           type="checkbox"
           name="enabledDAilyVerse"

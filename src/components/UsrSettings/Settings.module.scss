@@ -8,6 +8,7 @@ $width: 98%;
   justify-content: center;
   height: 100%;
   color: white;
+  font-family: 'Archivo Narrow', serif;
 }
 
 .tabBar {
@@ -16,20 +17,20 @@ $width: 98%;
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  border-bottom: 1px solid silver;
+  border-bottom: 1px solid white;
   text-transform: uppercase;
 }
 
 .activeTabTitle {
   padding: 10px 20px;
   font-size: 1.3rem;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .tabTitle {
   padding: 10px 20px;
   font-size: 1.3rem;
-  color: silver;
+  color: white;
 }
 
 .tabContents {

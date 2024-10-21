@@ -9,7 +9,7 @@ export function createThemeServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
     colorTheme: Accessor<ColorTheme>;
-    setColorTheme: (theme: ColorTheme) => void;
+    toggleColorTheme: (theme: ColorTheme) => void;
     clear: () => void;
   }
 
@@ -23,14 +23,30 @@ export function createThemeServiceHook() {
     createEffect(() => {
     });
 
+    const toggleColorTheme = (theme: ColorTheme) => {
+      clear();
+      setColorTheme(theme);
+    }
+
 
     function clear() {
-      console.log("clear");
+      document.body.classList.remove(
+        ColorTheme.BLACK_AND_WHITE,
+        ColorTheme.BLUE_AND_WHITE,
+        ColorTheme.PINK_AND_TIFFANY,
+        ColorTheme.GREENGRASS_AND_FLIRTMAROON,
+        ColorTheme.GREENGRASS_AND_BLACK,
+        ColorTheme.GOLD_AND_BLUE,
+        ColorTheme.FORESTBLUE_AND_REDWOORD,
+        ColorTheme.RED_MONOCHROMATIC,
+        ColorTheme.PINKGLAMOUR_MONOCHROMATIC,
+        ColorTheme.GREY_MONOCHROMATIC,
+      );
     }
 
     const value: ContextValueProps = {
       colorTheme,
-      setColorTheme,
+      toggleColorTheme,
       clear,
     };
     // Provide the context value to children components

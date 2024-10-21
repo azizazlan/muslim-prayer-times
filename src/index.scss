@@ -13,6 +13,7 @@
 }
 
 :root {
+  --font-color: white;
   --primary-color: #ffffff; // Default color for light theme
   --background-color: #000000; // Default background for light theme
 }
@@ -76,13 +77,6 @@
   --font-color: #535C68;
   --background-color: #6A7584;  
 }
-
-.darkgrey-monochromatic-theme {
-  --primary-color: #ffffff;
-  --font-color: #222F3E;
-  --background-color: #34485F;  
-}
-
 
 body {
   background-color: var(--background-color);

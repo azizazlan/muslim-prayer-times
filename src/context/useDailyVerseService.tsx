@@ -8,6 +8,7 @@ interface ProviderProps {
 export function createDailyVerseServiceHook() {
   // Interface for the context value props
   interface ContextValueProps {
+    enableDailyVerse: Accessor<boolean>;
     isOnline: Accessor<boolean>;
     verse: Accessor<any | null>;
     setIsOnline: (ok: boolean) => void;
@@ -18,6 +19,7 @@ export function createDailyVerseServiceHook() {
   const Context = createContext<ContextValueProps>();
 
   const [isOnline, setIsOnline] = createSignal<boolean>(true);
+  const [enableDailyVerse, setEnableDailyVerse] = createSignal<boolean>(true);
   const [verse, setVerse] = createSignal<any | null>(null)
 
   // longitude, setLongitudes the children
@@ -88,7 +90,15 @@ export function createDailyVerseServiceHook() {
     }
 
     createEffect(() => {
-      if (!isOnline()) return;
+      if (!isOnline()) {
+        console.log("isOnline false and will not fetch daily from api.alquran.cloud")
+        return;
+      }
+
+      if (!enableDailyVerse()) {
+        console.log("disabled and will not fetch daily from api.alquran.cloud")
+        return;
+      }
 
       // Generate a random verse number between 1 and 6326
       const randomVerseNo = Math.floor(Math.random() * 6326) + 1; // {{ edit_1 }}
@@ -117,6 +127,7 @@ export function createDailyVerseServiceHook() {
     }
 
     const value: ContextValueProps = {
+      enableDailyVerse,
       isOnline,
       fetchNextRandVerse,
       verse,

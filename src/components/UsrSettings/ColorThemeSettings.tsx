@@ -5,12 +5,12 @@ import { ColorTheme } from '../../types/theme';
 
 const ColorThemeSettings: Component = () => {
 
-  const { colorTheme, setColorTheme } = useThemeService();
+  const { colorTheme, toggleColorTheme } = useThemeService();
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
     console.log(`name ${typeof name} ${name}`)
-    setColorTheme(value);
+    toggleColorTheme(value);
   }
 
   return (
@@ -30,7 +30,6 @@ const ColorThemeSettings: Component = () => {
           <option value={ColorTheme.RED_MONOCHROMATIC}>Merah Monokromatik</option>
           <option value={ColorTheme.PINKGLAMOUR_MONOCHROMATIC}>Pink Glamor Monokromatik</option>
           <option value={ColorTheme.GREY_MONOCHROMATIC}>Kelabu Monokromatik</option>
-          <option value={ColorTheme.DARKGREY_MONOCHROMATIC}>Kelabu Gelap Monokromatik</option>
         </select>
       </div>
     </div>

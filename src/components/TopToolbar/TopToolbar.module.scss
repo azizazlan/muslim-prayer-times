@@ -8,7 +8,9 @@
   flex-direction: row;
   justify-content: flex-end;
   width: 98%;
-  color: gray;
+  color: var(--primary-color);
+  font-family: 'Archivo Narrow', serif;
+  font-size: 0.7rem;
 }
 
 
@@ -20,9 +22,9 @@
 
 .btnDev {
   text-transform: uppercase;
-  font-size: 1rem;
+  font-size: 0.7rem;
   border: none;
   background: transparent;
   cursor: pointer;
-  color: rgb(77, 77, 77);
+  color: var(--primary-color);
 }

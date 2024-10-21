@@ -61,6 +61,7 @@ const App: Component = () => {
 
   const { isOnline } = useDailyVerseService();
   const { colorTheme } = useThemeService();
+  const memoizedColorTheme = createMemo(() => colorTheme());
   const { screen, setScreen } = usePrayerService();
   const memoizedScreen = createMemo(() => screen());
   const [locale, setLocale] = createSignal<Locale>(LANGUAGE);
@@ -71,7 +72,8 @@ const App: Component = () => {
   createEffect(() => {
     // Clear existing theme classes
     // document.body.classList.remove("light-theme", "dark-theme", "blue-theme");
-    document.body.classList.remove(ColorTheme.BLACK_AND_WHITE,
+    document.body.classList.remove(
+      ColorTheme.BLACK_AND_WHITE,
       ColorTheme.BLUE_AND_WHITE,
       ColorTheme.PINK_AND_TIFFANY,
       ColorTheme.GREENGRASS_AND_FLIRTMAROON,
@@ -83,7 +85,8 @@ const App: Component = () => {
       ColorTheme.GREY_MONOCHROMATIC,
     );
     // Add the current theme class
-    document.body.classList.add(colorTheme());
+    document.body.classList.add(memoizedColorTheme());
+    console.log(memoizedColorTheme());
   });
 
 

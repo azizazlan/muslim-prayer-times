@@ -9,7 +9,6 @@ enum ColorTheme {
   RED_MONOCHROMATIC = "red-monochromatic-theme",
   PINKGLAMOUR_MONOCHROMATIC = "pinkglamour-monochromatic-theme",
   GREY_MONOCHROMATIC = "grey-monochromatic-theme",
-  DARKGREY_MONOCHROMATIC = "darkgrey-monochromatic-theme",
 }
 
 export { ColorTheme };
