@@ -18,3 +18,16 @@
   margin-right: 3rem;
   font-size: 7rem;
 }
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .header {
+    font-size: 3rem;
+  }
+  .announcementText {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: 3rem;
+  }
+}
