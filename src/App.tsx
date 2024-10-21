@@ -90,6 +90,18 @@ const App: Component = () => {
     console.log(memoizedColorTheme());
   });
 
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((e) => {
+        console.log(`Error attempting to enable full-screen mode: ${e.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
 
   const renderMainArea = () => {
     // console.log(screen());
@@ -118,7 +130,7 @@ const App: Component = () => {
   return (
     <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
       {isOnline() ? <OnlineIndicator /> : null}
-      <TopToolbar />
+      <TopToolbar toggleFullScreen={toggleFullScreen} />
       <div class={styles.mainArea}>
         {renderMainArea()}
       </div>

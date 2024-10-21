@@ -7,7 +7,11 @@ import styles from './TopToolbar.module.scss';
 const VERSION = import.meta.env.VITE_APP_VERSION;
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
 
-const TopToolbar: Component = () => {
+type TopToolbarProps = {
+  toggleFullScreen: () => void;
+}
+
+const TopToolbar: Component<TopToolbarProps> = (props: TopToolbarProps) => {
 
   const { setScreen, setTest } = usePrayerService();
 
@@ -19,6 +23,7 @@ const TopToolbar: Component = () => {
     <div class={styles.topButtons}>
       <button class={styles.btnDev} onClick={() => setScreen(Screen.DEFAULT)}>Home</button>
       <button class={styles.btnDev} onClick={() => setScreen(Screen.SETTINGS)}>Settings</button>
+      <button class={styles.btnDev} onClick={() => props.toggleFullScreen()}>Fullscreen</button>
       <button class={styles.btnDev} onClick={() => handleReload()}>Reload</button>
       <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
       {/* <button class={styles.btnDev} onClick={() => setScreen(Screen.DEV)}>Dev</button> */}

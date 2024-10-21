@@ -14,29 +14,36 @@ interface Event {
 
 interface EventListProps {
   events: Event[];
+  removeEvent: (eventItem: Event) => void;
 }
 
 const EventList = (props: EventListProps) => {
   return (
     <div class={styles.container}>
-      <ul>
-        <For each={props.events}>
-          {(event) => {
-            console.log(event.date)
-            return (
-              <li class={styles.eventBullet}>
-                <div class={styles.eventInfoContainer}><div class={styles.eventTitle}>{event.title}</div><div class={styles.eventText}>{event.eventText}</div> </div>
-                <div>{format(new Date(event.date), "EEE dd-MMM-yyyy")}</div>
+      <For each={props.events}>
+        {(event) => {
+          console.log(event.date)
+          return (
+            <li class={styles.eventBullet}>
+              <div class={styles.eventInfoContainer}>
+                <div class={styles.eventInfoTexts}>
+                  <div class={styles.eventTitle}>{event.title}</div>
+                  <div class={styles.eventText}>{event.eventText}</div>
+                </div>
+                <button onClick={() => props.removeEvent(event)}>Remove</button>
+              </div>
+              <div class={styles.dateContainer}>
+                <div class={styles.date}>{format(new Date(event.date), "EEE dd-MMM-yyyy")}</div>
                 {event.repeat && (
                   <div>
                     Repeats on: {event.repeatDays.join(", ")}
                   </div>
                 )}
-              </li>
-            )
-          }}
-        </For>
-      </ul>
+              </div>
+            </li>
+          )
+        }}
+      </For>
     </div>
   );
 };

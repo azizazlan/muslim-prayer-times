@@ -1,4 +1,5 @@
 .container {
+  margin-top: 1rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -15,9 +16,32 @@
 .eventInfoContainer {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.eventInfoTexts {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .eventTitle {
   font-weight: bold;
   margin-right: 0.5rem;
+}
+
+.eventText {
+  max-width: 575px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.date {
+  margin-right: 1rem;
 }

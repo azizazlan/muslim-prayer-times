@@ -1,5 +1,6 @@
 import { createSignal } from "solid-js";
 import { Component } from 'solid-js/types'
+import { format } from 'date-fns';
 import styles from './EventForm.module.scss';
 
 interface Event {
@@ -50,6 +51,36 @@ const EventForm: Component = (props: EventFormProps) => {
     setRepeatDays([]);
   };
 
+  const handleDefaultValues = (day: "Mon" | "Tue" | "Wed" | "Thu" | "Fri") => {
+    setTitle("Kuliah Maghrib");
+    switch (day) {
+      case "Mon":
+        setEventText("Ustaz Nadzmi. Aqidah Muslimin");
+        break;
+      case "Tue":
+        setEventText("Ustaz Azmi Sabdin. Tadabur");
+        break;
+      case "Wed":
+        setEventText("Ustaz Hazwan. Kelebihan Amal Ibadah");
+        break;
+      case "Thu":
+        setEventText("Ustaz Talhah. Sifat 20");
+        break;
+      case "Fri":
+        setEventText("Ustaz Shakir. Feqah Ibadah");
+        break;
+      default:
+        setEventText("Ustaz Nadzmi. Aqidah Muslimin"); // Default to Monday
+    }
+
+    const today = new Date();
+    const formattedDate = format(today, 'yyyy-MM-dd');
+
+    setDate(formattedDate);
+    setRepeat(false);
+    setRepeatDays([]);
+  }
+
   return (
     <div class={styles.container}>
       <form class={styles.form} onSubmit={handleSubmit}>
@@ -58,6 +89,7 @@ const EventForm: Component = (props: EventFormProps) => {
           <input
             class={styles.formInput}
             type="text"
+            defaultValue="Kuliah Maghrib"
             value={title()}
             onInput={(e) => setTitle(e.currentTarget.value)}
             required
@@ -66,11 +98,11 @@ const EventForm: Component = (props: EventFormProps) => {
 
         <div class={styles.formField}>
           <label class={styles.formLabel}>Event</label>
-          <input
+          <textarea
+            rows={3}
             class={styles.formInput}
-            type="text"
-            value={eventText()}
-            onInput={(e) => setEventText(e.currentTarget.value)}
+            value={eventText()} // Bind the value to the signal
+            onInput={(e) => setEventText(e.currentTarget.value)} // Update the signal on input change
             required
           />
         </div>
@@ -114,6 +146,14 @@ const EventForm: Component = (props: EventFormProps) => {
           </div>
         )}
         <div class={styles.formButtons}>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Mon")}>Mon</button>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Tue")}>Tue</button>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Wed")}>Wed</button>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Thu")}>Thu</button>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Fri")}>Fri</button>
+        </div>
+        <div class={styles.formButtons}>
+          {/* <button class={styles.submitBtn} type="button" onClick={handleDefaultValues}>Default values</button> */}
           <button class={styles.submitBtn} type="submit">Add Event</button>
         </div>
       </form>

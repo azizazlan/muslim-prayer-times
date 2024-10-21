@@ -26,6 +26,12 @@ const Settings = (props: SettingsProps) => {
     setEvents([...events(), newEvent]);
   };
 
+
+  const removeEvent = (eventToBeRemoved: Event) => {
+    // Update the events signal by filtering out the event that matches the `id`
+    setEvents(events().filter(event => event.id !== eventToBeRemoved.id));
+  };
+
   return (
     <div class={styles.container}>
       <div class={styles.tabBar}>
@@ -68,7 +74,7 @@ const Settings = (props: SettingsProps) => {
         {activeTab() === "eventform" && (
           <div class={styles.eventSettingsContainer}>
             <EventForm addEvent={addEvent} />
-            <EventList events={events()} />
+            <EventList events={events()} removeEvent={removeEvent} />
           </div>
         )}
       </div>
