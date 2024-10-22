@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createEffect, createSignal, createMemo } from "solid-js";
 import styles from './Settings.module.scss';
 import GeneralSettings from "./GeneralSettings";
 import TuneTimings from "./TuneTimings";
@@ -18,14 +18,12 @@ const Settings = (props: SettingsProps) => {
     setActiveTab(tab);
   };
 
-
   // EXPERINMENTING
   const [events, setEvents] = createSignal<Event[]>([]);
 
   const addEvent = (newEvent: Event) => {
     setEvents([...events(), newEvent]);
   };
-
 
   const removeEvent = (eventToBeRemoved: Event) => {
     // Update the events signal by filtering out the event that matches the `id`

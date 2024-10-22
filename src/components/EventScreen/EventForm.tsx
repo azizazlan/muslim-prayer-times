@@ -5,7 +5,6 @@ import styles from './EventForm.module.scss';
 
 interface Event {
   id: number;
-  title: string;
   date: string;
   repeat: boolean;
   repeatDays: string[];
@@ -17,7 +16,6 @@ interface EventFormProps {
 
 const EventForm: Component = (props: EventFormProps) => {
 
-  const [title, setTitle] = createSignal("Kuliah Maghrib");
   const [eventText, setEventText] = createSignal("Ustaz Wan. Idaman Penuntut");
   const [date, setDate] = createSignal("");
   const [repeat, setRepeat] = createSignal(false);
@@ -37,14 +35,12 @@ const EventForm: Component = (props: EventFormProps) => {
     e.preventDefault();
     const newEvent: Event = {
       id: Math.random(),
-      title: title(),
       eventText: eventText(),
       date: date(),
       repeat: repeat(),
       repeatDays: repeatDays(),
     };
     props.addEvent(newEvent);
-    setTitle("");
     setEventText("");
     setDate("");
     setRepeat(false);
@@ -52,7 +48,6 @@ const EventForm: Component = (props: EventFormProps) => {
   };
 
   const handleDefaultValues = (day: "Mon" | "Tue" | "Wed" | "Thu" | "Fri") => {
-    setTitle("Kuliah Maghrib");
     switch (day) {
       case "Mon":
         setEventText("Ustaz Nadzmi. Aqidah Muslimin");
@@ -73,28 +68,50 @@ const EventForm: Component = (props: EventFormProps) => {
         setEventText("Ustaz Nadzmi. Aqidah Muslimin"); // Default to Monday
     }
 
+    // Day mappings to index (0 = Sunday, 1 = Monday, etc.)
+    const dayMapping = {
+      Mon: 1,
+      Tue: 2,
+      Wed: 3,
+      Thu: 4,
+      Fri: 5,
+    };
+
+    // Get today's date
     const today = new Date();
-    const formattedDate = format(today, 'yyyy-MM-dd');
+
+    // Get the first day of the next month (e.g., if today is Oct 21, this will be Nov 1)
+    const firstDayOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+
+    // Get the numeric value for the day passed in (Mon = 1, Tue = 2, etc.)
+    const targetDay = dayMapping[day];
+
+    // Get the day of the week for the first day of the next month
+    const firstDayOfNextMonthDay = firstDayOfNextMonth.getDay(); // (0 = Sunday, 1 = Monday, etc.)
+
+    // Calculate how many days to add to reach the first occurrence of the target day
+    const daysUntilTarget = (targetDay >= firstDayOfNextMonthDay)
+      ? targetDay - firstDayOfNextMonthDay
+      : 7 - (firstDayOfNextMonthDay - targetDay);
+
+    // Add the calculated number of days to the first day of the next month to get the correct date
+    const firstOccurrenceOfTargetDay = new Date(firstDayOfNextMonth);
+    firstOccurrenceOfTargetDay.setDate(firstOccurrenceOfTargetDay.getDate() + daysUntilTarget);
+
+    // Format the date as 'YYYY-MM-DD'
+    const formattedDate = format(firstOccurrenceOfTargetDay, 'yyyy-MM-dd');
+
+    // Set the calculated date
+    setDate(formattedDate);
 
     setDate(formattedDate);
-    setRepeat(false);
-    setRepeatDays([]);
+    setRepeat(true);
+    setRepeatDays([...repeatDays(), day]);
   }
 
   return (
     <div class={styles.container}>
       <form class={styles.form} onSubmit={handleSubmit}>
-        <div class={styles.formField}>
-          <label class={styles.formLabel}>Title</label>
-          <input
-            class={styles.formInput}
-            type="text"
-            defaultValue="Kuliah Maghrib"
-            value={title()}
-            onInput={(e) => setTitle(e.currentTarget.value)}
-            required
-          />
-        </div>
 
         <div class={styles.formField}>
           <label class={styles.formLabel}>Event</label>
@@ -145,7 +162,9 @@ const EventForm: Component = (props: EventFormProps) => {
             ))}
           </div>
         )}
+        <br />
         <div class={styles.formButtons}>
+          <div class={styles.labelExamples}>Examples:</div>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Mon")}>Mon</button>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Tue")}>Tue</button>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Wed")}>Wed</button>
