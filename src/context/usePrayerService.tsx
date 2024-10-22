@@ -8,6 +8,8 @@ import { useSettingsService } from "./useSettingsService";
 import { useDailyVerseService } from "./useDailyVerseService";
 import { useEventsService } from "./useEventsService";
 
+const PRAYER_DURATION_MINS = parseInt(import.meta.env.VITE_PRAYER_DURATION_MINS || '10', 10);
+
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
 }
@@ -70,13 +72,6 @@ export function createServicePrayerHook() {
 
     const switchComponent = () => {
 
-      if (screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) {
-        console.log("switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen");
-        return;
-      }
-
-      const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
-
       const noOfSlides = isOnline()
         ? (displayEvent() ? 5 : 4) // 5 slides if online and event is displayed
         : (displayEvent() ? 4 : 3); // 4 slides if offline and event is displayed
@@ -97,6 +92,8 @@ export function createServicePrayerHook() {
           ...(displayEvent() ? [Screen.EVENT] : []), // Add Screen.EVENT if displayEvent is not null
         ];
 
+      const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
+
       if (!currentPrayer) { // SYURUK is when currentPrayer is null
         console.log(`Syuruk when currentPrayer is null but leadPrayer is ${leadPrayer().name}`);
         setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
@@ -109,24 +106,31 @@ export function createServicePrayerHook() {
       }
 
       const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
+      console.log(`secsAfterPrayer: ${secsAfterPrayer}secs (${secsAfterPrayer / 60}mins)`);
+      if ((screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < PRAYER_DURATION_MINS * 60) {
+        console.log(`switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen AND secsAfterPrayer ${secsAfterPrayer}`);
+        return;
+      } else {
 
-      if ((screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < 1200) return;
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
 
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
-
-      // Check if currentIndex is valid and set the screen accordingly
-      const index = currentIndex();
-      if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
-        // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
-        if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
-          // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE
-          if (index === 0) {
-            setScreen(availableScreens[1]); // Set to DEFAULT screen
+        // Check if currentIndex is valid and set the screen accordingly
+        const index = currentIndex();
+        if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
+          // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
+          if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
+            // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE
+            if (index === 0) {
+              setScreen(availableScreens[1]); // Set to DEFAULT screen
+            } else {
+              setScreen(availableScreens[index]); // Set to the current index screen
+            }
           } else {
-            setScreen(availableScreens[index]); // Set to the current index screen
+            setScreen(availableScreens[index]); // For other prayers, set normally
           }
-        } else {
-          setScreen(availableScreens[index]); // For other prayers, set normally
+        }
+        else {
+          setScreen(Screen.DEFAULT);
         }
       }
 
@@ -230,10 +234,10 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) { // display ADHAN screen n secs before time
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < 900) {
+          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
-          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh > 900) {
+          } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
           else {
@@ -256,10 +260,10 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < 900) {
+          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
-          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor > 900) {
+          } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
           else {
@@ -282,10 +286,10 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < 900) {
+          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
-          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar > 900) {
+          } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
           else {
@@ -308,11 +312,11 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < 900) {
+          } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
           }
-          else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib > 900) {
+          else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
           else {
@@ -334,11 +338,11 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
-          } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < 900) {
+          } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
           }
-          else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak > 900) {
+          else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
           else {
