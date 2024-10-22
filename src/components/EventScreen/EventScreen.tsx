@@ -1,16 +1,21 @@
-import { Component, createEffect, createSignal, onCleanup } from 'solid-js';
+import { Component, createEffect, createSignal, onCleanup, Show } from 'solid-js';
+import { format } from 'date-fns';
+import { ms } from 'date-fns/locale';
 import styles from './EventScreen.module.scss';
+import { useEventsService } from '../../context/useEventsService';
 
 const EventScreen: Component = () => {
 
+  const { displayEvent } = useEventsService();
+
   return (
     <div class={styles.container}>
-      <div class={styles.header}>
-        Kuliah Maghrib
-      </div>
-      <div class={styles.announcementText}>
-        Ustaz Wan. Idaman Penuntut.
-      </div>
+      <Show when={displayEvent()}>
+        <div class={styles.dateContainer}>{format(displayEvent().date, 'EEEE dd MMM yyyy', { locale: ms })}</div>
+        <div class={styles.announcementText}>
+          {displayEvent().eventText}
+        </div>
+      </Show>
     </div>
   );
 };

@@ -43,19 +43,19 @@ const EventForm: Component = () => {
   const handleDefaultValues = (day: "Mon" | "Tue" | "Wed" | "Thu" | "Fri") => {
     switch (day) {
       case "Mon":
-        setEventText("Ustaz Nadzmi. Aqidah Muslimin");
+        setEventText("Kuliah Maghrib. Ustaz Nadzmi. Aqidah Muslimin");
         break;
       case "Tue":
-        setEventText("Ustaz Azmi Sabdin. Tadabur");
+        setEventText("Kuliah Maghrib. Ustaz Azmi Sabdin. Tadabur");
         break;
       case "Wed":
-        setEventText("Ustaz Hazwan. Kelebihan Amal Ibadah");
+        setEventText("Kuliah Maghrib. Ustaz Hazwan. Kelebihan Amal Ibadah");
         break;
       case "Thu":
-        setEventText("Ustaz Talhah. Sifat 20");
+        setEventText("Kuliah Maghrib. Ustaz Talhah. Sifat 20");
         break;
       case "Fri":
-        setEventText("Ustaz Shakir. Feqah Ibadah");
+        setEventText("Kuliah Maghrib. Ustaz Shakir. Feqah Ibadah");
         break;
       default:
         setEventText("Ustaz Nadzmi. Aqidah Muslimin"); // Default to Monday

@@ -6,6 +6,7 @@ import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
 import { useDailyVerseService } from "./useDailyVerseService";
+import { useEventsService } from "./useEventsService";
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -61,6 +62,7 @@ export function createServicePrayerHook() {
     } = useSettingsService();
 
     const { isOnline } = useDailyVerseService();
+    const { displayEvent } = useEventsService();
 
     createEffect(() => {
       fetchPrayerTimes();
@@ -75,18 +77,24 @@ export function createServicePrayerHook() {
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
 
-      const noOfSlides = isOnline() ? 4 : 3;
+      const noOfSlides = isOnline()
+        ? (displayEvent() ? 5 : 4) // 5 slides if online and event is displayed
+        : (displayEvent() ? 4 : 3); // 4 slides if offline and event is displayed
+
+      // Set the available screens based on isOnline() and whether displayEvent is available
       const availableScreens = isOnline()
         ? [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
           Screen.DEFAULT,
           Screen.DAILY_VERSE,
+          ...(displayEvent() ? [Screen.EVENT] : []), // Add Screen.EVENT if displayEvent is not null
         ]
         : [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
           Screen.DEFAULT,
+          ...(displayEvent() ? [Screen.EVENT] : []), // Add Screen.EVENT if displayEvent is not null
         ];
 
       if (!currentPrayer) { // SYURUK is when currentPrayer is null
