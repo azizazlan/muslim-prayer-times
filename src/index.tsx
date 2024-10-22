@@ -7,6 +7,7 @@ import { ThemeServiceProvider } from './context/useThemeService';
 import './index.scss';
 import App from './App';
 import { DailyVerseServiceProvider } from './context/useDailyVerseService';
+import { EventsServiceProvider } from './context/useEventsService';
 
 const root = document.getElementById('root');
 
@@ -18,12 +19,14 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 
 render(() => (
   <SettingsServiceProvider>
-    <DailyVerseServiceProvider>
-      <PrayerServiceProvider>
-        <ThemeServiceProvider>
-          <App />
-        </ThemeServiceProvider>
-      </PrayerServiceProvider>
-    </DailyVerseServiceProvider>
+    <EventsServiceProvider>
+      <DailyVerseServiceProvider>
+        <PrayerServiceProvider>
+          <ThemeServiceProvider>
+            <App />
+          </ThemeServiceProvider>
+        </PrayerServiceProvider>
+      </DailyVerseServiceProvider>
+    </EventsServiceProvider>
   </SettingsServiceProvider>
 ), root!);

@@ -2,26 +2,19 @@ import { createSignal } from "solid-js";
 import { Component } from 'solid-js/types'
 import { format } from 'date-fns';
 import styles from './EventForm.module.scss';
+import MosqueEvent from '../../types/mosqueEvent';
+import { useEventsService } from "../../context/useEventsService";
 
-interface Event {
-  id: number;
-  date: string;
-  repeat: boolean;
-  repeatDays: string[];
-}
 
-interface EventFormProps {
-  addEvent: (event: Event) => void;
-}
+const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const EventForm: Component = (props: EventFormProps) => {
+const EventForm: Component = () => {
+  const { addEvent } = useEventsService();
 
   const [eventText, setEventText] = createSignal("Ustaz Wan. Idaman Penuntut");
   const [date, setDate] = createSignal("");
   const [repeat, setRepeat] = createSignal(false);
   const [repeatDays, setRepeatDays] = createSignal<string[]>([]);
-
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   const handleRepeatDaysChange = (day: string) => {
     if (repeatDays().includes(day)) {
@@ -31,16 +24,16 @@ const EventForm: Component = (props: EventFormProps) => {
     }
   };
 
-  const handleSubmit = (e: Event) => {
+  const handleSubmit = (e: MosqueEvent) => {
     e.preventDefault();
-    const newEvent: Event = {
+    const newEvent: MosqueEvent = {
       id: Math.random(),
       eventText: eventText(),
       date: date(),
       repeat: repeat(),
       repeatDays: repeatDays(),
     };
-    props.addEvent(newEvent);
+    addEvent(newEvent);
     setEventText("");
     setDate("");
     setRepeat(false);
@@ -146,23 +139,25 @@ const EventForm: Component = (props: EventFormProps) => {
           </label>
         </div>
 
-        {repeat() && (
-          <div class={styles.formField}>
-            <label>Repeat on:</label>
-            {daysOfWeek.map((day) => (
-              <label class={styles.formLabel}>
-                <input
-                  type="checkbox"
-                  value={day}
-                  checked={repeatDays().includes(day)}
-                  onChange={() => handleRepeatDaysChange(day)}
-                />
-                {day}
-              </label>
-            ))}
-          </div>
-        )}
-        <br />
+        <div class={styles.repeatsContainer}>
+          {repeat() && (
+            <div class={styles.formField}>
+              <label>Repeat on:</label>
+              {daysOfWeek.map((day) => (
+                <label class={styles.formLabel}>
+                  <input
+                    type="checkbox"
+                    value={day}
+                    checked={repeatDays().includes(day)}
+                    onChange={() => handleRepeatDaysChange(day)}
+                  />
+                  {day}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div class={styles.formButtons}>
           <div class={styles.labelExamples}>Examples:</div>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Mon")}>Mon</button>
@@ -172,7 +167,6 @@ const EventForm: Component = (props: EventFormProps) => {
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Fri")}>Fri</button>
         </div>
         <div class={styles.formButtons}>
-          {/* <button class={styles.submitBtn} type="button" onClick={handleDefaultValues}>Default values</button> */}
           <button class={styles.submitBtn} type="submit">Add Event</button>
         </div>
       </form>

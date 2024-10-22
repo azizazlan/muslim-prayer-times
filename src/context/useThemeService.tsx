@@ -6,7 +6,6 @@ interface ProviderProps {
 }
 
 export function createThemeServiceHook() {
-  // Interface for the context value props
   interface ContextValueProps {
     colorTheme: Accessor<ColorTheme>;
     toggleColorTheme: (theme: ColorTheme) => void;
@@ -17,7 +16,6 @@ export function createThemeServiceHook() {
 
   const [colorTheme, setColorTheme] = createSignal<ColorTheme>(ColorTheme.BLACK_AND_WHITE);
 
-  // longitude, setLongitudes the children
   function Provider(props: ProviderProps) {
 
     createEffect(() => {
@@ -27,7 +25,6 @@ export function createThemeServiceHook() {
       clear();
       setColorTheme(theme);
     }
-
 
     function clear() {
       document.body.classList.remove(

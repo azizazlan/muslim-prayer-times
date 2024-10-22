@@ -18,18 +18,6 @@ const Settings = (props: SettingsProps) => {
     setActiveTab(tab);
   };
 
-  // EXPERINMENTING
-  const [events, setEvents] = createSignal<Event[]>([]);
-
-  const addEvent = (newEvent: Event) => {
-    setEvents([...events(), newEvent]);
-  };
-
-  const removeEvent = (eventToBeRemoved: Event) => {
-    // Update the events signal by filtering out the event that matches the `id`
-    setEvents(events().filter(event => event.id !== eventToBeRemoved.id));
-  };
-
   return (
     <div class={styles.container}>
       <div class={styles.tabBar}>
@@ -71,8 +59,8 @@ const Settings = (props: SettingsProps) => {
         )}
         {activeTab() === "eventform" && (
           <div class={styles.eventSettingsContainer}>
-            <EventForm addEvent={addEvent} />
-            <EventList events={events()} removeEvent={removeEvent} />
+            <EventForm />
+            <EventList />
           </div>
         )}
       </div>
