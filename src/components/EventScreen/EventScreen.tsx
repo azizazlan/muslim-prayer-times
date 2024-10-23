@@ -10,6 +10,13 @@ const EventScreen: Component = () => {
 
   return (
     <div class={styles.container}>
+      <Show when={!displayEvent()}>
+        <div class={styles.dateContainer}>Isnin, 11 Jan 2055</div>
+        <div class={styles.borderBottom}></div>
+        <div class={styles.announcementText}>
+          Testing Event Screen. Semua Jemaah Qariah dijemput Hadir ke Kuliah Maghrib.
+        </div>
+      </Show>
       <Show when={displayEvent()}>
         <div class={styles.dateContainer}>{format(displayEvent().date, 'EEEE dd MMM yyyy', { locale: ms })}</div>
         <div class={styles.borderBottom}></div>

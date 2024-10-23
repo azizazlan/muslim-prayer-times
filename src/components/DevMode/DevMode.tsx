@@ -15,6 +15,7 @@ const DevMode = (props: DevModeProps) => {
   return (
     <div class={styles.container}>
       <div class={styles.testButtonsContainer}>
+        <button class={styles.testButton} onClick={() => setScreen(Screen.DEFAULT)}>Default</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.EVENT)}>Event</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.DAILY_VERSE)}>Daily Verse</button>

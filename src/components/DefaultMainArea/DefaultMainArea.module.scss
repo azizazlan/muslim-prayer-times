@@ -1,4 +1,5 @@
 .container {
+  margin-top: 9rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -44,6 +45,10 @@
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
+  .container {
+    margin-top: 3rem;
+  }
+
   .dateContainer {
     display: flex;
     flex-direction: column;

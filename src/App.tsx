@@ -96,12 +96,9 @@ const App: Component = () => {
         console.log(`Error attempting to enable full-screen mode: ${e.message}`);
       });
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+      document.exitFullscreen();
     }
   };
-
 
   const renderMainArea = () => {
     // console.log(screen());
@@ -128,7 +125,7 @@ const App: Component = () => {
   };
 
   return (
-    <div class={styles.container} style={{ width: `${getWindowDimensions().width}px`, height: `${getWindowDimensions().height}px` }}>
+    <div class={styles.container}>
       {isOnline() ? <OnlineIndicator /> : null}
       <TopToolbar toggleFullScreen={toggleFullScreen} />
       <div class={styles.mainArea}>

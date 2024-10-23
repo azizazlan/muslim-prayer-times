@@ -1,21 +1,17 @@
 .container {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
+  height: 99.7vh;
 }
 
 .mainArea {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   flex-grow: 1;
-  overflow-y: auto; // Add this line
   background-color: var(--background-color);
-  padding-bottom: 15px; 
+}
+
+.bottomStrip {
+  background-color: var(--strip-color); // Your desired color
+  flex-shrink: 0; // Make sure it doesn't shrink
 }
 
 .onlineIndicator {

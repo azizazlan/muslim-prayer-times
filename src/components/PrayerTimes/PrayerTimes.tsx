@@ -18,27 +18,31 @@ const PrayerTimes: Component<PrayerTimesProps> = (props) => {
   const isyak = memoizedPrayers()[5];
   return (
     <div class={styles.container}>
-      <div class={styles.rowContainer}>
-        <div class={styles.prayerName}>{subuh.name}</div>
-        <div class={styles.prayerTime}>{subuh.time}</div>
-        <div class={styles.decorationSunrise}></div>
-        <div class={styles.prayerName}>{syuruk.name}</div>
-        <div class={styles.prayerTime}>{syuruk.time}</div>
-      </div>
-      <div class={styles.rowContainer}>
-        <div class={styles.prayerName}>{zohor.name}</div>
-        <div class={styles.prayerTime}>{zohor.time}</div>
-        <div class={styles.decorationSun}></div>
-        <div class={styles.prayerName}>{asar.name}</div>
-        <div class={styles.prayerTime}>{asar.time}</div>
-      </div>
-      <div class={styles.rowContainer}>
-        <div class={styles.prayerName}>{maghrib.name}</div>
-        <div class={styles.prayerTime}>{maghrib.time}</div>
-        <div class={styles.decorationMoon}></div>
-        <div class={styles.prayerName}>{isyak.name}</div>
-        <div class={styles.prayerTime}>{isyak.time}</div>
-      </div>
+      <table class={styles.table}>
+        <tbody>
+          <tr>
+            <td class={styles.wide}>{subuh.name}</td>
+            <td class={styles.wideTime}>{subuh.time}</td>
+            <td class={`${styles.narrow} ${styles.decorationSunrise}`}></td>
+            <td class={styles.wide}>{syuruk.name}</td>
+            <td class={styles.wideTime}>{syuruk.time}</td>
+          </tr>
+          <tr>
+            <td class={styles.wide}>{zohor.name}</td>
+            <td class={styles.wideTime}>{zohor.time}</td>
+            <td class={`${styles.narrow} ${styles.decorationSun}`}></td>
+            <td class={styles.wide}>{asar.name}</td>
+            <td class={styles.wideTime}>{asar.time}</td>
+          </tr>
+          <tr>
+            <td class={styles.wide}>{maghrib.name}</td>
+            <td class={styles.wideTime}>{maghrib.time}</td>
+            <td class={`${styles.narrow} ${styles.decorationMoon}`}></td>
+            <td class={styles.wide}>{isyak.name}</td>
+            <td class={styles.wideTime}>{isyak.time}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 .container {
-  width: 90%;
+  margin-top: 9rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,28 +17,31 @@
   }
 }
 
-.rowContainer {
+.table {
+  font-size: 13.0rem;
   width: 100%;
-  min-height: 225px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Archivo Narrow', serif;
-  font-size: 9.0rem;
-}
-
-.prayerName {
-  min-width: 475px;
-  padding-left: 2rem;
+  border-collapse: collapse;
   font-family: 'Archivo Narrow', serif;
 }
 
-.prayerTime {
-  min-width: 255px;
-  font-weight: 600;
-  text-align: center;
-} 
+.table td {
+}
+
+.table .wideTime {
+  width: 17%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.table .wide {
+  padding-left: 3rem;
+  width: 25%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
+}
+
+.table .narrow {
+  width: 5%; /* Narrow width for the middle column */
+  text-align: center; /* Center align content horizontally */
+}
 
 .decorationSunrise {
   width: 75px;
@@ -61,15 +64,14 @@
 }
 
 .decorationMoon {
-  width: 65px;
-  height: 55px;
+  width: 35px;
+  height: 25px;
   background-image: url('../../assets/images/moon.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.5;
 }
-
 .emptyDecoration {
   min-width: 65px;
 }
@@ -77,16 +79,7 @@
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
-  .rowContainer {
-    font-size: 6.7rem;
-    min-height: 155px;
+  .table {
+    font-size: 6.5rem;
   }
-
-  .prayerName {
-    min-width: 355px;
-    padding-left: 1rem;
-  }
-  .prayerTime {
-    min-width: 175px;
-  } 
 }
