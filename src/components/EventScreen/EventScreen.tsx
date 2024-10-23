@@ -12,6 +12,7 @@ const EventScreen: Component = () => {
     <div class={styles.container}>
       <Show when={displayEvent()}>
         <div class={styles.dateContainer}>{format(displayEvent().date, 'EEEE dd MMM yyyy', { locale: ms })}</div>
+        <div class={styles.borderBottom}></div>
         <div class={styles.announcementText}>
           {displayEvent().eventText}
         </div>

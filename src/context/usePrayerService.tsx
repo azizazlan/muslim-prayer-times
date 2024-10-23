@@ -95,7 +95,7 @@ export function createServicePrayerHook() {
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
 
       if (!currentPrayer) { // SYURUK is when currentPrayer is null
-        console.log(`Syuruk when currentPrayer is null but leadPrayer is ${leadPrayer().name}`);
+        console.log(`Syuruk when currentPrayer is null and leadPrayer is ${leadPrayer().name}`);
         setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
 
         const index = currentIndex();

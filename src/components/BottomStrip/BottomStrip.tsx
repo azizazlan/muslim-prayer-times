@@ -1,5 +1,6 @@
 import { Component, For, createMemo, createEffect, createSignal, onCleanup, Show } from 'solid-js';
 import { format, addSeconds } from 'date-fns';
+import { ms } from 'date-fns/locale';
 import styles from './BottomStrip.module.scss';
 import borderImage from '../../assets/images/lantern.png';
 import { Prayer } from '../../types/prayer';
@@ -35,7 +36,7 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
             {format(memoizedCurrentTime(), 'mm')}
           </div>
           <div class={styles.clockDate}>
-            {format(memoizedCurrentTime(), 'dd.MM.yyyy')}
+            {format(memoizedCurrentTime(), 'EEEE dd MMM yyyy', { locale: ms })}
           </div>
         </div>
         <div class={styles.horizontalContainer}>

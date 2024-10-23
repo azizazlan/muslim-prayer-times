@@ -21,14 +21,24 @@
 .dateContainer {
   font-size: 7rem;
   font-weight: 700;
-  border-bottom: 1pt solid grey;
-  margin-bottom: 2.5rem;
 }
 
 .announcementText {
   margin-left: 3rem;
   margin-right: 3rem;
   font-size: 7rem;
+  text-align: center;
+}
+
+.borderBottom {
+  height: 35px;
+  width: 325px;
+  background-image: url('../../assets/images/border-bottom.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+  margin-bottom: 1rem;
 }
 
 $small: 1440px;
