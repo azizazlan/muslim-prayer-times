@@ -122,32 +122,36 @@ export function createServicePrayerHook() {
       }
 
       const secsAfterPrayer = differenceInSeconds(currentTime(), getPrayerTime(currentPrayer.name));
-      console.log(`secsAfterPrayer: ${secsAfterPrayer}secs (${secsAfterPrayer / 60}mins)`);
-      if ((screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) && secsAfterPrayer < PRAYER_DURATION_MINS * 60) {
-        console.log(`switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen AND secsAfterPrayer ${secsAfterPrayer}`);
+      console.log(`${screen()} secsAfterPrayer: ${secsAfterPrayer}secs (${secsAfterPrayer / 60}mins)`);
+
+      if (secsAfterPrayer > PRAYER_DURATION_MINS * 60 && screen() === Screen.IQAMAH) {
+        setScreen(Screen.DEFAULT);
         return;
-      } else {
+      }
 
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+      if (screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) {
+        console.log(`switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen`);
+        return;
+      }
 
-        // Check if currentIndex is valid and set the screen accordingly
-        const index = currentIndex();
-        if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
-          // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
-          if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
-            // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE
-            if (index === 0) {
-              setScreen(availableScreens[1]); // Set to DEFAULT screen
-            } else {
-              setScreen(availableScreens[index]); // Set to the current index screen
-            }
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+      // Check if currentIndex is valid and set the screen accordingly
+      const index = currentIndex();
+      if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
+        // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
+        if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
+          // Only switch between DEFAULT, PRAYER_TIMES, and DAILY_VERSE
+          if (index === 0) {
+            setScreen(availableScreens[1]); // Set to DEFAULT screen
           } else {
-            setScreen(availableScreens[index]); // For other prayers, set normally
+            setScreen(availableScreens[index]); // Set to the current index screen
           }
+        } else {
+          setScreen(availableScreens[index]); // For other prayers, set normally
         }
-        else {
-          setScreen(Screen.DEFAULT);
-        }
+      }
+      else {
+        setScreen(Screen.DEFAULT);
       }
 
     };

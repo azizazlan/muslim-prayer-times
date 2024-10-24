@@ -4,10 +4,8 @@ import styles from './PrayerTimes.module.scss';
 import { Prayer, PrayerName } from '../../types/prayer';
 import { usePrayerService } from '../../context/usePrayerService';
 
-interface PrayerTimesProps {
-}
 
-const PrayerTimes: Component<PrayerTimesProps> = (props) => {
+const PrayerTimes: Component = () => {
   const { prayers, leadPrayer } = usePrayerService();
   const memoizedPrayers = createMemo(() => prayers());
   const subuh = memoizedPrayers()[0];
@@ -32,7 +30,7 @@ const PrayerTimes: Component<PrayerTimesProps> = (props) => {
             <td class={leadPrayer()?.name === PrayerName.ZOHOR ? styles.wideNext : styles.wide}>{zohor.name}</td>
             <td class={leadPrayer()?.name === PrayerName.ZOHOR ? styles.wideTimeNext : styles.wideTime}>{zohor.time}</td>
             <td class={`${styles.narrow} ${styles.decorationSun}`}></td>
-            <td class={leadPrayer()?.name === PrayerName.ASAR ? styles.wideNext : styles.wideNext}>{asar.name}</td>
+            <td class={leadPrayer()?.name === PrayerName.ASAR ? styles.wideNext : styles.wide}>{asar.name}</td>
             <td class={leadPrayer()?.name === PrayerName.ASAR ? styles.wideTimeNext : styles.wideTime}>{asar.time}</td>
           </tr>
           <tr>

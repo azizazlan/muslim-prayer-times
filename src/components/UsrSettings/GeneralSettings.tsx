@@ -111,7 +111,7 @@ const GeneralSettings = () => {
         <label class={styles.fieldLabel}>
           Papar Countdown Iqamah
         </label>
-        <input class={styles.formInput} type="number" name="iqamahIntervalMs" value={iqamahIntervalMins()} onInput={handleChange} />
+        <input class={styles.formInput} type="number" name="iqamahIntervalMins" value={iqamahIntervalMins()} onInput={handleChange} />
         <small class={styles.hint}>minit sebelum iqamah</small>
       </div>
       <div class={styles.field}>
