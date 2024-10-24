@@ -7,10 +7,14 @@ const ColorThemeSettings: Component = () => {
 
   const { colorTheme, toggleColorTheme } = useThemeService();
 
+  const [selectedColorTheme, setSelectedColorTheme] = createSignal(colorTheme()); // Initialize with context value
+
+
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
     console.log(`name ${typeof name} ${name}`)
     toggleColorTheme(value);
+    setSelectedColorTheme(value);
   }
 
   return (
@@ -19,7 +23,7 @@ const ColorThemeSettings: Component = () => {
         <label class={styles.fieldLabel}>
           Warna Tema
         </label>
-        <select class={styles.formSelectInput} name="colorTheme" onInput={handleChange}>
+        <select class={styles.formSelectInput} name="colorTheme" onInput={handleChange} value={selectedColorTheme()}>
           <option value={ColorTheme.BLACK_AND_WHITE}>Hitam dan Putih</option>
           <option value={ColorTheme.BLUE_AND_WHITE}>Biru dan Putih</option>
           <option value={ColorTheme.PINK_AND_TIFFANY}>Pink and Biru Tiffany</option>

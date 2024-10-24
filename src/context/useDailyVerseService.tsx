@@ -1,14 +1,16 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
 import { ColorTheme } from "../types/theme";
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
 }
 
 export function createDailyVerseServiceHook() {
-  // Interface for the context value props
+
   interface ContextValueProps {
     enableDailyVerse: Accessor<boolean>;
+    setEnableDailyVerse: (enabled: boolean) => void;
     isOnline: Accessor<boolean>;
     verse: Accessor<any | null>;
     setIsOnline: (ok: boolean) => void;
@@ -18,12 +20,17 @@ export function createDailyVerseServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  const [isOnline, setIsOnline] = createSignal<boolean>(true);
-  const [enableDailyVerse, setEnableDailyVerse] = createSignal<boolean>(true);
-  const [verse, setVerse] = createSignal<any | null>(null)
-
-  // longitude, setLongitudes the children
   function Provider(props: ProviderProps) {
+
+    const [isOnline, setIsOnline] = createSignal<boolean>(true);
+    const [verse, setVerse] = createSignal<any | null>(null)
+
+    const [enableDailyVerse, setEnableDailyVerse] = createSignal<boolean>(
+      loadFromLocalStorage<boolean>("enableDailyVerse", true)
+    );
+
+    // Watch for changes and update localStorage accordingly
+    createEffect(() => saveToLocalStorage("enableDailyVerse", enableDailyVerse()));
 
     const checkInternetConnection = async () => {
       try {
@@ -128,6 +135,7 @@ export function createDailyVerseServiceHook() {
 
     const value: ContextValueProps = {
       enableDailyVerse,
+      setEnableDailyVerse,
       isOnline,
       fetchNextRandVerse,
       verse,

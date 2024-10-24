@@ -1,18 +1,16 @@
 .container {
-  margin-top: 1rem;
   width: 100%;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
   color: white;
   font-family: 'Archivo Narrow', serif;
 }
 
 .form {
   width: 100%;
-  font-size: 1.5rem;
 }
 
 .formField {
@@ -23,31 +21,45 @@
 }
 
 .formLabel {
-  width: 10%;
+  font-size: 3.5rem;
+  margin-right: 1rem;
+  width: 115px;
 }
 
 .formInput {
-  font-size: 1.5rem;
-  min-width: 535px;
+  font-size: 3.5rem;
+  min-width: 1025px;
   font-family: monospace;
 }
 
 .formCheckboxLabel{
   display: flex;
   flex-direction: row;
+  font-size: 3.5rem;
+  margin-right: 1rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.formCheckboxInput {
+  margin-right: 1rem;
+  width: 35px; /* Increase width */
+  height: 35px; /* Increase height */
+  transform: scale(1.5); /* Scale up the checkbox */
 }
 
 .repeatsContainer {
-  min-height: 55px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 175px;
 }
 
 .formButtons {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 
 .submitBtn {
@@ -56,11 +68,63 @@
   padding-right: 1.1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  margin-left: 1rem;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .labelExamples {
   flex-grow: 1;
+}
+
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+
+  .formLabel {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    width: 70px;
+  }
+  
+  .formInput {
+    font-size: 1.5rem;
+    min-width: 1025px;
+    font-family: monospace;
+  }
+
+  .formInput {
+    font-size: 1.5rem;
+    min-width: 535px;
+    font-family: monospace;
+  }
+
+  .repeatsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 75px;
+  }
+
+  .formCheckboxLabel{
+    font-size: 1.5rem;
+    margin-right: 1rem;
+  }
+
+  .formCheckboxInput {
+    margin-right: 0rem;
+    width: 25px; /* Increase width */
+    height: 25px; /* Increase height */
+    transform: scale(1.0); /* Scale up the checkbox */
+  }
+
+  .submitBtn {
+    font-size: 1.0rem;
+    padding-left: 1.0rem;
+    padding-right: 1.0rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }

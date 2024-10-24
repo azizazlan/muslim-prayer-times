@@ -14,7 +14,7 @@ const DailyVerse: Component = () => {
   if (!memoizedVerse()) {
     return (
       <div class={styles.container}>
-        Error. Please check internet connection.
+        Daily Verse - Error. Please check internet connection.
       </div>
     )
   }

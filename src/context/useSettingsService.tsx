@@ -4,6 +4,7 @@ import { getByDay } from 'prayertiming';
 import { Prayer, PrayerMode, PrayerName } from '../types/prayer';
 import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 const MOSQUE_NAME = import.meta.env.VITE_MOSQUE_NAME;
 const LATITUDE = import.meta.env.VITE_LATITUDE;
@@ -43,26 +44,60 @@ export function createSettingsServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  const [enabledSlides, setEnabledSlides] = createSignal<boolean>(true);
-  const [calculationMethod, setCalculationMethod] = createSignal<string>("JAKIM");
-  const [mosqueName, setMosqueName] = createSignal<string>(MOSQUE_NAME);
-  const [locationName, setLocationName] = createSignal<string>("KOTA DAMANSARA, SELANGOR");
-  const [latitude, setLatitude] = createSignal<string>(LATITUDE);
-  const [longitude, setLongitude] = createSignal<string>(LONGITUDE);
-  const [adhanLeadMins, setAdhanLeadMins] = createSignal<string>(ADHAN_LEAD_MINS);
-  const [slideIntervalMs, setSlideIntervalMs] = createSignal<number>(SWITCH_SLIDES_INTERVAL_MS);
-  const [iqamahIntervalMins, setIqamahIntervalMins] = createSignal<number>(IQAMAH_INTERVAL_MINS);
-
-  // longitude, setLongitudes the children
   function Provider(props: ProviderProps) {
 
-    createEffect(() => {
-    });
+    const [enabledSlides, setEnabledSlides] = createSignal<boolean>(
+      loadFromLocalStorage<boolean>("enabledSlides", true)
+    );
+    const [calculationMethod, setCalculationMethod] = createSignal<string>(
+      loadFromLocalStorage<string>("calculationMethod", "JAKIM")
+    );
+    const [mosqueName, setMosqueName] = createSignal<string>(
+      loadFromLocalStorage<string>("mosqueName", MOSQUE_NAME)
+    );
+    const [locationName, setLocationName] = createSignal<string>(
+      loadFromLocalStorage<string>("locationName", "KOTA DAMANSARA, SELANGOR")
+    );
+    const [latitude, setLatitude] = createSignal<string>(
+      loadFromLocalStorage<string>("latitude", LATITUDE)
+    );
+    const [longitude, setLongitude] = createSignal<string>(
+      loadFromLocalStorage<string>("longitude", LONGITUDE)
+    );
+    const [adhanLeadMins, setAdhanLeadMins] = createSignal<number>(
+      loadFromLocalStorage<number>("adhanLeadMins", ADHAN_LEAD_MINS)
+    );
+    const [slideIntervalMs, setSlideIntervalMs] = createSignal<number>(
+      loadFromLocalStorage<number>("slideIntervalMs", SWITCH_SLIDES_INTERVAL_MS)
+    );
+    const [iqamahIntervalMins, setIqamahIntervalMins] = createSignal<number>(
+      loadFromLocalStorage<number>("iqamahIntervalMins", IQAMAH_INTERVAL_MINS)
+    );
 
+    // Watch for changes and update localStorage accordingly
+    createEffect(() => saveToLocalStorage("enabledSlides", enabledSlides()));
+    createEffect(() => saveToLocalStorage("calculationMethod", calculationMethod()));
+    createEffect(() => saveToLocalStorage("mosqueName", mosqueName()));
+    createEffect(() => saveToLocalStorage("locationName", locationName()));
+    createEffect(() => saveToLocalStorage("latitude", latitude()));
+    createEffect(() => saveToLocalStorage("longitude", longitude()));
+    createEffect(() => saveToLocalStorage("adhanLeadMins", adhanLeadMins()));
+    createEffect(() => saveToLocalStorage("slideIntervalMs", slideIntervalMs()));
+    createEffect(() => saveToLocalStorage("iqamahIntervalMins", iqamahIntervalMins()));
 
-    function clear() {
-      console.log("clear");
-    }
+    // Clear function to reset the local storage
+    const clear = () => {
+      localStorage.clear();
+      setEnabledSlides(true);
+      setCalculationMethod("JAKIM");
+      setMosqueName(MOSQUE_NAME);
+      setLocationName("KOTA DAMANSARA, SELANGOR");
+      setLatitude(LATITUDE);
+      setLongitude(LONGITUDE);
+      setAdhanLeadMins(ADHAN_LEAD_MINS);
+      setSlideIntervalMs(SWITCH_SLIDES_INTERVAL_MS);
+      setIqamahIntervalMins(IQAMAH_INTERVAL_MINS);
+    };
 
     const value: ContextValueProps = {
       enabledSlides,

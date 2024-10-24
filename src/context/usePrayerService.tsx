@@ -7,6 +7,7 @@ import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
 import { useDailyVerseService } from "./useDailyVerseService";
 import { useEventsService } from "./useEventsService";
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 const PRAYER_DURATION_MINS = parseInt(import.meta.env.VITE_PRAYER_DURATION_MINS || '10', 10);
 
@@ -32,25 +33,6 @@ export function createServicePrayerHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  const [timingConfig, setTimingConfig] = createSignal({
-    fajr: 17.7,
-    dhuhr: 1.2,
-    maghrib: 1.1,
-    isha: 18.3,
-    midnight: 'Standard',
-    highLats: 'NightMiddle'
-  });
-
-  const [currentTime, setCurrentTime] = createSignal(new Date());
-  const [prayers, setPrayers] = createSignal<Prayer[]>([]); // Initialize as an empty array
-  const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
-  // secsUntilNextPrayer is used in the Adhan component
-  const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
-  const [test, setTest] = createSignal(TestMode.DEACTIVATED);
-  const [isTestInProgress, setIsTestInProgress] = createSignal(false);
-  const [screen, setScreen] = createSignal(Screen.DEFAULT);
-  const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
-
   // Provider component that wraps the children
   function Provider(props: ProviderProps) {
 
@@ -65,6 +47,33 @@ export function createServicePrayerHook() {
 
     const { isOnline } = useDailyVerseService();
     const { displayEvent } = useEventsService();
+
+    // Load initial timing configuration from localStorage or use defaults
+    const defaultTimingConfig = {
+      fajr: 17.7,
+      dhuhr: 1.2,
+      maghrib: 1.1,
+      isha: 18.3,
+      midnight: 'Standard',
+      highLats: 'NightMiddle',
+    };
+
+    const [timingConfig, setTimingConfig] = createSignal(
+      loadFromLocalStorage("timingConfig", defaultTimingConfig)
+    );
+
+    const [currentTime, setCurrentTime] = createSignal(new Date());
+    const [prayers, setPrayers] = createSignal<Prayer[]>([]); // Initialize as an empty array
+    const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
+    // secsUntilNextPrayer is used in the Adhan component
+    const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
+    const [test, setTest] = createSignal(TestMode.DEACTIVATED);
+    const [isTestInProgress, setIsTestInProgress] = createSignal(false);
+    const [screen, setScreen] = createSignal(Screen.DEFAULT);
+    const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
+
+    // Watch for changes in timingConfig and update localStorage
+    createEffect(() => saveToLocalStorage("timingConfig", timingConfig()));
 
     createEffect(() => {
       fetchPrayerTimes();
@@ -96,6 +105,13 @@ export function createServicePrayerHook() {
 
       if (!currentPrayer) { // SYURUK is when currentPrayer is null
         console.log(`Syuruk when currentPrayer is null and leadPrayer is ${leadPrayer().name}`);
+
+
+        if (screen() === Screen.SETTINGS || screen() === Screen.DEV) {
+          console.log(`User is viewing SETTINGS/DEV`);
+          return;
+        }
+
         setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
 
         const index = currentIndex();

@@ -87,7 +87,6 @@ const App: Component = () => {
     );
     // Add the current theme class
     document.body.classList.add(memoizedColorTheme());
-    console.log(memoizedColorTheme());
   });
 
   const toggleFullScreen = () => {

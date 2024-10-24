@@ -109,7 +109,7 @@ const EventForm: Component = () => {
         <div class={styles.formField}>
           <label class={styles.formLabel}>Event</label>
           <textarea
-            rows={3}
+            rows={5}
             class={styles.formInput}
             value={eventText()} // Bind the value to the signal
             onInput={(e) => setEventText(e.currentTarget.value)} // Update the signal on input change
@@ -118,7 +118,7 @@ const EventForm: Component = () => {
         </div>
 
         <div class={styles.formField}>
-          <label class={styles.formLabel}>Date:</label>
+          <label class={styles.formLabel}>Date</label>
           <input
             class={styles.formInput}
             type="date"
@@ -128,24 +128,23 @@ const EventForm: Component = () => {
           />
         </div>
 
-        <div class={styles.formField}>
+        <div class={styles.repeatsContainer}>
           <label class={styles.formCheckboxLabel}>
             <input
+              hidden
               type="checkbox"
               checked={repeat()}
               onChange={(e) => setRepeat(e.currentTarget.checked)}
             />
-            Repeat Event?
+            🔄
           </label>
-        </div>
 
-        <div class={styles.repeatsContainer}>
           {repeat() && (
-            <div class={styles.formField}>
-              <label>Repeat on:</label>
+            <>
               {daysOfWeek.map((day) => (
-                <label class={styles.formLabel}>
+                <label class={styles.formCheckboxLabel}>
                   <input
+                    class={styles.formCheckboxInput}
                     type="checkbox"
                     value={day}
                     checked={repeatDays().includes(day)}
@@ -154,19 +153,15 @@ const EventForm: Component = () => {
                   {day}
                 </label>
               ))}
-            </div>
+            </>
           )}
         </div>
-
         <div class={styles.formButtons}>
-          <div class={styles.labelExamples}>Examples:</div>
-          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Mon")}>Mon</button>
+          {/* <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Mon")}>Mon</button>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Tue")}>Tue</button>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Wed")}>Wed</button>
           <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Thu")}>Thu</button>
-          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Fri")}>Fri</button>
-        </div>
-        <div class={styles.formButtons}>
+          <button class={styles.submitBtn} type="button" onClick={() => handleDefaultValues("Fri")}>Fri</button> */}
           <button class={styles.submitBtn} type="submit">Add Event</button>
         </div>
       </form>

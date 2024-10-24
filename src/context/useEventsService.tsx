@@ -1,5 +1,6 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
 import MosqueEvent from '../types/mosqueEvent';
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -20,7 +21,11 @@ export function createEventsServiceHook() {
 
     const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-    const [events, setEvents] = createSignal<MosqueEvent[]>([]);
+    const defaultEvents: MosqueEvent[] = []; // Default value for events
+
+    const [events, setEvents] = createSignal<MosqueEvent[]>(
+      loadFromLocalStorage<MosqueEvent[]>("events", defaultEvents)
+    );
     const [displayEvent, setDisplayEvent] = createSignal<MosqueEvent | null>(null);
 
     const addEvent = (newEvent: MosqueEvent) => {
@@ -61,6 +66,8 @@ export function createEventsServiceHook() {
         console.log('No event found for today');
       }
     };
+
+    createEffect(() => saveToLocalStorage("events", events()));
 
     createEffect(() => {
       const intervalId = setInterval(checkEvent, 30000);

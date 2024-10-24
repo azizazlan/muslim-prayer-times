@@ -18,20 +18,18 @@ const EventList = () => {
           {(event) => {
             return (
               <li class={styles.eventBullet}>
-                <div class={styles.eventInfoContainer}>
-                  <div class={styles.eventInfoTexts}>
-                    <div class={styles.eventText}>{event.eventText}</div>
+                <div class={styles.eventContainer}>
+                  <div class={styles.eventText}>⦿ {event.eventText}</div>
+                  <div class={styles.dateContainer}>
+                    <div class={styles.date}>{format(new Date(event.date), "EEE dd MMM yyyy")}</div>
+                    {event.repeat && (
+                      <div class={styles.repeatsContainer}>
+                        🔄 {event.repeatDays.join(", ")}
+                      </div>
+                    )}
                   </div>
-                  <button class={styles.btn} onClick={() => removeEvent(event)}>Remove</button>
                 </div>
-                <div class={styles.dateContainer}>
-                  <div class={styles.date}>{format(new Date(event.date), "EEE dd-MMM-yyyy")}</div>
-                  {event.repeat && (
-                    <div>
-                      Repeats on: {event.repeatDays.join(", ")}
-                    </div>
-                  )}
-                </div>
+                <button class={styles.btn} onClick={() => removeEvent(event)}>Remove</button>
               </li>
             )
           }}

@@ -1,5 +1,6 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
 import { ColorTheme } from "../types/theme";
+import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 interface ProviderProps {
   children: JSX.Element; // JSX.Element for Solid.js
@@ -14,12 +15,18 @@ export function createThemeServiceHook() {
 
   const Context = createContext<ContextValueProps>();
 
-  const [colorTheme, setColorTheme] = createSignal<ColorTheme>(ColorTheme.BLACK_AND_WHITE);
-
   function Provider(props: ProviderProps) {
 
-    createEffect(() => {
-    });
+    // Default color theme
+    const DEFAULT_COLOR_THEME = ColorTheme.BLACK_AND_WHITE;
+
+    // Create signal for colorTheme with default and localStorage integration
+    const [colorTheme, setColorTheme] = createSignal<ColorTheme>(
+      loadFromLocalStorage<ColorTheme>("colorTheme", DEFAULT_COLOR_THEME)
+    );
+
+    // Watch for changes and update localStorage accordingly
+    createEffect(() => saveToLocalStorage("colorTheme", colorTheme()));
 
     const toggleColorTheme = (theme: ColorTheme) => {
       clear();

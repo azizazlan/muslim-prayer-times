@@ -25,7 +25,7 @@ const GeneralSettings = () => {
     setIqamahIntervalMins
   } = useSettingsService();
 
-  const { isOnline, enableDailyVerse } = useDailyVerseService();
+  const { isOnline, enableDailyVerse, setEnableDailyVerse } = useDailyVerseService();
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
@@ -145,6 +145,9 @@ const GeneralSettings = () => {
           class={styles.formCheckboxInput}
           type="checkbox"
           name="enabledDAilyVerse"
+          onChange={(event) => {
+            setEnableDailyVerse(event.target.checked);
+          }}
         />
       </div>
     </div>
