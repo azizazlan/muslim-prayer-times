@@ -4,10 +4,10 @@
   flex-direction: column;
   align-items: center;
   background-color: #f5f6fa;
-  padding-left: 1.0rem;
-  padding-right: 1.0rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   min-height: 200px;
-    //  background-color: var(--background-color);
+  //  background-color: var(--background-color);
 }
 
 .topBorder {
@@ -33,7 +33,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-left: 2.0rem;
+  margin-left: 2rem;
 }
 
 .prayerBoxWrapper {
@@ -73,25 +73,26 @@
 }
 
 .clockTime {
-   font-size: 7.5rem;
-   font-weight: bold;
-   display: flex;
-   flex-direction: row;
-   margin-bottom: -1.7rem;
-   margin-top: -1.5rem;
+  font-size: 9.5rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: -2.5rem;
+  margin-top: -1.9rem;
 }
 
 .clockDate {
   font-size: 3.3rem;
- }
+}
 
- .blinkingSeparator {
+.blinkingSeparator {
   margin-top: -0.3rem;
-  animation: heartbeatOpacity 1.9s ease-in-out infinite; 
+  animation: heartbeatOpacity 1.9s ease-in-out infinite;
 }
 
 @keyframes heartbeatOpacity {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1; /* Start and end at 0.5 opacity */
   }
   25% {
@@ -109,7 +110,7 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .container {
-      min-height: 100px;;
+    min-height: 100px;
   }
 
   .borderImageWrapper {
@@ -118,13 +119,15 @@ $medium: 1441px;
 
   .clockTime {
     font-size: 5.5rem;
- }
+    margin-top: -1.2rem;
+    margin-bottom: -1.7rem;
+  }
 
- .clock {
-  width: 21%; 
- }
+  .clock {
+    width: 21%;
+  }
 
- .clockDate {
-  font-size: 1.7rem;
- }
+  .clockDate {
+    font-size: 1.7rem;
+  }
 }
