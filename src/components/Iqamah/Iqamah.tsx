@@ -26,7 +26,7 @@ const Iqamah: Component<IqamahProps> = () => {
   return (
     <div class={styles.container}>
       {secondsLeft() === 0 ? <div class={styles.iqamahContainer}><div class={styles.safMessage}>
-        LURUSKAN DAN RAPATKAN SAF
+        LURUS DAN RAPATKAN SAF
       </div></div> :
         <div class={styles.iqamahContainer}>
           <div class={styles.iqamahMessage}>

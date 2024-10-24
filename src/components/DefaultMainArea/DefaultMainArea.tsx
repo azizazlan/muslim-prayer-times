@@ -20,7 +20,7 @@ const DefaultDisplay = () => {
 
   return (
     <div class={styles.container}>
-      <div>
+      <div class={styles.analogClockContainer}>
         <AnalogClock />
       </div>
       <div class={styles.dateContainer}>

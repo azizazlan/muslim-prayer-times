@@ -19,20 +19,21 @@
 }
 
 .dateContainer {
-  font-size: 7rem;
+  font-size: 11.5rem;
   font-weight: 700;
+  margin-top: -9rem;
 }
 
 .announcementText {
   margin-left: 3rem;
   margin-right: 3rem;
-  font-size: 7rem;
+  font-size: 11.5rem;
   text-align: center;
 }
 
 .borderBottom {
-  height: 35px;
-  width: 325px;
+  height: 95px;
+  width: 395px;
   background-image: url('../../assets/images/border-bottom.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -45,6 +46,7 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .dateContainer {
+    margin-top: 0rem;
     font-size: 3.5rem;
   }
   .announcementText {

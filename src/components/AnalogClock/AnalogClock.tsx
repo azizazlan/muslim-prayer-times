@@ -24,7 +24,7 @@ type ClockFaceProps = {
 };
 
 export const ClockFace: Component<ClockFaceProps> = (props) => (
-  <svg viewBox="0 0 200 200" width="70vh">
+  <svg viewBox="0 0 200 200" width="100vh">
     <g transform="translate(100, 100)">
       {/* static */}
       <circle class="text-neutral-900" r="99" fill="white" stroke="white" />
@@ -58,9 +58,6 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
       <Hand rotate={props.second} class="second" length={90} width={2} />
 
       <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7.5" font-weight="bold" fill="black">
-        {props.mosqueName}
-      </text>
-      <text x="" y="-35" text-anchor="middle" class="brand-text" font-size="7.5" font-weight="bold" fill="none" stroke="#ecf0f1" stroke-width="0.5">
         {props.mosqueName}
       </text>
       <text x="-1" y="41" text-anchor="middle" class="brand-text" font-size="6" font-weight="bold" fill="black">

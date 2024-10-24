@@ -2,8 +2,6 @@
   margin-top: 9rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   color: white;
   animation: fadeIn 1.1s ease-in forwards; /* Use forwards to maintain the final state */
   font-family: 'Archivo Narrow', serif;
@@ -18,27 +16,30 @@
   }
 }
 
+.analogClockContainer {
+  padding-left: 3rem;
+}
+
 .dateContainer {
   display: flex;
   flex-direction: column;
-   font-size: 5.0rem;
-   margin-left: 3.0rem;
+  margin-left: 3.0rem;
 }
 
 .hijriDate {
-  font-size: 7rem;
+  font-size: 10.5rem;
   font-weight: bold;
 }
 
 .gregorianDay {
   color: white;
-  font-size: 9rem;
+  font-size: 11.5rem;
   font-weight: bold;
   margin-bottom: -2.5rem;
 }
 
 .gregorianDate {
-  font-size: 7rem;
+  font-size: 10.5rem;
   font-weight: bold;
 }
 

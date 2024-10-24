@@ -31,11 +31,48 @@
   width: 17%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
   text-align: left;
   padding-left: 1rem;
+  font-weight: 700;
 }
 
 .table .wide {
   padding-left: 3rem;
   width: 25%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
+}
+
+.table .wideTimeNext {
+  width: 17%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
+  text-align: left;
+  padding-left: 1rem;
+  font-weight: 700;
+  animation: heartbeatOpacity 3s ease-in-out infinite; /* Apply the heartbeat animation */
+}
+
+.table .wideNext {
+  padding-left: 3rem;
+  width: 25%; /* 1/4 of the total width for columns 1, 2, 4, and 5 */
+  animation: heartbeatOpacity 3s ease-in-out infinite; /* Apply the heartbeat animation */
+
+}
+
+@keyframes heartbeatOpacity {
+  0%, 100% {
+    opacity: 0.9; /* Start and end at near full opacity */
+  }
+  10% {
+    opacity: 0.3; /* First drop (first "doop") */
+  }
+  20% {
+    opacity: 0.9; /* First peak (end of "doop") */
+  }
+  30% {
+    opacity: 0.3; /* Second drop (start of "dop") */
+  }
+  40% {
+    opacity: 0.9; /* Second peak (end of "dop") */
+  }
+  70% {
+    opacity: 0.4; /* Fading out before the next beat */
+  }
 }
 
 .table .narrow {

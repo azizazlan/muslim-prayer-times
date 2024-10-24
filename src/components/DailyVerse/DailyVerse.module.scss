@@ -9,6 +9,8 @@
 }
 
 .bismillahText {
+  margin-top: -1rem;
+  margin-bottom: 3rem;
   font-size: 3rem; 
   opacity: 0.7;
 }
@@ -17,15 +19,16 @@
   margin-top: 1rem;
   margin-left: 3rem;
   margin-right: 3rem;
-  font-size: 5.7rem;
-  text-align: right;
+  font-size: 6.7rem;
+  text-align: center;
 }
 
 .enTranslationText {
   margin-top: 1rem;
   margin-left: 3rem;
   margin-right: 3rem;
-  font-size: 3.5rem;
+  text-align: center;
+  font-size: 5.5rem;
 }
 
 .verseInfo {
