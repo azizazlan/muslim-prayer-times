@@ -34,11 +34,11 @@ const PrayerTimes: Component = () => {
             <td class={leadPrayer()?.name === PrayerName.ASAR ? styles.wideTimeNext : styles.wideTime}>{asar.time}</td>
           </tr>
           <tr>
-            <td class={leadPrayer().name === PrayerName.MAGHRIB ? styles.wideNext : styles.wide}>{maghrib.name}</td>
-            <td class={leadPrayer().name === PrayerName.MAGHRIB ? styles.wideTimeNext : styles.wideTime}>{maghrib.time}</td>
+            <td class={leadPrayer()?.name === PrayerName.MAGHRIB ? styles.wideNext : styles.wide}>{maghrib.name}</td>
+            <td class={leadPrayer()?.name === PrayerName.MAGHRIB ? styles.wideTimeNext : styles.wideTime}>{maghrib.time}</td>
             <td class={`${styles.narrow} ${styles.decorationMoon}`}></td>
-            <td class={leadPrayer().name === PrayerName.ISYAK ? styles.wideNext : styles.wide}>{isyak.name}</td>
-            <td class={leadPrayer().name === PrayerName.ISYAK ? styles.wideTimeNext : styles.wideTime}>{isyak.time}</td>
+            <td class={leadPrayer()?.name === PrayerName.ISYAK ? styles.wideNext : styles.wide}>{isyak.name}</td>
+            <td class={leadPrayer()?.name === PrayerName.ISYAK ? styles.wideTimeNext : styles.wideTime}>{isyak.time}</td>
           </tr>
         </tbody>
       </table>

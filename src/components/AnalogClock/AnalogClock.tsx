@@ -3,7 +3,7 @@ import { Hand } from './Hand';
 import { Lines } from './Lines';
 import { createAnimationLoop } from './utils';
 import type { Component } from 'solid-js';
-import './styles.css'
+import './styles.scss'
 import { useSettingsService } from '../../context/useSettingsService';
 
 const getSecondsSinceMidnight = (): number => (Date.now() - new Date().setHours(0, 0, 0, 0)) / 1000;
