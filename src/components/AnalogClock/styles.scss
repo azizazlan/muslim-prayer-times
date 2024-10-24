@@ -11,8 +11,7 @@
   color: silver;
 }
 
-.hour
-{
+.hour {
   /* color: #273c75; */
   /* color: #009432; */
   color: black;
@@ -34,14 +33,14 @@
 
 #clock-logo {
   transition: transform 0.2s ease;
-  z-index: -10; 
+  z-index: -10;
 }
 
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .clock {
-    margin-top: 0rem;
+    margin-top: -1rem;
     width: 575px;
   }
 }
