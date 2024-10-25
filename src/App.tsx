@@ -15,7 +15,7 @@ import DailyVerse from './components/DailyVerse/DailyVerse';
 import Adhan from './components/Adhan/Adhan';
 import Iqamah from './components/Iqamah/Iqamah';
 import BottomStrip from './components/BottomStrip/BottomStrip';
-import DefaultMainArea from './components/DefaultMainArea/DefaultMainArea';
+import DefaultScreen from './components/DefaultScreen/DefaultScreen';
 import DevMode from './components/DevMode/DevMode';
 import Settings from './components/UsrSettings/Settings';
 import PrayerTimes from './components/PrayerTimes/PrayerTimes';
@@ -119,7 +119,7 @@ const App: Component = () => {
       case Screen.DEV:
         return <DevMode />;
       default:
-        return <DefaultMainArea />;
+        return <DefaultScreen />;
     }
   };
 

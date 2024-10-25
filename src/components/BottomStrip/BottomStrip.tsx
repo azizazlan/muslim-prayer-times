@@ -4,7 +4,6 @@ import { ms } from 'date-fns/locale';
 import styles from './BottomStrip.module.scss';
 import borderImage from '../../assets/images/lantern.png';
 import { Prayer } from '../../types/prayer';
-import Clock from '../Clock/Clock';
 import PrayerBox from './PrayerBox';
 import { TestMode } from '../../types/testMode';
 import { usePrayerService } from '../../context/usePrayerService';
@@ -42,16 +41,9 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
         <div class={styles.horizontalContainer}>
           <For each={memoizedPrayers()}>
             {(prayer, index) => (
-              <>
-                <div class={styles.prayerBoxWrapper}>
-                  <PrayerBox prayer={prayer} />
-                </div>
-                {/* {index() < prayers().length - 1 && (
-                  <div class={styles.borderImageWrapper}>
-                    <img src={borderImage} alt="Prayer separator" class={styles.borderImage} />
-                  </div>
-                )} */}
-              </>
+              <div class={styles.prayerBoxWrapper}>
+                <PrayerBox prayer={prayer} />
+              </div>
             )}
           </For>
         </div>

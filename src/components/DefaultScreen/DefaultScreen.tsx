@@ -3,14 +3,18 @@ import { ms } from 'date-fns/locale';
 import { createMemo, createSignal, onCleanup } from 'solid-js';
 import { toHijri } from "hijri-converter";
 import { usePrayerService } from '../../context/usePrayerService';
-import styles from './DefaultMainArea.module.scss';
+import styles from './DefaultScreen.module.scss';
 import { AnalogClock } from '../AnalogClock/AnalogClock'
 import { getHijriMonthName } from '../../utils/formatter';
-import caligraphy from '../../assets/images/white-clock-logo.png'
+import Clock from '../Clock/Clock';
 
-const DefaultDisplay = () => {
+const DefaultScreen = () => {
   const { currentTime } = usePrayerService();
   const memoizedCurrentTime = createMemo(() => currentTime());
+
+  const format24Hour = (date: Date) => {
+    return format(date, 'HH:mm');
+  };
 
   // Extract day, month, and year
   const day = createMemo(() => memoizedCurrentTime().getDate()); // Day of the month
@@ -20,26 +24,20 @@ const DefaultDisplay = () => {
 
   return (
     <div class={styles.container}>
-      <div class={styles.analogClockContainer}>
-        <AnalogClock />
+      <div class={styles.clockContainer}>
+        <div>{format(memoizedCurrentTime(), 'HH')}</div>
+        <div class={styles.blinkingSeparator}>:</div>
+        <div>{format(memoizedCurrentTime(), 'mm')}</div>
       </div>
       <div class={styles.dateContainer}>
-        <div class={styles.gregorianDay}>
-          {format(memoizedCurrentTime(), 'EEEE', { locale: ms })}
-        </div>
         <div class={styles.gregorianDate}>
-          {format(memoizedCurrentTime(), 'dd, MMM yyyy', { locale: ms })}
+          {format(memoizedCurrentTime(), 'EEEE, dd MMM yyyy', { locale: ms })}
         </div>
         <div class={styles.hijriDate}>
-          {hijri.hd}, {getHijriMonthName(hijri.hm)} {hijri.hy}
+          {format(memoizedCurrentTime(), 'EEEE', { locale: ms })} {hijri.hd}, {getHijriMonthName(hijri.hm)} {hijri.hy}
         </div>
       </div>
     </div>
   )
 }
-
-const DefaultMainArea = () => {
-  return <DefaultDisplay />
-};
-
-export default DefaultMainArea; 
+export default DefaultScreen; 
