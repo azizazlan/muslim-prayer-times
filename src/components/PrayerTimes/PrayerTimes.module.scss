@@ -18,8 +18,10 @@
 }
 
 .table {
+  flex-grow: 1;
   font-size: 13rem;
   width: 100%;
+  height: 65.7vh;
   border-collapse: collapse;
   font-family: 'Archivo Narrow', serif;
 }
@@ -101,6 +103,16 @@
   min-width: 65px;
 }
 
+.ownerLabel {
+  font-family: 'Archivo Narrow', serif;
+  margin-top: -7rem;
+  width: 100%;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding-left: 7rem;
+  opacity: 0.5;
+}
+
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
@@ -109,5 +121,9 @@ $medium: 1441px;
   }
   .table {
     font-size: 6.5rem;
+  }
+  .ownerLabel {
+    margin-top: -3rem;
+    font-size: 1.5rem;
   }
 }

@@ -3,9 +3,11 @@ import type { Component } from 'solid-js';
 import styles from './PrayerTimes.module.scss';
 import { Prayer, PrayerName } from '../../types/prayer';
 import { usePrayerService } from '../../context/usePrayerService';
+import { useSettingsService } from '../../context/useSettingsService';
 
 
 const PrayerTimes: Component = () => {
+  const { mosqueName, latitude, longitude, locationName } = useSettingsService();
   const { prayers, leadPrayer } = usePrayerService();
   const memoizedPrayers = createMemo(() => prayers());
   const subuh = memoizedPrayers()[0];
@@ -17,6 +19,9 @@ const PrayerTimes: Component = () => {
 
   return (
     <div class={styles.container}>
+      <div class={styles.ownerLabel}>
+        {mosqueName()}, {locationName()} LAT:{latitude()} LNG:{longitude()}
+      </div>
       <table class={styles.table}>
         <tbody>
           <tr>
