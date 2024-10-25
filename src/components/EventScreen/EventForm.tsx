@@ -107,7 +107,7 @@ const EventForm: Component = () => {
       <form class={styles.form} onSubmit={handleSubmit}>
 
         <div class={styles.formField}>
-          <label class={styles.formLabel}>Event</label>
+          <label class={styles.formLabel}>Title</label>
           <textarea
             rows={5}
             class={styles.formInput}

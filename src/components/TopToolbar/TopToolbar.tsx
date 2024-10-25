@@ -20,8 +20,14 @@ const TopToolbar: Component<TopToolbarProps> = (props: TopToolbarProps) => {
       <button class={styles.btnDev} onClick={() => setScreen(Screen.DEFAULT)}>Home</button>
       <button class={styles.btnDev} onClick={() => setScreen(Screen.SETTINGS)}>Settings</button>
       <button class={styles.btnDev} onClick={() => props.toggleFullScreen()}>Fullscreen</button>
-      <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
-      <div class={styles.version}>Ver.{VERSION} ({DEV_MODE ? <button class={styles.btnDev} onClick={() => setScreen(Screen.DEV)}>Dev</button> : "R"})</div>
+      <div class={styles.version}>Ver. {VERSION} {DEV_MODE ?
+        (
+          <div>
+            <button class={styles.btnDev} onClick={() => setScreen(Screen.DEV)}>Dev</button>
+            <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }

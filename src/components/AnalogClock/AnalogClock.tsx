@@ -1,4 +1,4 @@
-import { createSignal, onCleanup } from 'solid-js';
+import { createSignal, onCleanup, onMount } from 'solid-js';
 import { Hand } from './Hand';
 import { Lines } from './Lines';
 import { createAnimationLoop } from './utils';
@@ -71,6 +71,22 @@ export const ClockFace: Component<ClockFaceProps> = (props) => (
 );
 
 export const AnalogClock: Component = () => {
+
+  onMount(() => {
+    // Add the event listener after the component has mounted
+    document.addEventListener('fullscreenchange', () => {
+      const clockElement = document.querySelector('.clock');
+      if (clockElement) { // Check if the element exists
+        if (document.fullscreenElement) {
+          clockElement.classList.add('fullscreen');
+        } else {
+          clockElement.classList.remove('fullscreen');
+        }
+      }
+    });
+  });
+
+
   const { latitude, mosqueName, locationName } = useSettingsService();
   const [time, setTime] = createSignal<number>(getSecondsSinceMidnight());
   const dispose = createAnimationLoop(() => {

@@ -13,9 +13,10 @@
   font-size: 0.7rem;
 }
 
-
 .version {
-  margin-top: 0.07rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: row;
   margin-left: 0.2rem;
   text-transform: uppercase;
 }
