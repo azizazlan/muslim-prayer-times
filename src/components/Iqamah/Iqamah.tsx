@@ -8,7 +8,8 @@ interface IqamahProps {
 
 const Iqamah: Component<IqamahProps> = () => {
   const { iqamahIntervalMins } = useSettingsService();
-  const [secondsLeft, setSecondsLeft] = createSignal(iqamahIntervalMins() * 60);
+  // const [secondsLeft, setSecondsLeft] = createSignal(iqamahIntervalMins() * 60);
+  const [secondsLeft, setSecondsLeft] = createSignal(2);
 
   // Start the countdown immediately when the component mounts
   const interval = setInterval(() => {

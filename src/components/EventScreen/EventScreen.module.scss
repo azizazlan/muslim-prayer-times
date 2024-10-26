@@ -3,8 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  margin: 1rem;
   font-family: 'Archivo Narrow', serif;
   animation: fadeIn 1.1s ease-in forwards;
 }
@@ -21,7 +19,6 @@
 .dateContainer {
   font-size: 11.5rem;
   font-weight: 700;
-  margin-top: -9rem;
 }
 
 .announcementText {
@@ -46,7 +43,6 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .dateContainer {
-    margin-top: 0rem;
     font-size: 3.5rem;
   }
   .announcementText {

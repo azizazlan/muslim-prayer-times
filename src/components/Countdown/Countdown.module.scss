@@ -18,13 +18,6 @@
   }
 }
 
-.message {
-  padding-top: 9rem;
-  display: flex;
-  align-items: center;
-  font-size: 3.0rem;
-}
-
 .countdown {
   display: flex;
   align-items: center;
@@ -45,21 +38,6 @@
   font-family: 'Archivo Narrow', serif;
 }
 
-.label {
-  width: 295px;
-  height: 35px;
-  margin-top: -1.5rem;
-  font-size: 5.7rem;
-  font-weight: 500;
-  border-radius: 7px;
-  //background-color: lightsteelblue;
-  color: white;
-  opacity: 0.5;
-  text-align: center;
-  border-top: 1px solid white;
-  padding-top: 1rem;
-}
-
 .separator {
   font-family: 'Archivo Narrow', serif;
   font-weight: 700;
@@ -73,6 +51,6 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .digits {
-    font-size: 15rem;
+    font-size: 25rem;
   }
 }

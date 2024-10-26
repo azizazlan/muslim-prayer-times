@@ -51,17 +51,14 @@ const Countdown: Component<CountdownProps> = (props) => {
       <div class={styles.countdown}>
         <div class={styles.timeUnit}>
           <span class={styles.digits}>{formattedTime().hours}</span>
-          <span class={styles.label}>Jam</span>
         </div>
         <span class={styles.separator}>:</span>
         <div class={styles.timeUnit}>
           <span class={styles.digits}>{formattedTime().minutes}</span>
-          <span class={styles.label}>Minit</span>
         </div>
         <span class={styles.separator}>:</span>
         <div class={styles.timeUnit}>
           <span class={styles.digits}>{formattedTime().seconds}</span>
-          <span class={styles.label}>Saat</span>
         </div>
       </div>
     </div>

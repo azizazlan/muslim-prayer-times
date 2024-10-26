@@ -1,69 +1,22 @@
 .container {
-  position: relative;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   background-color: #f5f6fa;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  min-height: 200px;
-  //  background-color: var(--background-color);
 }
 
-.topBorder {
-  position: absolute;
-  top: -18px; // Move the border up by its height
-  left: 0;
-  right: 0;
-  height: 20px; // Adjust this value based on your dome image height
-  // background-image: url('../../assets/images/dome.png');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-}
-
-.content {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.horizontalContainer {
+.prayerBoxesContainer {
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin-left: 2rem;
-}
-
-.prayerBoxWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 1px;
-}
-
-.prayerBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.borderImageWrapper {
-  height: 155px;
-  display: flex;
-  align-items: center;
-  // opacity: 0.9;
-  margin: -1rem;
-}
-
-.borderImage {
-  height: 100%;
-  width: auto;
 }
 
 .clock {
-  width: 20%;
+  margin-top: -3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,20 +26,18 @@
 }
 
 .clockTime {
-  font-size: 9.5rem;
+  font-size: 10.5rem;
   font-weight: bold;
   display: flex;
   flex-direction: row;
-  margin-bottom: -2.5rem;
-  margin-top: -1.9rem;
 }
 
 .clockDate {
+  margin-top: -2rem;
   font-size: 3.3rem;
 }
 
 .blinkingSeparator {
-  margin-top: -0.3rem;
   animation: heartbeatOpacity 1.9s ease-in-out infinite;
 }
 
@@ -110,24 +61,18 @@ $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
   .container {
-    min-height: 100px;
-  }
-
-  .borderImageWrapper {
-    height: 70px;
   }
 
   .clockTime {
     font-size: 5.5rem;
-    margin-top: -1.2rem;
-    margin-bottom: -1.7rem;
   }
 
   .clock {
-    width: 21%;
+    margin-top: -1rem;
   }
 
   .clockDate {
     font-size: 1.7rem;
+    margin-top: -1rem;
   }
 }

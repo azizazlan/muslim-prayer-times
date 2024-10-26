@@ -26,27 +26,22 @@ const BottomStrip: Component<BottomStripProps> = (props) => {
 
   return (
     <div class={styles.container}>
-      <div class={styles.topBorder}></div>
-      <div class={styles.content}>
-        <div class={styles.clock}>
-          <div class={styles.clockTime}>
-            {format(memoizedCurrentTime(), 'HH')}
-            <span class={styles.blinkingSeparator}>:</span>
-            {format(memoizedCurrentTime(), 'mm')}
-          </div>
-          <div class={styles.clockDate}>
-            {format(memoizedCurrentTime(), 'EEEE dd MMM yyyy', { locale: ms })}
-          </div>
+      <div class={styles.clock}>
+        <div class={styles.clockTime}>
+          {format(memoizedCurrentTime(), 'HH')}
+          <span class={styles.blinkingSeparator}>:</span>
+          {format(memoizedCurrentTime(), 'mm')}
         </div>
-        <div class={styles.horizontalContainer}>
-          <For each={memoizedPrayers()}>
-            {(prayer, index) => (
-              <div class={styles.prayerBoxWrapper}>
-                <PrayerBox prayer={prayer} />
-              </div>
-            )}
-          </For>
+        <div class={styles.clockDate}>
+          {format(memoizedCurrentTime(), 'EEEE dd MMM yyyy', { locale: ms })}
         </div>
+      </div>
+      <div class={styles.prayerBoxesContainer}>
+        <For each={memoizedPrayers()}>
+          {(prayer, index) => (
+            <PrayerBox prayer={prayer} />
+          )}
+        </For>
       </div>
     </div>
   );
