@@ -26,15 +26,17 @@
 }
 
 .clockTime {
-  font-size: 10.5rem;
+  font-size: 10.7rem;
   font-weight: bold;
   display: flex;
   flex-direction: row;
+  color: var(--background-color);
 }
 
 .clockDate {
   margin-top: -2rem;
-  font-size: 3.3rem;
+  font-size: 3.2rem;
+  color: var(--background-color);
 }
 
 .blinkingSeparator {

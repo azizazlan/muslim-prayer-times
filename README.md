@@ -1,6 +1,6 @@
 # Muslim Prayer Times
 
-A simple app to display the next prayer time and countdown to Iqamah. The app is built with SolidJS and Vite. It is designed to be used on a 32 inch TV screen.
+A simple app to display the next prayer time and countdown to Iqamah. The app is built with SolidJS and Vite. It is designed to be used on a 27 inch TV screen.
 
 ## Development Status
 
