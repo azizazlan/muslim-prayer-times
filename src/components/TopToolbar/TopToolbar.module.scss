@@ -1,20 +1,19 @@
-.topButtons {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 10;
-  font-size: 1rem;
+.container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  width: 99%;
-  color: var(--primary-color);
+  justify-content: space-between;
+  opacity: 0.5;
+  padding: 0.3rem;
   font-family: 'Archivo Narrow', serif;
-  font-size: 0.7rem;
+}
+
+.topButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .version {
-  font-size: 0.75rem;
   display: flex;
   flex-direction: row;
   margin-left: 0.2rem;
@@ -23,9 +22,8 @@
 
 .btnDev {
   text-transform: uppercase;
-  font-size: 0.7rem;
   border: none;
   background: transparent;
-  cursor: pointer;
   color: var(--primary-color);
+  cursor: pointer;
 }

@@ -8,6 +8,7 @@ import './index.scss';
 import App from './App';
 import { DailyVerseServiceProvider } from './context/useDailyVerseService';
 import { EventsServiceProvider } from './context/useEventsService';
+import { DailyHadithServiceProvider } from './context/useDailyHadithService';
 
 const root = document.getElementById('root');
 
@@ -21,11 +22,13 @@ render(() => (
   <SettingsServiceProvider>
     <EventsServiceProvider>
       <DailyVerseServiceProvider>
-        <PrayerServiceProvider>
-          <ThemeServiceProvider>
-            <App />
-          </ThemeServiceProvider>
-        </PrayerServiceProvider>
+        <DailyHadithServiceProvider>
+          <PrayerServiceProvider>
+            <ThemeServiceProvider>
+              <App />
+            </ThemeServiceProvider>
+          </PrayerServiceProvider>
+        </DailyHadithServiceProvider>
       </DailyVerseServiceProvider>
     </EventsServiceProvider>
   </SettingsServiceProvider>

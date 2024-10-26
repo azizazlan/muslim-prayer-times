@@ -8,15 +8,3 @@
   flex-grow: 1;
   background-color: var(--background-color);
 }
-
-.bottomStrip {
-  background-color: var(--strip-color); // Your desired color
-  flex-shrink: 0; // Make sure it doesn't shrink
-}
-
-.onlineIndicator {
-  position: absolute;
-  top: 3px;
-  left: 10px;
-  z-index: 10;
-}

@@ -3,7 +3,6 @@ import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 
 import { usePrayerService } from './context/usePrayerService';
-import { useDailyVerseService } from './context/useDailyVerseService';
 
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
@@ -24,10 +23,6 @@ import { Screen } from './types/screen';
 import styles from './App.module.scss';
 import { useThemeService } from './context/useThemeService';
 import { ColorTheme } from './types/theme';
-
-const OnlineIndicator = () => {
-  return <div class={styles.onlineIndicator}>ᯤ</div>
-}
 
 export type Locale = 'en' | 'es' | 'fr'; // Example locales, adjust as needed
 
@@ -60,7 +55,6 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 
 const App: Component = () => {
 
-  const { isOnline } = useDailyVerseService();
   const { colorTheme } = useThemeService();
   const memoizedColorTheme = createMemo(() => colorTheme());
   const { screen, setScreen } = usePrayerService();
@@ -125,7 +119,6 @@ const App: Component = () => {
 
   return (
     <div class={styles.container}>
-      {isOnline() ? <OnlineIndicator /> : null}
       <TopToolbar toggleFullScreen={toggleFullScreen} />
       <div class={styles.mainArea}>
         {renderMainArea()}

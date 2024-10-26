@@ -7,6 +7,7 @@ enum Screen {
   HOURS_BEFORE_ADHAN = 'HOURS_BEFORE_ADHAN', // Adhan component but this time hours before prayer time
   IQAMAH = 'IQAMAH',
   DAILY_VERSE = 'DAILY_VERSE',
+  DAILY_HADITH = 'DAILY_HADITH',
   SETTINGS = 'SETTINGS',
   DEV = 'DEV',
   FULLSCREEN = 'FULLSCREEN'
