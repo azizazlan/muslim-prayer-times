@@ -38,9 +38,7 @@ export function createDailyHadithServiceHook() {
         const response = await fetch(endpoint);
         const data: HadithApiResponse = await response.json();
         if (data.status === 200 && data.hadiths && data.hadiths.data) {
-          // setHadiths(data.hadiths.data);
           if (data.hadiths.data.length > 0) {
-            console.log(data.hadiths);
             setHadiths(data.hadiths.data);
             setHadith(data.hadiths.data[index()]);
           }
@@ -61,7 +59,6 @@ export function createDailyHadithServiceHook() {
         console.log("disabled and will not fetch daily from ")
         return;
       }
-      // Define an async function to fetch the verse
       const fetchHadith = async () => {
         await fetchRandomHadith();
       };
@@ -69,8 +66,7 @@ export function createDailyHadithServiceHook() {
     });
 
     const fetchNextRandHadith = async () => {
-      // Define an async function to fetch the verse
-      const result = await fetchRandomHadith(); // {{ edit_2 }}
+      const result = await fetchRandomHadith();
       setHadith(prev => result);
       console.log("Updated hadith:", hadith());
     }
@@ -84,16 +80,15 @@ export function createDailyHadithServiceHook() {
       let i = index();
       let nextHadith;
 
+      // Select hadith that have less than 300 characters
       do {
-        i = (i + 1) % hadiths().length; // Increment and wrap around using modulo
+        i = (i + 1) % hadiths().length;
         nextHadith = hadiths()[i];
-      } while (nextHadith.hadithEnglish.length > 500 && i !== index());
+      } while (nextHadith.hadithEnglish.length > 300 && i !== index());
 
-      if (nextHadith.hadithEnglish.length <= 500) {
-        console.log(i);
-        // Update the hadith index and set the new hadith
-        setIndex(i);  // Assuming `index` is a signal or a state setter
-        setHadith(nextHadith); // Assuming `setHadith` updates the current hadith
+      if (nextHadith.hadithEnglish.length <= 300) {
+        setIndex(i);
+        setHadith(nextHadith);
       } else {
         console.log("No suitable hadith found");
       }

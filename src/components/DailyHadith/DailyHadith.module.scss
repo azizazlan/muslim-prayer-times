@@ -11,19 +11,36 @@
 
 .heading {
   margin-top: 1rem;
-  font-size: 2.7rem;
+  font-size: 5.5rem;
   text-align: center;
   font-weight: 700;
 }
 
 .hadithBody {
   margin-top: 1rem;
-  font-size: 2.7rem;
+  font-size: 5.5rem;
   text-align: center;
 }
 
 .hadithMetadata {
   margin-top: 0rem;
-  font-size: 2rem;
+  font-size: 5rem;
   opacity: 0.5;
+}
+
+$small: 1440px;
+$medium: 1441px;
+@media screen and (min-width: $small) and (max-width: $medium) {
+  .heading {
+    font-size: 2.7rem;
+    font-weight: 700;
+  }
+
+  .hadithBody {
+    font-size: 2.7rem;
+  }
+
+  .hadithMetadata {
+    font-size: 2rem;
+  }
 }
