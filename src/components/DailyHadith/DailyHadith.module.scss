@@ -4,5 +4,26 @@
   align-items: center;
   justify-content: center;
   color: white;
+  font-family: 'Archivo Narrow', serif;
   animation: fadeIn 1.1s ease-in forwards;
+  padding: 1rem;
+}
+
+.heading {
+  margin-top: 1rem;
+  font-size: 2.7rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.hadithBody {
+  margin-top: 1rem;
+  font-size: 2.7rem;
+  text-align: center;
+}
+
+.hadithMetadata {
+  margin-top: 0rem;
+  font-size: 2rem;
+  opacity: 0.5;
 }

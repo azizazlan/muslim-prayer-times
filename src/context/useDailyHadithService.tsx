@@ -1,7 +1,7 @@
 import { createContext, useContext, createEffect, createSignal, Accessor, JSX, onCleanup } from "solid-js";
 import { ColorTheme } from "../types/theme";
 import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
-import { HadithApiResponse } from '../types/hadith';
+import { HadithApiResponse, Hadith } from '../types/hadith';
 import { useDailyVerseService } from './useDailyVerseService';
 
 interface ProviderProps {
@@ -13,7 +13,8 @@ export function createDailyHadithServiceHook() {
   interface ContextValueProps {
     enableDailyHadith: Accessor<boolean>;
     setEnableDailyHadith: (enabled: boolean) => void;
-    hadith: Accessor<any | null>;
+    hadith: Accessor<Hadith | null>;
+    selectNextHadith: () => void;
     clear: () => void;
   }
 
@@ -22,9 +23,9 @@ export function createDailyHadithServiceHook() {
   function Provider(props: ProviderProps) {
 
     const { isOnline } = useDailyVerseService();
-
-    const [hadith, setHadith] = createSignal<any | null>(null)
-
+    const [hadith, setHadith] = createSignal<Hadith | null>(null);
+    const [hadiths, setHadiths] = createSignal<Hadith[]>([]);
+    const [index, setIndex] = createSignal<number>(0);
     const [enableDailyHadith, setEnableDailyHadith] = createSignal<boolean>(
       loadFromLocalStorage<boolean>("enableDailyHadith", true)
     );
@@ -32,17 +33,16 @@ export function createDailyHadithServiceHook() {
     createEffect(() => saveToLocalStorage("enableDailyHadith", enableDailyHadith()));
 
     const fetchRandomHadith = async () => {
-
       const endpoint = `https://www.hadithapi.com/public/api/hadiths?apiKey=${import.meta.env.VITE_HADITH_API_KEY}&paginate=100`;
-
       try {
         const response = await fetch(endpoint);
         const data: HadithApiResponse = await response.json();
         if (data.status === 200 && data.hadiths && data.hadiths.data) {
           // setHadiths(data.hadiths.data);
           if (data.hadiths.data.length > 0) {
-            console.log(data.hadiths.data[0]);
-            setHadith(data.hadiths.data[0]);
+            console.log(data.hadiths);
+            setHadiths(data.hadiths.data);
+            setHadith(data.hadiths.data[index()]);
           }
         } else {
           console.error('Failed to fetch hadiths or unexpected data structure');
@@ -57,18 +57,14 @@ export function createDailyHadithServiceHook() {
         console.log("isOnline false and will not fetch daily hadith from api.alquran.cloud")
         return;
       }
-
       if (!enableDailyHadith()) {
         console.log("disabled and will not fetch daily from ")
         return;
       }
-
       // Define an async function to fetch the verse
       const fetchHadith = async () => {
-        const result = await fetchRandomHadith(); // {{ edit_2 }}
-        setHadith(result);
+        await fetchRandomHadith();
       };
-
       fetchHadith(); // Call the async function
     });
 
@@ -79,12 +75,36 @@ export function createDailyHadithServiceHook() {
       console.log("Updated hadith:", hadith());
     }
 
+    const selectNextHadith = () => {
+      if (hadiths().length === 0) {
+        console.log("No hadiths available");
+        return;
+      }
+
+      let i = index();
+      let nextHadith;
+
+      do {
+        i = (i + 1) % hadiths().length; // Increment and wrap around using modulo
+        nextHadith = hadiths()[i];
+      } while (nextHadith.hadithEnglish.length > 500 && i !== index());
+
+      if (nextHadith.hadithEnglish.length <= 500) {
+        console.log(i);
+        // Update the hadith index and set the new hadith
+        setIndex(i);  // Assuming `index` is a signal or a state setter
+        setHadith(nextHadith); // Assuming `setHadith` updates the current hadith
+      } else {
+        console.log("No suitable hadith found");
+      }
+    }
 
     function clear() {
       console.log("clear");
     }
 
     const value: ContextValueProps = {
+      selectNextHadith,
       enableDailyHadith,
       setEnableDailyHadith,
       fetchNextRandHadith,
