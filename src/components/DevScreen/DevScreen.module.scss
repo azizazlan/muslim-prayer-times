@@ -1,5 +1,5 @@
 .container {
-  margin-top: 5rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -20,10 +20,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-} 
+}
 
 $small: 1440px;
 $medium: 1441px;
 @media screen and (min-width: $small) and (max-width: $medium) {
-
 }

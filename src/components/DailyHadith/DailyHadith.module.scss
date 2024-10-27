@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: fadeIn 1.1s ease-in forwards;
+}

@@ -11,11 +11,12 @@ import getWindowDimensions from './utils/getWindowDimensions';
 import TopToolbar from './components/TopToolbar/TopToolbar';
 import EventScreen from './components/EventScreen/EventScreen';
 import DailyVerse from './components/DailyVerse/DailyVerse';
+import DailyHadith from './components/DailyHadith/DailyHadith';
 import Adhan from './components/Adhan/Adhan';
 import Iqamah from './components/Iqamah/Iqamah';
 import BottomStrip from './components/BottomStrip/BottomStrip';
 import DefaultScreen from './components/DefaultScreen/DefaultScreen';
-import DevMode from './components/DevMode/DevMode';
+import DevScreen from './components/DevScreen/DevScreen';
 import Settings from './components/UsrSettings/Settings';
 import PrayerTimes from './components/PrayerTimes/PrayerTimes';
 import { TestMode } from "./types/testMode";
@@ -108,10 +109,12 @@ const App: Component = () => {
         return <PrayerTimes />;
       case Screen.DAILY_VERSE:
         return <DailyVerse />;
+      case Screen.DAILY_HADITH:
+        return <DailyHadith />;
       case Screen.SETTINGS:
         return <Settings />;
       case Screen.DEV:
-        return <DevMode />;
+        return <DevScreen />;
       default:
         return <DefaultScreen />;
     }
