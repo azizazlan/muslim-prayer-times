@@ -12,7 +12,7 @@ This project is currently in active development. While core functionality is imp
 
 ## Features
 
-Currently the prayer names (Subuh, Zohor, Asar, Maghrib aand Isyak) are in Bahasa Malaysia.
+Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are in Bahasa Malaysia.
 
 - Display prayer times.
 - Play adhan.
