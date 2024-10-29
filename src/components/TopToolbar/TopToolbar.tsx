@@ -5,6 +5,7 @@ import { useDailyVerseService } from '../../contexts/useDailyVerseService';
 import { Screen } from '../../types/screen';
 import { TestMode } from '../../types/testMode';
 import styles from './TopToolbar.module.scss';
+import { stopSound } from '../../utils/notification';
 
 const VERSION = import.meta.env.VITE_APP_VERSION;
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
@@ -28,11 +29,11 @@ const TopToolbar: Component<TopToolbarProps> = (props: TopToolbarProps) => {
         <button class={styles.btnDev} onClick={() => setScreen(Screen.DEFAULT)}>Home</button>
         <button class={styles.btnDev} onClick={() => setScreen(Screen.SETTINGS)}>Settings</button>
         <button class={styles.btnDev} onClick={() => props.toggleFullScreen()}>Fullscreen</button>
+        <button class={styles.btnDev} onClick={() => stopSound()}>Stop Notification</button>
         <div class={styles.version}>Ver. {VERSION} {DEV_MODE ?
           (
             <div>
               <button class={styles.btnDev} onClick={() => setScreen(Screen.DEVELOPER)}>Developer</button>
-              <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
             </div>
           ) : null}
         </div>

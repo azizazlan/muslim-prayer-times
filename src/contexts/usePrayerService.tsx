@@ -8,6 +8,7 @@ import { useSettingsService } from "./useSettingsService";
 import { useDailyVerseService } from "./useDailyVerseService";
 import { useNoticeService } from "./useNoticeService";
 import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
+import { playSound } from "../utils/notification";
 
 const PRAYER_DURATION_MINS = parseInt(import.meta.env.VITE_PRAYER_DURATION_MINS || '10', 10);
 
@@ -71,6 +72,7 @@ export function createServicePrayerHook() {
     const [screen, setScreen] = createSignal(Screen.DEFAULT);
     const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
     const [screenCurrentIndex, setScreenCurrentIndex] = createSignal(0); // for changing screens
+    const [playedNotification, setPlayedNotification] = createSignal(false);
 
     createEffect(() => saveToLocalStorage("timingConfig", timingConfig()));
 
@@ -163,31 +165,46 @@ export function createServicePrayerHook() {
       });
     });
 
+    const calculateMinutesBeforeTestPrayer = (test: TestMode) => {
+      const prayerMap: Record<TestMode, PrayerName> = {
+        [TestMode.TEST_SUBUH]: PrayerName.SUBUH,
+        [TestMode.TEST_ZOHOR]: PrayerName.ZOHOR,
+        [TestMode.TEST_ASAR]: PrayerName.ASAR,
+        [TestMode.TEST_MAGHRIB]: PrayerName.MAGHRIB,
+        [TestMode.TEST_ISYAK]: PrayerName.ISYAK,
+      };
+
+      const prayerName = prayerMap[test] || ''; // Default to an empty string if not found
+
+      const testPrayer = prayers().find(prayer => prayer.name === prayerName);
+      if (!testPrayer) {
+        console.log('testPrayer is null');
+        return;
+      }
+      const now = new Date();
+      const [hours, minutes] = testPrayer.time.split(':').map(Number);
+      let testPrayerTime = set(now, { hours, minutes, seconds: 0, milliseconds: 0 });
+      if (testPrayerTime < currentTime()) {
+        testPrayerTime = set(testPrayerTime, { date: testPrayerTime.getDate() + 1 });
+      }
+      let nMinuteBeforeTestPrayer = subMinutes(testPrayerTime, 1);
+      nMinuteBeforeTestPrayer = addSeconds(nMinuteBeforeTestPrayer, 55);
+      return nMinuteBeforeTestPrayer;
+    }
+
     createEffect(() => {
 
       const updateTimeInterval = setInterval(() => {
 
-        if (test() === TestMode.TEST_SUBUH) {
+        if (test() !== TestMode.DEACTIVATED) {
           if (!isTestInProgress()) {
             setIsTestInProgress(true);
-
-            const subuhPrayer = prayers().find(prayer => prayer.name === PrayerName.SUBUH);
-            if (!subuhPrayer) {
-              console.log('subuhPrayer is null');
-              return;
-            }
-            const now = new Date();
-            const [hours, minutes] = subuhPrayer.time.split(':').map(Number);
-            let subuhTime = set(now, { hours, minutes, seconds: 0, milliseconds: 0 });
-            if (subuhTime < currentTime()) {
-              subuhTime = set(subuhTime, { date: subuhTime.getDate() + 1 });
-            }
-            let nMinuteBeforeSubuh = subMinutes(subuhTime, 1);
-            nMinuteBeforeSubuh = addSeconds(nMinuteBeforeSubuh, 55);
-            setCurrentTime(nMinuteBeforeSubuh);
+            const nMinuteBeforeTestPrayer = calculateMinutesBeforeTestPrayer(test());
+            setCurrentTime(nMinuteBeforeTestPrayer);
           }
         } else {
           setCurrentTime(new Date());
+          setTest(TestMode.DEACTIVATED);
         }
         setCurrentTime(prevTime => addSeconds(prevTime, 1));
         updatePrayerProgress();
@@ -249,12 +266,15 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) { // display ADHAN screen n secs before time
               setScreen(Screen.ADHAN);
             }
-            if (secs === 1) {
+            if (secs === 1 && !playedNotification()) {
               console.log("Play notification sound!");
+              setPlayedNotification(true);
+              playSound();
             }
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setPlayedNotification(false);
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
@@ -278,9 +298,15 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
+            if (secs === 1 && !playedNotification()) {
+              console.log("Play notification sound!");
+              setPlayedNotification(true);
+              playSound();
+            }
           } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setPlayedNotification(false);
           } else if (isAfter(currentTime(), zohorTime) && isBefore(currentTime(), asarTime) && secsAfterZohor > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
@@ -304,9 +330,15 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
+            if (secs === 1 && !playedNotification()) {
+              console.log("Play notification sound!");
+              setPlayedNotification(true);
+              playSound();
+            }
           } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setPlayedNotification(false);
           } else if (isAfter(currentTime(), asarTime) && isBefore(currentTime(), maghribTime) && secsAfterAsar > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
           }
@@ -330,9 +362,15 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
+            if (secs === 1 && !playedNotification()) {
+              console.log("Play notification sound!");
+              setPlayedNotification(true);
+              playSound();
+            }
           } else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setPlayedNotification(false);
           }
           else if (isAfter(currentTime(), maghribTime) && isBefore(currentTime(), isyakTime) && secsAfterMaghrib > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
@@ -356,9 +394,15 @@ export function createServicePrayerHook() {
             if (secs < adhanLeadMins() * 60) {
               setScreen(Screen.ADHAN);
             }
+            if (secs === 1 && !playedNotification()) {
+              console.log("Play notification sound!");
+              setPlayedNotification(true);
+              playSound();
+            }
           } else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
             setScreen(Screen.IQAMAH);
+            setPlayedNotification(false);
           }
           else if (isAfter(currentTime(), isyakTime) && secsAfterIsyak > PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;
