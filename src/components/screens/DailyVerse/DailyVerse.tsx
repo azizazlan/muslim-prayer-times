@@ -1,7 +1,7 @@
 import { createEffect, createResource, createSignal, createMemo, onCleanup, onMount } from 'solid-js';
 import type { Component } from 'solid-js';
 import styles from './DailyVerse.module.scss';
-import { useDailyVerseService } from '../../../context/useDailyVerseService';
+import { useDailyVerseService } from '../../../contexts/useDailyVerseService';
 
 const DailyVerse: Component = () => {
   const { verse, fetchNextRandVerse } = useDailyVerseService();

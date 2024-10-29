@@ -1,7 +1,7 @@
 import { Component } from 'solid-js/types'
-import { usePrayerService } from '../../context/usePrayerService';
-import { useSettingsService } from '../../context/useSettingsService';
-import { useDailyVerseService } from '../../context/useDailyVerseService';
+import { usePrayerService } from '../../contexts/usePrayerService';
+import { useSettingsService } from '../../contexts/useSettingsService';
+import { useDailyVerseService } from '../../contexts/useDailyVerseService';
 import { Screen } from '../../types/screen';
 import { TestMode } from '../../types/testMode';
 import styles from './TopToolbar.module.scss';

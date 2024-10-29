@@ -1,7 +1,7 @@
 import { Component, createEffect, createSignal, onCleanup } from 'solid-js';
 import styles from './Iqamah.module.scss';
 import Countdown from '../../Countdown/Countdown';
-import { useSettingsService } from '../../../context/useSettingsService';
+import { useSettingsService } from '../../../contexts/useSettingsService';
 
 
 const Iqamah: Component = () => {

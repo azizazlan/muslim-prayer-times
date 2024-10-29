@@ -2,7 +2,7 @@ import { Component, createEffect, createSignal, onCleanup, Show } from 'solid-js
 import { format } from 'date-fns';
 import { ms } from 'date-fns/locale';
 import styles from './Notice.module.scss';
-import { useNoticeService } from '../../../context/useNoticeService';
+import { useNoticeService } from '../../../contexts/useNoticeService';
 
 const Notice: Component = () => {
 

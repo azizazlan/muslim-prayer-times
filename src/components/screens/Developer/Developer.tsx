@@ -1,7 +1,7 @@
 import { createMemo } from 'solid-js';
 import { format } from 'date-fns';
 import styles from './Developer.module.scss';
-import { usePrayerService } from '../../../context/usePrayerService';
+import { usePrayerService } from '../../../contexts/usePrayerService';
 import { Screen } from '../../../types/screen'
 import { TestMode } from '../../../types/testMode';
 

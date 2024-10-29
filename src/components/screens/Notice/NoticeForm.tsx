@@ -3,7 +3,7 @@ import { Component } from 'solid-js/types'
 import { format } from 'date-fns';
 import styles from './NoticeForm.module.scss';
 import { NoticeProp } from '../../../types';
-import { useNoticeService } from "../../../context/useNoticeService";
+import { useNoticeService } from "../../../contexts/useNoticeService";
 
 
 const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];

@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { ms } from 'date-fns/locale';
 import { createMemo, createSignal, onCleanup } from 'solid-js';
 import { toHijri } from "hijri-converter";
-import { usePrayerService } from '../../../context/usePrayerService';
+import { usePrayerService } from '../../../contexts/usePrayerService';
 import styles from './Default.module.scss';
 import { getHijriMonthName } from '../../../utils/formatter';
 

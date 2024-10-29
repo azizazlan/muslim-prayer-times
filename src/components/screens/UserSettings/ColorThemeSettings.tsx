@@ -1,6 +1,6 @@
 import { Component, createSignal, createMemo, For } from 'solid-js';
 import styles from './ColorThemeSettings.module.scss';
-import { useThemeService } from '../../../context/useThemeService';
+import { useThemeService } from '../../../contexts/useThemeService';
 import { ColorTheme } from '../../../types/theme';
 
 const ColorThemeSettings: Component = () => {

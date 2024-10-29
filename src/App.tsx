@@ -2,8 +2,6 @@ import { createEffect, createResource, createSignal, createMemo, onCleanup, onMo
 import type { Component } from 'solid-js';
 import * as i18n from "@solid-primitives/i18n";
 
-import { usePrayerService } from './context/usePrayerService';
-
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
 
@@ -15,11 +13,14 @@ import { Default, Developer, DailyVerse, DailyHadith, Adhan, Iqamah, Notice, Pra
 import TopToolbar from './components/TopToolbar/TopToolbar';
 import BottomStrip from './components/BottomStrip/BottomStrip';
 
+// Contexts
+import { useThemeService } from './contexts/useThemeService';
+import { usePrayerService } from './contexts/usePrayerService';
+
 import { TestMode } from "./types/testMode";
 import { Screen } from './types/screen';
-import styles from './App.module.scss';
-import { useThemeService } from './context/useThemeService';
 import { ColorTheme } from './types/theme';
+import styles from './App.module.scss';
 
 export type Locale = 'en' | 'es' | 'fr'; // Example locales, adjust as needed
 

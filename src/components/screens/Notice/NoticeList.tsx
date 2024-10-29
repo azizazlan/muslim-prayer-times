@@ -2,7 +2,7 @@
 import { Show, For, createEffect, createMemo } from "solid-js";
 import { parse, format } from 'date-fns';
 import styles from './NoticeList.module.scss'
-import { useNoticeService } from "../../../context/useNoticeService";
+import { useNoticeService } from "../../../contexts/useNoticeService";
 
 const NoticeList = () => {
   const { notices, removeNotice } = useNoticeService();

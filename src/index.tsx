@@ -1,14 +1,14 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
-import { PrayerServiceProvider } from './context/usePrayerService';
-import { SettingsServiceProvider } from './context/useSettingsService';
-import { ThemeServiceProvider } from './context/useThemeService';
+import { PrayerServiceProvider } from './contexts/usePrayerService';
+import { SettingsServiceProvider } from './contexts/useSettingsService';
+import { ThemeServiceProvider } from './contexts/useThemeService';
+import { DailyVerseServiceProvider } from './contexts/useDailyVerseService';
+import { NoticeServiceProvider } from './contexts/useNoticeService';
+import { DailyHadithServiceProvider } from './contexts/useDailyHadithService';
 
 import './index.scss';
 import App from './App';
-import { DailyVerseServiceProvider } from './context/useDailyVerseService';
-import { NoticeServiceProvider } from './context/useNoticeService';
-import { DailyHadithServiceProvider } from './context/useDailyHadithService';
 
 const root = document.getElementById('root');
 

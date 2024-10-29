@@ -1,7 +1,7 @@
 import { Component, createMemo, createEffect } from 'solid-js';
 import styles from './Adhan.module.scss';
 import Countdown from '../../Countdown/Countdown';
-import { usePrayerService } from '../../../context/usePrayerService';
+import { usePrayerService } from '../../../contexts/usePrayerService';
 
 const ADHAN_LEAD_MINS = parseInt(import.meta.env.VITE_ADHAN_LEAD_MINS || '15', 10);
 

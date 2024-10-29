@@ -2,7 +2,7 @@ import { createMemo, createSignal, createEffect } from 'solid-js';
 import { addSeconds } from 'date-fns';
 import styles from './PrayerBox.module.scss';
 import { PrayerMode, Prayer } from '../../types/prayer';
-import { usePrayerService } from '../../context/usePrayerService';
+import { usePrayerService } from '../../contexts/usePrayerService';
 
 interface PrayerBoxProps {
   prayer: Prayer;

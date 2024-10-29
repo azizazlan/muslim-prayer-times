@@ -6,7 +6,7 @@ import borderImage from '../../assets/images/lantern.png';
 import { Prayer } from '../../types/prayer';
 import PrayerBox from './PrayerBox';
 import { TestMode } from '../../types/testMode';
-import { usePrayerService } from '../../context/usePrayerService';
+import { usePrayerService } from '../../contexts/usePrayerService';
 
 interface BottomStripProps {
 }
