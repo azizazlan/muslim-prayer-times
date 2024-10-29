@@ -1,15 +1,24 @@
 @font-face {
   font-family: 'Archivo Narrow'; /* Choose a name for your font */
-  src: url('./assets/fonts/ArchivoNarrow-VariableFont_wght.ttf') format('truetype'); /* Path to the variable font file */
+  src: url('./assets/fonts/ArchivoNarrow-VariableFont_wght.ttf')
+    format('truetype'); /* Path to the variable font file */
   font-weight: 100 900; /* Specify the range of font weights for the variable font */
   font-style: normal; /* Specify the font style for normal */
 }
 
 @font-face {
   font-family: 'Archivo Narrow'; /* Use the same font-family name */
-  src: url('./assets/fonts/ArchivoNarrow-Italic-VariableFont_wght.ttf') format('truetype'); /* Path to the italic variable font file */
+  src: url('./assets/fonts/ArchivoNarrow-Italic-VariableFont_wght.ttf')
+    format('truetype'); /* Path to the italic variable font file */
   font-weight: 100 900; /* Specify the range of font weights for the variable font */
   font-style: italic; /* Specify the font style for italic */
+}
+
+@font-face {
+  font-family: 'ScheherazadeNew-Bold'; /* Use the same font-family name */
+  src: url('./assets/fonts/ScheherazadeNew-Bold.ttf') format('truetype'); /* Path to the italic variable font file */
+  font-weight: 700;
+  font-style: normal; /* Specify the font style for italic */
 }
 
 :root {
@@ -32,7 +41,7 @@
 
 .pink-tiffany-theme {
   --primary-color: #ffffff; // Text color for blue theme
-  --font-color: #FF7979; // Text color for blue theme
+  --font-color: #ff7979; // Text color for blue theme
   --background-color: #30e0e0; // Background color for blue theme
 }
 
@@ -51,31 +60,31 @@
 .gold-darkblue-theme {
   --primary-color: #ffffff; // Text color for blue theme
   --font-color: #002079; // Text color for blue theme
-  --background-color: #E1B12C; // Background color for blue theme
+  --background-color: #e1b12c; // Background color for blue theme
 }
 
 .forestblue-redwood-theme {
   --primary-color: #ffffff; // Text color for blue theme
-  --font-color: #622F0A; // Text color for blue theme
-  --background-color: #0A3D62; // Background color for blue theme 
+  --font-color: #622f0a; // Text color for blue theme
+  --background-color: #0a3d62; // Background color for blue theme
 }
 
 .red-monochromatic-theme {
   --primary-color: #ffffff; // Text color for blue theme
-  --font-color: #B71540; // Text color for blue theme
-  --background-color: #E51A50; // Background color for blue theme 
+  --font-color: #b71540; // Text color for blue theme
+  --background-color: #e51a50; // Background color for blue theme
 }
 
 .pinkglamour-monochromatic-theme {
   --primary-color: #ffffff;
-  --font-color: #FF4646;
-  --background-color: #FF4646;  
+  --font-color: #ff4646;
+  --background-color: #ff4646;
 }
 
 .grey-monochromatic-theme {
   --primary-color: #ffffff;
-  --font-color: #535C68;
-  --background-color: #6A7584;  
+  --font-color: #535c68;
+  --background-color: #6a7584;
 }
 
 body {

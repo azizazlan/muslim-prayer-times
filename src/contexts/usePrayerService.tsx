@@ -137,7 +137,7 @@ export function createServicePrayerHook() {
 
       setScreenCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
       // Check if currentIndex is valid and set the screen accordingly
-      const index = currentScreenIndex();
+      const index = screenCurrentIndex();
       if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
         // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
         if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {

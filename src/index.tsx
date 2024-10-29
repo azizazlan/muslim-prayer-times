@@ -6,6 +6,7 @@ import { ThemeServiceProvider } from './contexts/useThemeService';
 import { DailyVerseServiceProvider } from './contexts/useDailyVerseService';
 import { NoticeServiceProvider } from './contexts/useNoticeService';
 import { DailyHadithServiceProvider } from './contexts/useDailyHadithService';
+import { DuaServiceProvider } from './contexts/useDuaService';
 
 import './index.scss';
 import App from './App';
@@ -21,15 +22,17 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 render(() => (
   <SettingsServiceProvider>
     <NoticeServiceProvider>
-      <DailyVerseServiceProvider>
-        <DailyHadithServiceProvider>
-          <PrayerServiceProvider>
-            <ThemeServiceProvider>
-              <App />
-            </ThemeServiceProvider>
-          </PrayerServiceProvider>
-        </DailyHadithServiceProvider>
-      </DailyVerseServiceProvider>
+      <DuaServiceProvider>
+        <DailyVerseServiceProvider>
+          <DailyHadithServiceProvider>
+            <PrayerServiceProvider>
+              <ThemeServiceProvider>
+                <App />
+              </ThemeServiceProvider>
+            </PrayerServiceProvider>
+          </DailyHadithServiceProvider>
+        </DailyVerseServiceProvider>
+      </DuaServiceProvider>
     </NoticeServiceProvider>
   </SettingsServiceProvider>
 ), root!);

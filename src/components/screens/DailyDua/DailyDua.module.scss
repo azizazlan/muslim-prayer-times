@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: fadeIn 1.1s ease-in forwards;
+  padding: 1rem;
+  font-family: 'Archivo Narrow', serif;
+}
+
+.surahHeading {
+  font-size: 3.7rem;
+  font-weight: 700;
+}
+
+.duaArabic {
+  margin-top: 1rem;
+  font-size: 5.5rem;
+  font-family: 'ScheherazadeNew-Bold', serif;
+  font-weight: 700;
+  text-align: center;
+}
+
+.duaEnglish {
+  margin-top: 1rem;
+  font-size: 5rem;
+  text-align: center;
+}

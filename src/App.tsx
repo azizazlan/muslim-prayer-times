@@ -6,7 +6,18 @@ import * as i18n from "@solid-primitives/i18n";
 import getWindowDimensions from './utils/getWindowDimensions';
 
 // Screens
-import { Default, Developer, DailyVerse, DailyHadith, Adhan, Iqamah, Notice, PrayerTimes, Settings } from './components/screens';
+import {
+  Default,
+  Developer,
+  DailyVerse,
+  DailyHadith,
+  DailyDua,
+  Adhan,
+  Iqamah,
+  Notice,
+  PrayerTimes,
+  Settings
+} from './components/screens';
 
 
 // Components
@@ -108,6 +119,8 @@ const App: Component = () => {
         return <DailyVerse />;
       case Screen.DAILY_HADITH:
         return <DailyHadith />;
+      case Screen.DAILY_DUA:
+        return <DailyDua />
       case Screen.SETTINGS:
         return <Settings />;
       case Screen.DEVELOPER:
