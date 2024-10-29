@@ -6,7 +6,7 @@ import { useSettingsService } from '../../../contexts/useSettingsService';
 
 const Iqamah: Component = () => {
   const { iqamahIntervalMins } = useSettingsService();
-  const [secondsLeft, setSecondsLeft] = createSignal(2);
+  const [secondsLeft, setSecondsLeft] = createSignal(iqamahIntervalMins() * 60);
 
   const interval = setInterval(() => {
     setSecondsLeft(prev => {
