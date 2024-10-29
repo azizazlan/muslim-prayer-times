@@ -1,10 +1,11 @@
 # Muslim Prayer Times
 
-<img src="screenshot-01.png" alt="Screenshot of the application" width="500"/>
+<img src="screenshot-01.png" alt="Screenshot 1 of the application" width="500"/>
+<img src="screenshot-02.png" alt="Screenshot 2 of the application" width="500"/>
 
 <br />
 
-A simple web app to display muslim prayer timings and next prayer time and countdown to Iqamah. The app is built with SolidJS and Vite. It is designed to be used on a 27 inch 4K TV that uses computer with an OS with Google Chrome installed.
+This is a simple web app that displays muslim prayer timings, next prayer time and countdown to Iqamah. The app is built using SolidJS and Vite. It is designed to be used on a 27 inch 4K TV that uses computer with an OS with Google Chrome installed.
 
 ## Development Status
 
@@ -24,6 +25,6 @@ Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are i
 
 ## Credits
 
-- The prayer timings uses prayertiming npm package by Shahidul Islam Majumder.
+- This app would not be possible without [prayertiming](https://github.com/sh4hids/prayertiming) by Shahidul Islam Majumder.
 - The daily verse from Qur'an is only possible using endpoint from api.alquran.cloud
 - The daily hadith is from www.hadithapi.com
