@@ -1,4 +1,4 @@
-export interface Hadith {
+interface HadithProp {
   status: string;
   volume: string;
   hadithNumber: string;
@@ -15,9 +15,11 @@ export interface Hadith {
   // Add other properties as needed
 }
 
-export interface HadithApiResponse {
+interface HadithApiResponse {
   status: number;
   hadiths: {
-    data: Hadith[];
+    data: HadithProp[];
   };
 }
+
+export { HadithApiResponse, HadithProp };

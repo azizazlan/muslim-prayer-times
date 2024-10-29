@@ -6,7 +6,7 @@ import { TestMode } from '../types/testMode';
 import { Screen } from '../types/screen';
 import { useSettingsService } from "./useSettingsService";
 import { useDailyVerseService } from "./useDailyVerseService";
-import { useEventsService } from "./useEventsService";
+import { useNoticeService } from "./useNoticeService";
 import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
 const PRAYER_DURATION_MINS = parseInt(import.meta.env.VITE_PRAYER_DURATION_MINS || '10', 10);
@@ -46,7 +46,7 @@ export function createServicePrayerHook() {
     } = useSettingsService();
 
     const { isOnline } = useDailyVerseService();
-    const { displayEvent } = useEventsService();
+    const { displayNotice } = useNoticeService();
 
     // Load initial timing configuration from localStorage or use defaults
     const defaultTimingConfig = {
@@ -65,14 +65,13 @@ export function createServicePrayerHook() {
     const [currentTime, setCurrentTime] = createSignal(new Date());
     const [prayers, setPrayers] = createSignal<Prayer[]>([]); // Initialize as an empty array
     const [leadPrayer, setLeadPrayer] = createSignal<Prayer | null>(null);
-    // secsUntilNextPrayer is used in the Adhan component
     const [secsUntilNextPrayer, setSecsUntilNextPrayer] = createSignal(0);
     const [test, setTest] = createSignal(TestMode.DEACTIVATED);
     const [isTestInProgress, setIsTestInProgress] = createSignal(false);
     const [screen, setScreen] = createSignal(Screen.DEFAULT);
     const [switchingDisplays, setSwitchingDisplays] = createSignal(false);
+    const [screenCurrentIndex, setScreenCurrentIndex] = createSignal(0); // for changing screens
 
-    // Watch for changes in timingConfig and update localStorage
     createEffect(() => saveToLocalStorage("timingConfig", timingConfig()));
 
     createEffect(() => {
@@ -82,23 +81,23 @@ export function createServicePrayerHook() {
     const switchComponent = () => {
 
       const noOfSlides = isOnline()
-        ? (displayEvent() ? 5 : 4) // 5 slides if online and event is displayed
-        : (displayEvent() ? 4 : 3); // 4 slides if offline and event is displayed
+        ? (displayNotice() ? 5 : 4)
+        : (displayNotice() ? 4 : 3);
 
-      // Set the available screens based on isOnline() and whether displayEvent is available
       const availableScreens = isOnline()
         ? [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
-          Screen.DEFAULT,
           Screen.DAILY_VERSE,
-          ...(displayEvent() ? [Screen.EVENT] : []), // Add Screen.EVENT if displayEvent is not null
+          Screen.DAILY_HADITH,
+          Screen.DEFAULT,
+          ...(displayNotice() ? [Screen.NOTICE] : []),
         ]
         : [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
           Screen.DEFAULT,
-          ...(displayEvent() ? [Screen.EVENT] : []), // Add Screen.EVENT if displayEvent is not null
+          ...(displayNotice() ? [Screen.NOTICE] : []),
         ];
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);
@@ -107,14 +106,14 @@ export function createServicePrayerHook() {
         console.log(`Syuruk when currentPrayer is null and leadPrayer is ${leadPrayer().name}`);
 
 
-        if (screen() === Screen.SETTINGS || screen() === Screen.DEV) {
+        if (screen() === Screen.SETTINGS || screen() === Screen.DEVELOEPR) {
           console.log(`User is viewing SETTINGS/DEV`);
           return;
         }
 
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+        setScreenCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the screens
 
-        const index = currentIndex();
+        const index = screenCurrentIndex();
         if (index < availableScreens.length) {
           setScreen(availableScreens[index]);
         }
@@ -129,14 +128,14 @@ export function createServicePrayerHook() {
         return;
       }
 
-      if (screen() === Screen.SETTINGS || screen() === Screen.DEV || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) {
+      if (screen() === Screen.SETTINGS || screen() === Screen.DEVELOPER || screen() === Screen.ADHAN || screen() === Screen.IQAMAH) {
         console.log(`switchComponent - Abort - because user is viewing Settings/Dev/Adhan/Iqamah screen`);
         return;
       }
 
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
+      setScreenCurrentIndex((prevIndex) => (prevIndex + 1) % noOfSlides); // Cycle through the components
       // Check if currentIndex is valid and set the screen accordingly
-      const index = currentIndex();
+      const index = currentScreenIndex();
       if (index < availableScreens.length && (screen() !== Screen.ADHAN || screen() !== Screen.IQAMAH)) {
         // Special condition to skip HOURS_BEFORE_ADHAN for ISYAK and SUBUH
         if (currentPrayer.name === PrayerName.ISYAK || currentPrayer.name === PrayerName.SUBUH) {
@@ -158,11 +157,9 @@ export function createServicePrayerHook() {
 
     createEffect(() => {
       if (!enabledSlides()) return;
-      // Set up an interval to switch components every minute (60000 milliseconds)
       const intervalId = setInterval(switchComponent, slideIntervalMs());
       onCleanup(() => {
         clearInterval(intervalId);
-        // clearInterval(toggleScreensInterval); // Clear the new interval
       });
     });
 
@@ -200,8 +197,6 @@ export function createServicePrayerHook() {
         clearInterval(updateTimeInterval);
       });
     });
-
-    const [currentIndex, setCurrentIndex] = createSignal(0);
 
     const date = currentTime();
 
@@ -253,6 +248,9 @@ export function createServicePrayerHook() {
             setSecsUntilNextPrayer(secs);
             if (secs < adhanLeadMins() * 60) { // display ADHAN screen n secs before time
               setScreen(Screen.ADHAN);
+            }
+            if (secs === 1) {
+              console.log("Play notification sound!");
             }
           } else if (isAfter(currentTime(), subuhTime) && isBefore(currentTime(), syurukTime) && secsAfterSubuh < PRAYER_DURATION_MINS * 60) {
             updatedPrayer.mode = PrayerMode.ACTIVE;

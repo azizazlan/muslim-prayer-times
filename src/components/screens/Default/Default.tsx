@@ -2,13 +2,12 @@ import { format } from 'date-fns';
 import { ms } from 'date-fns/locale';
 import { createMemo, createSignal, onCleanup } from 'solid-js';
 import { toHijri } from "hijri-converter";
-import { usePrayerService } from '../../context/usePrayerService';
-import styles from './DefaultScreen.module.scss';
-import { AnalogClock } from '../AnalogClock/AnalogClock'
-import { getHijriMonthName } from '../../utils/formatter';
-import Clock from '../Clock/Clock';
+import { usePrayerService } from '../../../context/usePrayerService';
+import styles from './Default.module.scss';
+import { getHijriMonthName } from '../../../utils/formatter';
 
-const DefaultScreen = () => {
+// Default screen
+const Default = () => {
   const { currentTime } = usePrayerService();
   const memoizedCurrentTime = createMemo(() => currentTime());
 
@@ -16,7 +15,6 @@ const DefaultScreen = () => {
     return format(date, 'HH:mm');
   };
 
-  // Extract day, month, and year
   const day = createMemo(() => memoizedCurrentTime().getDate()); // Day of the month
   const month = createMemo(() => memoizedCurrentTime().getMonth() + 1); // Month (0-11, so add 1)
   const year = createMemo(() => memoizedCurrentTime().getFullYear()); // Year
@@ -40,4 +38,4 @@ const DefaultScreen = () => {
     </div>
   )
 }
-export default DefaultScreen; 
+export default Default; 

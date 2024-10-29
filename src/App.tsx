@@ -7,18 +7,14 @@ import { usePrayerService } from './context/usePrayerService';
 // Utils
 import getWindowDimensions from './utils/getWindowDimensions';
 
+// Screens
+import { Default, Developer, DailyVerse, DailyHadith, Adhan, Iqamah, Notice, PrayerTimes, Settings } from './components/screens';
+
+
 // Components
 import TopToolbar from './components/TopToolbar/TopToolbar';
-import EventScreen from './components/EventScreen/EventScreen';
-import DailyVerse from './components/DailyVerse/DailyVerse';
-import DailyHadith from './components/DailyHadith/DailyHadith';
-import Adhan from './components/Adhan/Adhan';
-import Iqamah from './components/Iqamah/Iqamah';
 import BottomStrip from './components/BottomStrip/BottomStrip';
-import DefaultScreen from './components/DefaultScreen/DefaultScreen';
-import DevScreen from './components/DevScreen/DevScreen';
-import Settings from './components/UsrSettings/Settings';
-import PrayerTimes from './components/PrayerTimes/PrayerTimes';
+
 import { TestMode } from "./types/testMode";
 import { Screen } from './types/screen';
 import styles from './App.module.scss';
@@ -99,8 +95,8 @@ const App: Component = () => {
     switch (screen()) {
       case Screen.ADHAN:
         return <Adhan />;
-      case Screen.EVENT:
-        return <EventScreen />;
+      case Screen.NOTICE:
+        return <Notice />;
       case Screen.HOURS_BEFORE_ADHAN:
         return <Adhan />;
       case Screen.IQAMAH:
@@ -113,10 +109,10 @@ const App: Component = () => {
         return <DailyHadith />;
       case Screen.SETTINGS:
         return <Settings />;
-      case Screen.DEV:
-        return <DevScreen />;
+      case Screen.DEVELOPER:
+        return <Developer />;
       default:
-        return <DefaultScreen />;
+        return <Default />;
     }
   };
 

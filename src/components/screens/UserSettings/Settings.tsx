@@ -3,18 +3,18 @@ import styles from './Settings.module.scss';
 import GeneralSettings from "./GeneralSettings";
 import TuneTimings from "./TuneTimings";
 import ColorThemeSettings from "./ColorThemeSettings";
-import EventForm from '../EventScreen/EventForm';
-import EventList from "../EventScreen/EventList";
+import NoticeForm from '../Notice/NoticeForm';
+import NoticeList from "../Notice/NoticeList";
 
 interface SettingsProps {
 }
 
 const Settings = (props: SettingsProps) => {
   // Signal to track the active tab
-  const [activeTab, setActiveTab] = createSignal<"general" | "timings" | "colortheme" | "eventform">("general");
+  const [activeTab, setActiveTab] = createSignal<"general" | "timings" | "colortheme" | "noticeform">("general");
 
   // Helper function to switch tabs
-  const handleTabClick = (tab: "general" | "timings" | "colortheme" | "eventform") => {
+  const handleTabClick = (tab: "general" | "timings" | "colortheme" | "noticeform") => {
     setActiveTab(tab);
   };
 
@@ -40,10 +40,10 @@ const Settings = (props: SettingsProps) => {
           Color themes
         </div>
         <div
-          onClick={() => handleTabClick("eventform")}
-          class={activeTab() === 'eventform' ? styles.activeTabTitle : styles.tabTitle}
+          onClick={() => handleTabClick("noticeform")}
+          class={activeTab() === 'noticeform' ? styles.activeTabTitle : styles.tabTitle}
         >
-          Events
+          Notices
         </div>
       </div>
 
@@ -57,10 +57,10 @@ const Settings = (props: SettingsProps) => {
         {activeTab() === "colortheme" && (
           <ColorThemeSettings />
         )}
-        {activeTab() === "eventform" && (
-          <div class={styles.eventSettingsContainer}>
-            <EventForm />
-            <EventList />
+        {activeTab() === "noticeform" && (
+          <div class={styles.noticeSettingsContainer}>
+            <NoticeForm />
+            <NoticeList />
           </div>
         )}
       </div>

@@ -1,9 +1,9 @@
-interface MosqueEvent {
+interface NoticeProp {
   id: number;
-  eventText: string;
+  noticeText: string;
   date: string;
   repeat: boolean;
   repeatDays: string[];
 }
 
-export default MosqueEvent;
+export default NoticeProp;

@@ -1,6 +1,6 @@
 import { Show, Component, createSignal, createEffect, onMount, createMemo } from 'solid-js';
 import styles from './DailyHadith.module.scss';
-import { useDailyHadithService } from '../../context/useDailyHadithService';
+import { useDailyHadithService } from '../../../context/useDailyHadithService';
 
 // Display daily hadith
 const DailyHadith: Component = () => {

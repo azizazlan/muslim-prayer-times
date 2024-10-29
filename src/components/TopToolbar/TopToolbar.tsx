@@ -31,7 +31,7 @@ const TopToolbar: Component<TopToolbarProps> = (props: TopToolbarProps) => {
         <div class={styles.version}>Ver. {VERSION} {DEV_MODE ?
           (
             <div>
-              <button class={styles.btnDev} onClick={() => setScreen(Screen.DEV)}>Dev</button>
+              <button class={styles.btnDev} onClick={() => setScreen(Screen.DEVELOPER)}>Developer</button>
               <button class={styles.btnDev} onClick={() => setTest(TestMode.TEST_SUBUH)}>T.Subuh</button>
             </div>
           ) : null}

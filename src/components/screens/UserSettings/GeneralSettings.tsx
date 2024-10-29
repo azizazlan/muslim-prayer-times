@@ -1,5 +1,5 @@
-import { useDailyVerseService } from "../../context/useDailyVerseService";
-import { useSettingsService } from "../../context/useSettingsService";
+import { useDailyVerseService } from "../../../context/useDailyVerseService";
+import { useSettingsService } from "../../../context/useSettingsService";
 import styles from './GeneralSettings.module.scss'
 
 const GeneralSettings = () => {

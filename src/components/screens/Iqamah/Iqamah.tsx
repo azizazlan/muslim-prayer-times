@@ -1,24 +1,20 @@
 import { Component, createEffect, createSignal, onCleanup } from 'solid-js';
 import styles from './Iqamah.module.scss';
-import Countdown from '../Countdown/Countdown';
-import { useSettingsService } from '../../context/useSettingsService';
+import Countdown from '../../Countdown/Countdown';
+import { useSettingsService } from '../../../context/useSettingsService';
 
-interface IqamahProps {
-}
 
-const Iqamah: Component<IqamahProps> = () => {
+const Iqamah: Component = () => {
   const { iqamahIntervalMins } = useSettingsService();
-  // const [secondsLeft, setSecondsLeft] = createSignal(iqamahIntervalMins() * 60);
   const [secondsLeft, setSecondsLeft] = createSignal(2);
 
-  // Start the countdown immediately when the component mounts
   const interval = setInterval(() => {
     setSecondsLeft(prev => {
       if (prev <= 0) {
-        clearInterval(interval); // Clear the interval when countdown reaches 0
+        clearInterval(interval);
         return 0;
       }
-      return prev - 1; // Decrease timeLeft by 1 second
+      return prev - 1;
     });
   }, 1000);
 

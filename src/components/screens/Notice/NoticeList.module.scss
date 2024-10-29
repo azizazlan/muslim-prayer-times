@@ -8,23 +8,23 @@
   color: white;
   font-family: 'Archivo Narrow', serif;
   font-size: 3.7rem;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
-.eventBullet {
+.noticeBullet {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.eventContainer {
+.noticeContainer {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.eventText {
+.noticeText {
   max-width: 1125px;
   white-space: nowrap;
   overflow: hidden;
@@ -62,9 +62,9 @@ $medium: 1441px;
     font-size: 1.5rem;
     max-height: 637px;
   }
-  .eventText {
+  .noticeText {
     max-width: 575px;
-  } 
+  }
 
   .repeatsContainer {
     font-size: 1rem;

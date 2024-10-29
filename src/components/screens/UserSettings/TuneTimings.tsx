@@ -1,5 +1,5 @@
 import { Component, createSignal, createMemo, For } from 'solid-js';
-import { usePrayerService } from '../../context/usePrayerService';
+import { usePrayerService } from '../../../context/usePrayerService';
 import styles from './TuneTimings.module.scss';
 
 interface TimingConfig {

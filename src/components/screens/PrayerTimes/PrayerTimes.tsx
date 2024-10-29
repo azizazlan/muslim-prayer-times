@@ -1,8 +1,8 @@
 import { createMemo } from 'solid-js';
 import type { Component } from 'solid-js';
 import styles from './PrayerTimes.module.scss';
-import { Prayer, PrayerName } from '../../types/prayer';
-import { usePrayerService } from '../../context/usePrayerService';
+import { usePrayerService } from '../../../context/usePrayerService';
+import { PrayerName } from '../../../types/prayer'
 
 const PrayerTimes: Component = () => {
   const { prayers, leadPrayer } = usePrayerService();

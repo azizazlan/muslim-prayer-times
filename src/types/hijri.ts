@@ -1,4 +1,5 @@
-export interface HijriDate {
+// Option 2: Export after definition
+interface HijriDateProp {
   date: string;
   format: string;
   day: string;
@@ -18,3 +19,5 @@ export interface HijriDate {
   };
   holidays: string[];
 }
+
+export { HijriDateProp };

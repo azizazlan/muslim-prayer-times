@@ -1,11 +1,12 @@
 import { createMemo } from 'solid-js';
 import { format } from 'date-fns';
-import { Screen } from '../../types/screen';
-import styles from './DevScreen.module.scss';
-import { TestMode } from '../../types/testMode';
-import { usePrayerService } from '../../context/usePrayerService';
+import styles from './Developer.module.scss';
+import { usePrayerService } from '../../../context/usePrayerService';
+import { Screen } from '../../../types/screen'
+import { TestMode } from '../../../types/testMode';
 
-const DevScreen = () => {
+// Developer screen
+const Developer = () => {
   const { setScreen, clear, timingConfig, setTimingConfig, test, setTest } = usePrayerService();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -15,7 +16,7 @@ const DevScreen = () => {
         <button class={styles.testButton} onClick={() => setScreen(Screen.DEFAULT)}>Default</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.DAILY_VERSE)}>Daily Verse</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.DAILY_HADITH)}>Daily Hadith</button>
-        <button class={styles.testButton} onClick={() => setScreen(Screen.EVENT)}>Event</button>
+        <button class={styles.testButton} onClick={() => setScreen(Screen.NOTICE)}>Notice</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.PRAYER_TIMES)}>Prayer Times</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.HOURS_BEFORE_ADHAN)}>Adhan</button>
         <button class={styles.testButton} onClick={() => setScreen(Screen.IQAMAH)}>Iqamah</button>
@@ -25,4 +26,4 @@ const DevScreen = () => {
   );
 };
 
-export default DevScreen;
+export default Developer;
