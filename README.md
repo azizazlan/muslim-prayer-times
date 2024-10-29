@@ -28,3 +28,4 @@ Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are i
 - This app would not be possible without [prayertiming](https://github.com/sh4hids/prayertiming) by Shahidul Islam Majumder.
 - The daily verse from Qur'an is only possible using endpoint from api.alquran.cloud
 - The daily hadith is from www.hadithapi.com
+- The adhan mp3 is from https://islamdownload.net/125594-download-adzan-mekkah-mp3.html
