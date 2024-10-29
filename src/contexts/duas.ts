@@ -63,6 +63,13 @@ const duas: Dua[] = [
     verseNo: 16,
     duaArabic: "رَبَّنَآ إِنَّنَآ ءَامَنَّا فَٱغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ ٱلنَّارِ",
     duaEnglish: "Our Lord, indeed we have believed, so forgive us our sins and protect us from the punishment of the Fire."
+  },
+  {
+    surahArabic: "3",
+    surahEnglish: "3",
+    verseNo: 53,
+    duaArabic: "رَبَّنَآ ءَامَنَّا بِمَآ أَنزَلۡتَ وَٱتَّبَعۡنَا ٱلرَّسُولَ فَٱكۡتُبۡنَا مَعَ ٱلشَّـٰهِدِينَ",
+    duaEnglish: "Our Lord, we have believed in what You revealed and have followed the messenger [i.e., Jesus], so register us among the witnesses [to truth]."
   }
 ];
 
