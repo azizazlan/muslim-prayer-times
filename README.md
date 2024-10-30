@@ -38,6 +38,21 @@ Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are i
 - Display daily dua from Qur'an. Total forty Rabbana duas.
 - Display notice (mosque annoucement).
 
+## Usage
+
+For now the application can be tested on MacOS. Installed [node](https://nodejs.org/en/download/package-manager) on your machine before proceed the steps below.
+Google Chrome and Firefox internet browsers are used in the development.
+
+1. Download or in a terminal git clone this directory. Then change into the `muslim-prayer-times` directory.
+2. Then, run command `npm install`.
+3. Then, run command `npm run dev`
+4. Open `http://locahost:3000` in the web browser.
+5. You might want to change the latitude and longitude in the Settings screen.
+
+## Deployment
+
+TODO.
+
 ## Credits
 
 - This app would not be possible without [prayertiming](https://github.com/sh4hids/prayertiming) by Shahidul Islam Majumder.
