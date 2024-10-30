@@ -21,6 +21,7 @@ Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are i
 - Display the next prayer time and countdown to Iqamah.
 - Display daily Qur'an verse.
 - Display daily Hadith randomly from 100 hadiths by Imam Bukhari, Sahih Bukhari (Vol.1).
+- Display daily dua from Qur'an. Total forty Rabbana duas.
 - Display notice (mosque annoucement).
 
 ## Credits
@@ -28,4 +29,5 @@ Currently the prayer names <i>(Subuh, Zohor, Asar, Maghrib aand Isyak)</i> are i
 - This app would not be possible without [prayertiming](https://github.com/sh4hids/prayertiming) by Shahidul Islam Majumder.
 - The daily verse from Qur'an is only possible using endpoint from api.alquran.cloud
 - The daily hadith is from www.hadithapi.com
+- The daily dua from Qur'an is from https://myislam.org/40-rabbana-dua-best-quranic-dua/
 - The adhan mp3 is from https://islamdownload.net/125594-download-adzan-mekkah-mp3.html
