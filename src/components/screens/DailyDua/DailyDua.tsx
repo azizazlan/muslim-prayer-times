@@ -3,7 +3,7 @@ import styles from './DailyDua.module.scss';
 import { useDuaService } from '../../../contexts/useDuaService';
 
 const DailyDua: Component = () => {
-  const { selectedDua, nextDua } = useDuaService();
+  const { selectedDua, nextDua, duaIndex, totalDuas } = useDuaService();
   return (
     <Show when={selectedDua()} fallback={<div class={styles.container}>No Dua found!</div>}>
       <div class={styles.container}>
@@ -15,7 +15,7 @@ const DailyDua: Component = () => {
           {selectedDua().duaEnglish}
         </div>
         <div>
-          <button onClick={nextDua}>Next</button>
+          <button onClick={nextDua}>Next {duaIndex() + 1} out of {totalDuas()}</button>
         </div>
       </div>
     </Show>

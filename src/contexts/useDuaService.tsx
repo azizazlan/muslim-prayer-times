@@ -11,6 +11,8 @@ export function createDuaServiceHook() {
   interface ContextValueProps {
     selectedDua: Accessor<any | null>;
     nextDua: () => void;
+    duaIndex: Accessor<number>;
+    totalDuas: Accessor<number>;
     clear: () => void;
   }
 
@@ -20,6 +22,7 @@ export function createDuaServiceHook() {
 
     const [selectedDua, setSelectedDua] = createSignal<any | null>();
     const [duaIndex, setDuaIndex] = createSignal<number>(0);
+    const [totalDuas,] = createSignal<number>(duas.length);
 
 
     createEffect(() => {
@@ -37,6 +40,8 @@ export function createDuaServiceHook() {
     const value: ContextValueProps = {
       selectedDua,
       nextDua,
+      duaIndex,
+      totalDuas,
       clear,
     };
     return <Context.Provider value={value}> {props.children} </Context.Provider>;
