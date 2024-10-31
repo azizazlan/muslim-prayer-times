@@ -63,10 +63,10 @@ export function createNoticeServiceHook() {
       const todayNotice = todayNotices.length > 0 ? todayNotices[0] : null;
 
       if (todayNotice) {
-        setDisplayNotice(todayNotice);
+        setSelectedNotice(todayNotice);
         console.log(`Displaying notice: ${todayNotice.id} - ${todayNotice.noticeText}`);
       } else {
-        setDisplayNotice(null);
+        setSelectedNotice(null);
         console.log('No notice found for today');
       }
     };
