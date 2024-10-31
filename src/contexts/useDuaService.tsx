@@ -30,8 +30,12 @@ export function createDuaServiceHook() {
     })
 
     const nextDua = () => {
-      setDuaIndex(i => i + 1);
-      setSelectedDua(duas[duaIndex()]);
+      // setDuaIndex(i => i + 1);
+      // setSelectedDua(duas[duaIndex()]);
+
+      const randomIndex = Math.floor(Math.random() * duas.length);
+      setSelectedDua(duas[randomIndex]);
+      setDuaIndex(randomIndex);
     }
 
     function clear() {
