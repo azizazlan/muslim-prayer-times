@@ -9,7 +9,7 @@ import { useNoticeService } from "../../../contexts/useNoticeService";
 const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const NoticeForm: Component = () => {
-  const { addNotice } = useNoticeService();
+  const { addNotice, displayNotice, setDisplayNotice } = useNoticeService();
 
   const [noticeText, setNoticeText] = createSignal("Ustaz Wan. Idaman Penuntut");
   const [date, setDate] = createSignal("");
@@ -43,7 +43,20 @@ const NoticeForm: Component = () => {
   return (
     <div class={styles.container}>
       <form class={styles.form} onSubmit={handleSubmit}>
-
+        <div class={styles.formField}>
+          <label class={styles.formLabel}>
+            Enable
+          </label>
+          <input
+            checked={displayNotice()}
+            class={styles.formCheckboxInput}
+            type="checkbox"
+            name="displayNotice"
+            onChange={(event) => {
+              setDisplayNotice(event.target.checked);
+            }}
+          />
+        </div>
         <div class={styles.formField}>
           <label class={styles.formLabel}>Title</label>
           <textarea

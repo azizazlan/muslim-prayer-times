@@ -8,7 +8,9 @@ interface ProviderProps {
 
 export function createNoticeServiceHook() {
   interface ContextValueProps {
-    displayNotice: Accessor<NoticeProp | null>;
+    displayNotice: Accessor<boolean>;
+    setDisplayNotice: (enable: boolean) => void;
+    selectedNotice: Accessor<NoticeProp | null>;
     notices: Accessor<NoticeProp[]>;
     addNotice: (newNotice: NoticeProp) => void;
     removeNotice: (removeNotice: NoticeProp) => void;
@@ -23,10 +25,16 @@ export function createNoticeServiceHook() {
 
     const defaultNotices: NoticeProp[] = []; // Default value for events
 
+    const [displayNotice, setDisplayNotice] = createSignal<boolean>(
+      loadFromLocalStorage<boolean>("displayNotice", true)
+    );
+    // Watch for changes and update localStorage accordingly
+    createEffect(() => saveToLocalStorage("displayNotice", displayNotice()));
+
     const [notices, setNotices] = createSignal<NoticeProp[]>(
       loadFromLocalStorage<NoticeProp[]>("notices", defaultNotices)
     );
-    const [displayNotice, setDisplayNotice] = createSignal<NoticeProp | null>(null);
+    const [selectedNotice, setSelectedNotice] = createSignal<NoticeProp | null>(null);
 
     const addNotice = (newNotice: NoticeProp) => {
       setNotices([...notices(), newNotice]);
@@ -78,6 +86,8 @@ export function createNoticeServiceHook() {
 
     const value: ContextValueProps = {
       displayNotice,
+      setDisplayNotice,
+      selectedNotice,
       notices,
       addNotice,
       removeNotice,

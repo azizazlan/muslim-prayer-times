@@ -9,6 +9,7 @@ import { useDailyVerseService } from "./useDailyVerseService";
 import { useNoticeService } from "./useNoticeService";
 import { loadFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 import { playSound } from "../utils/notification";
+import { useDuaService } from "./useDuaService";
 
 const PRAYER_DURATION_MINS = parseInt(import.meta.env.VITE_PRAYER_DURATION_MINS || '10', 10);
 
@@ -48,6 +49,7 @@ export function createServicePrayerHook() {
 
     const { isOnline } = useDailyVerseService();
     const { displayNotice } = useNoticeService();
+    const { displayDua } = useDuaService();
 
     // Load initial timing configuration from localStorage or use defaults
     const defaultTimingConfig = {
@@ -94,12 +96,15 @@ export function createServicePrayerHook() {
           Screen.DAILY_HADITH,
           Screen.DEFAULT,
           ...(displayNotice() ? [Screen.NOTICE] : []),
+          ...(displayDua() ? [Screen.DAILY_DUA] : []),
         ]
         : [
           Screen.HOURS_BEFORE_ADHAN,
           Screen.PRAYER_TIMES,
+          Screen.DAILY_DUA,
           Screen.DEFAULT,
           ...(displayNotice() ? [Screen.NOTICE] : []),
+          ...(displayDua() ? [Screen.DAILY_DUA] : []),
         ];
 
       const currentPrayer = prayers().find(prayer => prayer.mode === PrayerMode.ACTIVE);

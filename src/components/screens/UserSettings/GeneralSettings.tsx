@@ -1,4 +1,5 @@
 import { useDailyVerseService } from "../../../contexts/useDailyVerseService";
+import { useDuaService } from "../../../contexts/useDuaService";
 import { useSettingsService } from "../../../contexts/useSettingsService";
 import styles from './GeneralSettings.module.scss'
 
@@ -26,6 +27,7 @@ const GeneralSettings = () => {
   } = useSettingsService();
 
   const { isOnline, enableDailyVerse, setEnableDailyVerse } = useDailyVerseService();
+  const { displayDua, setDisplayDua } = useDuaService();
 
   const handleChange = (event: Event) => {
     const { name, value } = event.target as HTMLInputElement;
@@ -74,8 +76,6 @@ const GeneralSettings = () => {
         <label class={styles.fieldLabel}>
           Kaedah pengiraan masa solat
         </label>
-        {/* <input class={styles.formInput} name="calculationMethod" value={calculationMethod()} onInput={handleChange} /> */}
-        {/* <small class={styles.hint}>JAKIM | Egypt | ISNA | Jafari | Makkah | MF | MWL | Tehran</small> */}
         <select class={styles.formSelectInput} name="calculationMethod" value={calculationMethod()} onInput={handleChange}>
           <option value="JAKIM">JAKIM</option>
           <option value="Egypt">Egypt</option>
@@ -144,9 +144,23 @@ const GeneralSettings = () => {
           disabled={!isOnline()}
           class={styles.formCheckboxInput}
           type="checkbox"
-          name="enabledDAilyVerse"
+          name="enabledDailyVerse"
           onChange={(event) => {
             setEnableDailyVerse(event.target.checked);
+          }}
+        />
+      </div>
+      <div class={styles.field}>
+        <label class={styles.fieldLabel}>
+          Papar Duas from Al-Quran
+        </label>
+        <input
+          checked={displayDua()}
+          class={styles.formCheckboxInput}
+          type="checkbox"
+          name="displayDua"
+          onChange={(event) => {
+            setDisplayDua(event.target.checked);
           }}
         />
       </div>

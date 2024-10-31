@@ -13,6 +13,8 @@ export function createDuaServiceHook() {
     nextDua: () => void;
     duaIndex: Accessor<number>;
     totalDuas: Accessor<number>;
+    displayDua: Accessor<boolean>;
+    setDisplayDua: (enable: boolean) => void;
     clear: () => void;
   }
 
@@ -23,16 +25,18 @@ export function createDuaServiceHook() {
     const [selectedDua, setSelectedDua] = createSignal<any | null>();
     const [duaIndex, setDuaIndex] = createSignal<number>(0);
     const [totalDuas,] = createSignal<number>(duas.length);
+    const [displayDua, setDisplayDua] = createSignal<boolean>(
+      loadFromLocalStorage<boolean>("displayDua", true)
+    );
 
+    // Watch for changes and update localStorage accordingly
+    createEffect(() => saveToLocalStorage("displayDua", displayDua()));
 
     createEffect(() => {
       setSelectedDua(duas[duaIndex()]);
     })
 
     const nextDua = () => {
-      // setDuaIndex(i => i + 1);
-      // setSelectedDua(duas[duaIndex()]);
-
       const randomIndex = Math.floor(Math.random() * duas.length);
       setSelectedDua(duas[randomIndex]);
       setDuaIndex(randomIndex);
@@ -42,6 +46,8 @@ export function createDuaServiceHook() {
     }
 
     const value: ContextValueProps = {
+      displayDua,
+      setDisplayDua,
       selectedDua,
       nextDua,
       duaIndex,
