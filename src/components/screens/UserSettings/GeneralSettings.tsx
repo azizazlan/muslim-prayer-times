@@ -152,7 +152,7 @@ const GeneralSettings = () => {
       </div>
       <div class={styles.field}>
         <label class={styles.fieldLabel}>
-          Papar Duas from Al-Quran
+          Papar Doa Al-Quran
         </label>
         <input
           checked={displayDua()}

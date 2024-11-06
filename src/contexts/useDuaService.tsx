@@ -23,7 +23,7 @@ export function createDuaServiceHook() {
   function Provider(props: ProviderProps) {
 
     const [selectedDua, setSelectedDua] = createSignal<any | null>();
-    const [duaIndex, setDuaIndex] = createSignal<number>(0);
+    const [duaIndex, setDuaIndex] = createSignal<number>(Math.floor(Math.random() * duas.length));
     const [totalDuas,] = createSignal<number>(duas.length);
     const [displayDua, setDisplayDua] = createSignal<boolean>(
       loadFromLocalStorage<boolean>("displayDua", true)
